@@ -23,9 +23,11 @@ public class OrderHistory {
 	
 	@Column(name = "change_date", nullable = false)
 	private Date changeDate;
-	
-	@Column
+
+    @Column(nullable = true, length = 255)
 	private String comment;
+
+    public OrderHistory(){}
 
 	@Access(value = AccessType.PROPERTY)
 	public Date getChangeDate() {

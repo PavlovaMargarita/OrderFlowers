@@ -12,26 +12,26 @@ public class Contact {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String surname;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String name;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 30)
     private String patronymic;
 
     @Column(nullable = true)
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 50)
     private String email;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 20)
     private String city;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 20)
     private String street;
 
     @Column(nullable = true)

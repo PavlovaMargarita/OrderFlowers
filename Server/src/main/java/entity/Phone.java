@@ -16,8 +16,17 @@ public class Phone {
     @Column(name = "operator_code", nullable = false)
     private Short operatorCode;
 
-    @Column(name = "number", nullable = false)
-    private Integer number;
+    @Column(name = "phone_number", nullable = false)
+    private Integer phoneNumber;
+
+    @Column(name = "phone_type", nullable = false, length = 15)
+    private String phoneType;
+
+    @Column(nullable = true, length = 255)
+    private String comment;
+
+    @Column(name = "contact_id", nullable = false)
+    private Integer contactId;
 
     public Integer getId() {
         return id;
@@ -61,18 +70,18 @@ public class Phone {
         this.operatorCode = operatorCode;
     }
 
-    public Integer getNumber() {
-        return number;
+    public Integer getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setNumber(Integer number) {
-        if (number == null){
-            throw new NullPointerException("number is null");
+    public void setPhoneNumber(Integer phoneNumber) {
+        if (phoneNumber == null){
+            throw new NullPointerException("phoneNumber is null");
         }
-        if (number <= 0){
-            throw new IllegalArgumentException("number is not positive value");
+        if (phoneNumber <= 0){
+            throw new IllegalArgumentException("phoneNumber is not positive value");
         }
-        this.number = number;
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
@@ -84,7 +93,7 @@ public class Phone {
 
         if (countryCode != null ? !countryCode.equals(phone.countryCode) : phone.countryCode != null) return false;
         if (id != null ? !id.equals(phone.id) : phone.id != null) return false;
-        if (number != null ? !number.equals(phone.number) : phone.number != null) return false;
+        if (phoneNumber != null ? !phoneNumber.equals(phone.phoneNumber) : phone.phoneNumber != null) return false;
         if (operatorCode != null ? !operatorCode.equals(phone.operatorCode) : phone.operatorCode != null) return false;
 
         return true;
@@ -95,7 +104,31 @@ public class Phone {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (countryCode != null ? countryCode.hashCode() : 0);
         result = 31 * result + (operatorCode != null ? operatorCode.hashCode() : 0);
-        result = 31 * result + (number != null ? number.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         return result;
+    }
+
+    public String getPhoneType() {
+        return phoneType;
+    }
+
+    public void setPhoneType(String phoneType) {
+        this.phoneType = phoneType;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Integer getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(Integer contactId) {
+        this.contactId = contactId;
     }
 }

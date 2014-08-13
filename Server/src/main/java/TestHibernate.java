@@ -8,11 +8,16 @@ public class TestHibernate {
         Phone phone = new Phone();
         phone.setCountryCode((short)375);
         phone.setOperatorCode((short)29);
-        phone.setNumber(2956798);
+        phone.setPhoneNumber(1234567);
+        phone.setPhoneType("home");
+        phone.setComment("test");
+        phone.setContactId(1);
+
         SessionFactory factory = new Configuration().configure().buildSessionFactory();
         Session session = factory.openSession();
         session.beginTransaction();
         session.save(phone);
+
         session.getTransaction().commit();
     }
 }
