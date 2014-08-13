@@ -56,3 +56,10 @@ local.properties
 .cproject
 # PDT-specific
 .buildpath
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Maven
+log/
