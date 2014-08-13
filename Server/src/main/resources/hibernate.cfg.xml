@@ -13,8 +13,9 @@
         <property name="hbm2ddl.auto">update</property>
         <property name="hibernate.connection.autocommit">false</property>
         <property name="current_session_context_class">thread</property>
-
         <mapping class="entity.Phone" />
+        <mapping class="entity.OrderHistory" />
+        <mapping class="entity.Contact" />
 
     </session-factory>
 </hibernate-configuration>
