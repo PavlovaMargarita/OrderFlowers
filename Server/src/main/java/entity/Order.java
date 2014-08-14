@@ -1,9 +1,10 @@
 package entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "order_flowers")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,6 +34,8 @@ public class Order {
     @Column(name = "recipient_id",nullable = false)
     private Integer recipientId;
 
+    @OneToMany(mappedBy = "order")
+    private List<OrderHistory> orderHistory;
 
     public Order(){}
 
@@ -108,6 +111,13 @@ public class Order {
         this.recipientId = recipientId;
     }
 
+    public List<OrderHistory> getOrderHistory() {
+        return orderHistory;
+    }
+
+    public void setOrderHistory(List<OrderHistory> orderHistory) {
+        this.orderHistory = orderHistory;
+    }
 
     @Override
     public boolean equals(Object o) {

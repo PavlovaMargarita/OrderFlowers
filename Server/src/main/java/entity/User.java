@@ -3,6 +3,7 @@ package entity;
 import bl.enums.RoleEnum;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -24,6 +25,9 @@ public class User {
 
     @Column(nullable = false, length = 30)
     private String password;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<OrderHistory> orderHistory;
     
     public User(){}
 
@@ -67,6 +71,13 @@ public class User {
         this.id = id;
     }
 
+    public List<OrderHistory> getOrderHistory() {
+        return orderHistory;
+    }
+
+    public void setOrderHistory(List<OrderHistory> orderHistory) {
+        this.orderHistory = orderHistory;
+    }
 
     @Override
     public boolean equals(Object o) {

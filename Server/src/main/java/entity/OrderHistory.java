@@ -1,6 +1,10 @@
 package entity;
 
+import bl.enums.OrderStatusEnum;
+import org.hibernate.type.*;
+
 import javax.persistence.*;
+import javax.persistence.EnumType;
 import java.sql.Date;
 
 @Entity
@@ -8,28 +12,42 @@ import java.sql.Date;
 @Access(value = AccessType.FIELD)
 public class OrderHistory {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
-	
-	@Column(name = "user_id", nullable = false)
-	private Integer userId;
-	
-	@Column(name = "status_id", nullable = false)
-	private Short statusId;
-	
-	@Column(name = "order_id", nullable = false)
-	private Integer orderId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private OrderStatusEnum status;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 	
 	@Column(name = "change_date", nullable = false)
+    @Temporal(TemporalType.DATE)
 	private Date changeDate;
 
     @Column(nullable = true, length = 255)
 	private String comment;
 
-    public OrderHistory(){}
 
-	@Access(value = AccessType.PROPERTY)
+    public OrderHistory(){
+    }
+
+    @Access(value = AccessType.PROPERTY)
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
 	public Date getChangeDate() {
 		return changeDate;
 	}
@@ -38,36 +56,20 @@ public class OrderHistory {
 		this.changeDate = changeDate;
 	}
 
-	public Short getStatusId() {
-		return statusId;
-	}
+    public OrderStatusEnum getStatus() {
+        return status;
+    }
 
-	public void setStatusId(Short statusId) {
-		this.statusId = statusId;
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
+    public void setStatus(OrderStatusEnum status) {
+        this.status = status;
+    }
+    
 	public String getComment() {
 		return comment;
 	}
 
 	public void setComment(String comment) {
 		this.comment = comment;
-	}
-
-	public Integer getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(Integer orderId) {
-		this.orderId = orderId;
 	}
 
 	public Integer getId() {
@@ -78,7 +80,14 @@ public class OrderHistory {
 		this.id = id;
 	}
 
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,9 +98,9 @@ public class OrderHistory {
         if (changeDate != null ? !changeDate.equals(that.changeDate) : that.changeDate != null) return false;
         if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (orderId != null ? !orderId.equals(that.orderId) : that.orderId != null) return false;
-        if (statusId != null ? !statusId.equals(that.statusId) : that.statusId != null) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (order != null ? !order.equals(that.order) : that.order != null) return false;
+        if (status != that.status) return false;
+        if (user != null ? !user.equals(that.user) : that.user != null) return false;
 
         return true;
     }
@@ -99,9 +108,9 @@ public class OrderHistory {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + (statusId != null ? statusId.hashCode() : 0);
-        result = 31 * result + (orderId != null ? orderId.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (order != null ? order.hashCode() : 0);
         result = 31 * result + (changeDate != null ? changeDate.hashCode() : 0);
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
         return result;
