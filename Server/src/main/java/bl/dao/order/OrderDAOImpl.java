@@ -1,9 +1,9 @@
 package bl.dao.order;
 
-import entity.Contact;
 import entity.Order;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 /**
@@ -22,20 +22,22 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     public Integer createOrder(Order order) {
-        if (order == null){
-            throw new NullPointerException("order is null");
-        }
-
         Integer id = null;
         Session session = null;
-
+        Transaction transaction = null;
+        if (order == null) {
+            throw new NullPointerException("order is null");
+        }
         try {
             session = factory.openSession();
-            session.beginTransaction();
+            transaction = session.beginTransaction();
             id = (Integer) session.save(order);
-            session.getTransaction().commit();
+            transaction.commit();
         }
         finally {
+            if (transaction != null && transaction.isActive()){
+                transaction.rollback();
+            }
             if (session != null && session.isOpen()) {
                 session.close();
             }
@@ -45,17 +47,22 @@ public class OrderDAOImpl implements OrderDAO {
     public boolean deleteOrder(int id) {
         boolean result = false;
         Session session = null;
+        Transaction transaction = null;
+        Order order = null;
         try {
             session = factory.openSession();
-            session.beginTransaction();
-            Order order = (Order) session.get(Order.class, id);
+            transaction = session.beginTransaction();
+            order = (Order) session.get(Order.class, id);
             if (order != null){
                 session.delete(order);
                 result = true;
             }
-            session.getTransaction().commit();
+            transaction.commit();
         }
         finally {
+            if (transaction != null && transaction.isActive()){
+                transaction.rollback();
+            }
             if (session != null && session.isOpen()) {
                 session.close();
             }
@@ -77,18 +84,21 @@ public class OrderDAOImpl implements OrderDAO {
         return order;
     }
     public void updateOrder(Order order) {
-        if (order == null){
-            throw new NullPointerException("contact is null");
-        }
-
         Session session = null;
+        Transaction transaction = null;
+        if (order == null){
+            throw new NullPointerException("order is null");
+        }
         try {
             session = factory.openSession();
-            session.beginTransaction();
+            transaction = session.beginTransaction();
             session.update(order);
-            session.getTransaction().commit();
+            transaction.commit();
         }
         finally {
+            if (transaction != null && transaction.isActive()){
+                transaction.rollback();
+            }
             if (session != null && session.isOpen()) {
                 session.close();
             }

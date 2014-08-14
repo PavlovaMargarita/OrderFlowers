@@ -1,64 +1,61 @@
-package bl.dao.user;
+package bl.dao.orderHistory;
 
-import entity.User;
-import org.hibernate.Criteria;
+import entity.OrderHistory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import java.util.List;
-
 /**
- * Created by Margarita on 14.08.2014.
+ * Created by Александр on 14.08.2014.
  */
-public class UserDAOImpl implements UserDAO {
-    private static UserDAOImpl ourInstance = new UserDAOImpl();
+public class OrderHistoryDAOImpl implements OrderHistoryDAO {
+    private static OrderHistoryDAOImpl ourInstance = new OrderHistoryDAOImpl();
     private SessionFactory factory;
 
-    public static UserDAOImpl getInstance() {
-        return ourInstance;
-    }
-
-    private UserDAOImpl() {
+    private OrderHistoryDAOImpl(){
         factory = new Configuration().configure().buildSessionFactory();
     }
 
-    public Integer createUser(User user){
+    public static OrderHistoryDAOImpl getInstance() {
+        return ourInstance;
+    }
+
+    public Integer createOrderHistory(OrderHistory orderHistory) {
         Integer id = null;
         Session session = null;
         Transaction transaction = null;
-        if (user == null){
-            throw new NullPointerException("user is null");
+        if (orderHistory == null){
+            throw new NullPointerException("orderHistory is null");
         }
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            id = (Integer) session.save(user);
+            id = (Integer) session.save(orderHistory);
             transaction.commit();
         }
         finally {
             if (transaction != null && transaction.isActive()){
                 transaction.rollback();
             }
-            if (session != null && session.isOpen()){
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }
         return id;
     }
 
-    public boolean deleteUser(int id){
+    public boolean deleteOrderHistory(int id) {
         boolean result = false;
         Session session = null;
         Transaction transaction = null;
-        User user = null;
+        OrderHistory orderHistory = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            user = (User) session.get(User.class, id);
-            if (user != null){
-                session.delete(user);
+            orderHistory = (OrderHistory) session.get(OrderHistory.class, id);
+            if (orderHistory != null){
+                session.delete(orderHistory);
                 result = true;
             }
             transaction.commit();
@@ -74,48 +71,31 @@ public class UserDAOImpl implements UserDAO {
         return result;
     }
 
-    public User readUser(int id){
-        User user = null;
+    public OrderHistory readOrderHistory(int id) {
+        OrderHistory orderHistory = null;
         Session session = null;
         try {
             session = factory.openSession();
-            user = (User) session.get(User.class, id);
+            orderHistory = (OrderHistory) session.get(OrderHistory.class, id);
         }
         finally {
             if (session != null && session.isOpen()) {
                 session.close();
             }
         }
-        return user;
+        return orderHistory;
     }
 
-
-    public List<User> readAllUsers() {
-        List<User> users = null;
-        Session session = null;
-        try {
-            session = factory.openSession();
-            Criteria criteria = session.createCriteria(User.class);
-            users = criteria.list();
-        }
-        finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return users;
-    }
-
-    public void updateUser(User user){
+    public void updateOrderHistory(OrderHistory orderHistory) {
         Session session = null;
         Transaction transaction = null;
-        if (user == null){
-            throw new NullPointerException("user is null");
+        if (orderHistory == null){
+            throw new NullPointerException("orderHistory is null");
         }
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.update(user);
+            session.update(orderHistory);
             transaction.commit();
         }
         finally {
