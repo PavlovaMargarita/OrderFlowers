@@ -1,5 +1,7 @@
 package entity;
 
+import biznes_logic.PhoneTypeEnum;
+
 import javax.persistence.*;
 
 @Entity
@@ -20,7 +22,8 @@ public class Phone {
     private Integer phoneNumber;
 
     @Column(name = "phone_type", nullable = false, length = 15)
-    private String phoneType;
+    @Enumerated(EnumType.STRING)
+    private PhoneTypeEnum phoneType;
 
     @Column(nullable = true, length = 255)
     private String comment;
@@ -62,11 +65,11 @@ public class Phone {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPhoneType() {
+    public PhoneTypeEnum getPhoneType() {
         return phoneType;
     }
 
-    public void setPhoneType(String phoneType) {
+    public void setPhoneType(PhoneTypeEnum phoneType) {
         this.phoneType = phoneType;
     }
 

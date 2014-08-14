@@ -1,5 +1,7 @@
 package entity;
 
+import biznes_logic.RoleEnum;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,10 +15,16 @@ public class User {
     private Integer contact;
 
     @Column(nullable = false)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private RoleEnum role;
 
     @Column(nullable = false, length = 30)
     private String login;
+
+    @Column(nullable = false, length = 30)
+    private String password;
+    
+    public User(){}
 
     public String getPassword() {
         return password;
@@ -34,11 +42,11 @@ public class User {
         this.login = login;
     }
 
-    public String getRole() {
+    public RoleEnum getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(RoleEnum role) {
         this.role = role;
     }
 
@@ -58,9 +66,7 @@ public class User {
         this.id = id;
     }
 
-    @Column(nullable = false, length = 30)
-    private String password;
-    public User(){}
+
 
 
 }
