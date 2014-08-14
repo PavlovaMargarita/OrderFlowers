@@ -1,5 +1,8 @@
 package entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +45,9 @@ public class Contact {
     @OneToMany(mappedBy = "recipient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Order> listOrderRecipient;
 
-    public Contact(){}
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", targetEntity = Phone.class, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Phone> phones;
 
     public Integer getId() {
         return id;

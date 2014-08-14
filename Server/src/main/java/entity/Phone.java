@@ -12,6 +12,9 @@ public class Phone {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @ManyToOne
+    private Contact owner;
+
     @Column(name = "country_code", nullable = false)
     private Short countryCode;
 
@@ -28,9 +31,6 @@ public class Phone {
     @Column(nullable = true, length = 255)
     private String comment;
 
-    @Column(name = "contact_id", nullable = false)
-    private Integer contactId;
-
     public Phone(){}
 
     public Integer getId() {
@@ -39,6 +39,14 @@ public class Phone {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Contact getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Contact owner) {
+        this.owner = owner;
     }
 
     public Short getCountryCode() {
@@ -81,14 +89,6 @@ public class Phone {
         this.comment = comment;
     }
 
-    public Integer getContactId() {
-        return contactId;
-    }
-
-    public void setContactId(Integer contactId) {
-        this.contactId = contactId;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -98,10 +98,10 @@ public class Phone {
         Phone phone = (Phone) o;
 
         if (comment != null ? !comment.equals(phone.comment) : phone.comment != null) return false;
-        if (contactId != null ? !contactId.equals(phone.contactId) : phone.contactId != null) return false;
         if (countryCode != null ? !countryCode.equals(phone.countryCode) : phone.countryCode != null) return false;
         if (id != null ? !id.equals(phone.id) : phone.id != null) return false;
         if (operatorCode != null ? !operatorCode.equals(phone.operatorCode) : phone.operatorCode != null) return false;
+        if (owner != null ? !owner.equals(phone.owner) : phone.owner != null) return false;
         if (phoneNumber != null ? !phoneNumber.equals(phone.phoneNumber) : phone.phoneNumber != null) return false;
         if (phoneType != phone.phoneType) return false;
 
@@ -111,12 +111,12 @@ public class Phone {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (owner != null ? owner.hashCode() : 0);
         result = 31 * result + (countryCode != null ? countryCode.hashCode() : 0);
         result = 31 * result + (operatorCode != null ? operatorCode.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         result = 31 * result + (phoneType != null ? phoneType.hashCode() : 0);
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
-        result = 31 * result + (contactId != null ? contactId.hashCode() : 0);
         return result;
     }
 }
