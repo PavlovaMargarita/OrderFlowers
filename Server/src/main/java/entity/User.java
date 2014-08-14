@@ -88,6 +88,30 @@ public class User {
         this.orderHistory = orderHistory;
     }
 
+    public List<Order> getListHandlerManager() {
+        return listHandlerManager;
+    }
+
+    public void setListHandlerManager(List<Order> listHandlerManager) {
+        this.listHandlerManager = listHandlerManager;
+    }
+
+    public List<Order> getListReceiveManager() {
+        return listReceiveManager;
+    }
+
+    public void setListReceiveManager(List<Order> listReceiveManager) {
+        this.listReceiveManager = listReceiveManager;
+    }
+
+    public List<Order> getListDeliveryManager() {
+        return listDeliveryManager;
+    }
+
+    public void setListDeliveryManager(List<Order> listDeliveryManager) {
+        this.listDeliveryManager = listDeliveryManager;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
