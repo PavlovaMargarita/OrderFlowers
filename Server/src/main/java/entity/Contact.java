@@ -7,6 +7,8 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+//Hello
+
 @Entity
 @Table(name = "contact")
 public class Contact {

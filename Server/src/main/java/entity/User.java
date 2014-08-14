@@ -5,6 +5,7 @@ import bl.enums.RoleEnum;
 import javax.persistence.*;
 import java.util.List;
 
+//Hello
 
 @Entity
 @Table(name = "user")

@@ -5,7 +5,7 @@ import org.hibernate.type.*;
 
 import javax.persistence.*;
 import javax.persistence.EnumType;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table(name = "order_history")
