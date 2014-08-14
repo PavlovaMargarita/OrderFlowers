@@ -28,6 +28,8 @@ public class Phone {
     @Column(name = "contact_id", nullable = false)
     private Integer contactId;
 
+    public Phone(){}
+
     public Integer getId() {
         return id;
     }

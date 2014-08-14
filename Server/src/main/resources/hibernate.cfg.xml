@@ -16,6 +16,8 @@
         <mapping class="entity.Phone" />
         <mapping class="entity.OrderHistory" />
         <mapping class="entity.Contact" />
+        <mapping class="entity.User" />
+        <mapping class="entity.Order" />
 
     </session-factory>
 </hibernate-configuration>
