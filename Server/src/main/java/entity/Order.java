@@ -1,9 +1,9 @@
 package entity;
 
+import bl.enums.OrderStatusEnum;
+
 import javax.persistence.*;
 import java.util.List;
-
-//Hello
 
 @Entity
 @Table(name = "order_flowers")
@@ -13,10 +13,12 @@ public class Order {
     private Integer id;
 
     @Column(nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatusEnum status;
 
-    @Column(name = "customer_id", nullable = false)
-    private Integer customerId;
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Contact customer;
 
     @Column(name = "order_description", nullable = false)
     private String orderDescription;
@@ -40,7 +42,7 @@ public class Order {
     @JoinColumn(name = "recipient_id", nullable = false)
     private Contact recipient;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderHistory> orderHistory;
 
     public Order(){}
@@ -51,22 +53,6 @@ public class Order {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
     }
 
     public String getOrderDescription() {
@@ -126,43 +112,19 @@ public class Order {
         this.receiveManager = receiveManager;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Order order = (Order) o;
-
-        if (customerId != null ? !customerId.equals(order.customerId) : order.customerId != null) return false;
-        if (deliveryManager != null ? !deliveryManager.equals(order.deliveryManager) : order.deliveryManager != null)
-            return false;
-        if (handlerManager != null ? !handlerManager.equals(order.handlerManager) : order.handlerManager != null)
-            return false;
-        if (id != null ? !id.equals(order.id) : order.id != null) return false;
-        if (orderDescription != null ? !orderDescription.equals(order.orderDescription) : order.orderDescription != null)
-            return false;
-        if (orderHistory != null ? !orderHistory.equals(order.orderHistory) : order.orderHistory != null) return false;
-        if (receiveManager != null ? !receiveManager.equals(order.receiveManager) : order.receiveManager != null)
-            return false;
-        if (recipient != null ? !recipient.equals(order.recipient) : order.recipient != null) return false;
-        if (status != null ? !status.equals(order.status) : order.status != null) return false;
-        if (sum != null ? !sum.equals(order.sum) : order.sum != null) return false;
-
-        return true;
+    public OrderStatusEnum getStatus() {
+        return status;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + (customerId != null ? customerId.hashCode() : 0);
-        result = 31 * result + (orderDescription != null ? orderDescription.hashCode() : 0);
-        result = 31 * result + (sum != null ? sum.hashCode() : 0);
-        result = 31 * result + (handlerManager != null ? handlerManager.hashCode() : 0);
-        result = 31 * result + (receiveManager != null ? receiveManager.hashCode() : 0);
-        result = 31 * result + (deliveryManager != null ? deliveryManager.hashCode() : 0);
-        result = 31 * result + (recipient != null ? recipient.hashCode() : 0);
-        result = 31 * result + (orderHistory != null ? orderHistory.hashCode() : 0);
-        return result;
+    public void setStatus(OrderStatusEnum status) {
+        this.status = status;
+    }
+
+    public Contact getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Contact customer) {
+        this.customer = customer;
     }
 }
