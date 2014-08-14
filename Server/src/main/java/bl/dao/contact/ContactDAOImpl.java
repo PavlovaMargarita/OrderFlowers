@@ -1,9 +1,13 @@
 package bl.dao.contact;
 
 import entity.Contact;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+
+import java.util.List;
 
 
 public class ContactDAOImpl implements ContactDAO {
@@ -22,18 +26,20 @@ public class ContactDAOImpl implements ContactDAO {
         if (contact == null){
             throw new NullPointerException("contact is null");
         }
-
         Integer id = null;
         Session session = null;
-
+        Transaction transaction = null;
         try {
             session = factory.openSession();
-            session.beginTransaction();
+            transaction = session.beginTransaction();
             id = (Integer) session.save(contact);
-            session.getTransaction().commit();
+            transaction.commit();
         }
         finally {
-            if (session != null && session.isOpen()) {
+            if (transaction != null && transaction.isActive()){
+                transaction.rollback();
+            }
+            if (session != null && session.isOpen()){
                 session.close();
             }
         }
@@ -43,17 +49,21 @@ public class ContactDAOImpl implements ContactDAO {
     public boolean deleteContact(int id){
         boolean result = false;
         Session session = null;
+        Transaction transaction = null;
         try {
             session = factory.openSession();
-            session.beginTransaction();
+            transaction = session.beginTransaction();
             Contact contact = (Contact) session.get(Contact.class, id);
             if (contact != null){
                 session.delete(contact);
                 result = true;
             }
-            session.getTransaction().commit();
+            transaction.commit();
         }
         finally {
+            if (transaction != null && transaction.isActive()){
+                transaction.rollback();
+            }
             if (session != null && session.isOpen()) {
                 session.close();
             }
@@ -76,19 +86,40 @@ public class ContactDAOImpl implements ContactDAO {
         return contact;
     }
 
+
+    public List<Contact> readAllContacts() {
+        List<Contact> contacts = null;
+        Session session = null;
+        try {
+            session = factory.openSession();
+            Criteria criteria = session.createCriteria(Contact.class);
+            contacts = criteria.list();
+        }
+        finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return contacts;
+    }
+
     public void updateContact(Contact contact){
         if (contact == null){
             throw new NullPointerException("contact is null");
         }
 
         Session session = null;
+        Transaction transaction = null;
         try {
             session = factory.openSession();
-            session.beginTransaction();
+            transaction = session.beginTransaction();
             session.update(contact);
-            session.getTransaction().commit();
+            transaction.commit();
         }
         finally {
+            if (transaction != null && transaction.isActive()){
+                transaction.rollback();
+            }
             if (session != null && session.isOpen()) {
                 session.close();
             }
