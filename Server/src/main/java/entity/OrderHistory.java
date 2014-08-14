@@ -1,6 +1,10 @@
 package entity;
 
+import bl.enums.OrderStatusEnum;
+import org.hibernate.type.*;
+
 import javax.persistence.*;
+import javax.persistence.EnumType;
 import java.sql.Date;
 
 @Entity
@@ -14,20 +18,24 @@ public class OrderHistory {
 	
 	@Column(name = "user_id", nullable = false)
 	private Integer userId;
-	
-	@Column(name = "status_id", nullable = false)
-	private Short statusId;
+
+    @Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private OrderStatusEnum status;
 	
 	@Column(name = "order_id", nullable = false)
 	private Integer orderId;
 	
 	@Column(name = "change_date", nullable = false)
+    @Temporal(TemporalType.DATE)
 	private Date changeDate;
 
     @Column(nullable = true, length = 255)
 	private String comment;
 
-    public OrderHistory(){}
+    public OrderHistory(){
+
+    }
 
 	@Access(value = AccessType.PROPERTY)
 	public Date getChangeDate() {
@@ -38,15 +46,15 @@ public class OrderHistory {
 		this.changeDate = changeDate;
 	}
 
-	public Short getStatusId() {
-		return statusId;
-	}
+    public OrderStatusEnum getStatus() {
+        return status;
+    }
 
-	public void setStatusId(Short statusId) {
-		this.statusId = statusId;
-	}
+    public void setStatusId(OrderStatusEnum status) {
+        this.status = status;
+    }
 
-	public Integer getUserId() {
+    public Integer getUserId() {
 		return userId;
 	}
 
@@ -90,7 +98,7 @@ public class OrderHistory {
         if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (orderId != null ? !orderId.equals(that.orderId) : that.orderId != null) return false;
-        if (statusId != null ? !statusId.equals(that.statusId) : that.statusId != null) return false;
+        if (status != that.status) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
 
         return true;
@@ -100,7 +108,7 @@ public class OrderHistory {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + (statusId != null ? statusId.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (orderId != null ? orderId.hashCode() : 0);
         result = 31 * result + (changeDate != null ? changeDate.hashCode() : 0);
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
