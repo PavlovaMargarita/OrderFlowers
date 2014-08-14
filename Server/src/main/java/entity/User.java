@@ -1,7 +1,5 @@
 package entity;
 
-import biznes_logic.RoleEnum;
-
 import javax.persistence.*;
 
 @Entity

@@ -1,6 +1,6 @@
 package entity;
 
-import biznes_logic.PhoneTypeEnum;
+import bl.enums.PhoneTypeEnum;
 
 import javax.persistence.*;
 

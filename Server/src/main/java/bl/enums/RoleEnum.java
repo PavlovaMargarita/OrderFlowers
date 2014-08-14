@@ -1,4 +1,4 @@
-package biznes_logic;
+package bl.enums;
 
 /**
  * Created by Margarita on 14.08.2014.
