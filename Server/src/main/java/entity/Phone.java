@@ -13,6 +13,7 @@ public class Phone {
     private Integer id;
 
     @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
     private Contact owner;
 
     @Column(name = "country_code", nullable = false)
