@@ -30,7 +30,7 @@ public class Order {
     @Column(name = "delivery_manager_id", nullable = false)
     private Integer deliveryManagerId;
 
-    @Column(name = "recipient_id", nullable = false)
+    @Column(name = "recipient_id",nullable = false)
     private Integer recipientId;
     public Order(){}
 
