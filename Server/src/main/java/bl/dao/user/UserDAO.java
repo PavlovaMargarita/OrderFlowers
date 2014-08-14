@@ -1,7 +1,7 @@
-package dao.order;
+package bl.dao.user;
 
 /**
  * Created by Margarita on 14.08.2014.
  */
-public interface OrderDAO {
+public interface UserDAO {
 }

@@ -1,4 +1,4 @@
-package dao.user;
+package bl.dao.user;
 
 /**
  * Created by Margarita on 14.08.2014.
