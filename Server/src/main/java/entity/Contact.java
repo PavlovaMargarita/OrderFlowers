@@ -51,6 +51,8 @@ public class Contact {
 
     public Contact(){
         phones = new ArrayList<Phone>();
+        listOrderRecipient = new ArrayList<Order>();
+        listOrderCustomer = new ArrayList<Order>();
     }
 
     public Integer getId() {
