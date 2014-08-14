@@ -22,17 +22,21 @@ public class Order {
     @Column(nullable = false)
     private Integer sum;
 
-    @Column(name = "order_handler_manager_id", nullable = false)
-    private Integer orderHandlerManagerId;
+    @ManyToOne
+    @JoinColumn(name = "order_handler_manager_id", nullable = false)
+    private User handlerManager;
 
-    @Column(name = "receive_manager_id", nullable = false)
-    private Integer receiveManagerId;
+    @ManyToOne
+    @JoinColumn(name = "receive_manager_id", nullable = false)
+    private User receiveManager;
 
-    @Column(name = "delivery_manager_id", nullable = false)
-    private Integer deliveryManagerId;
+    @ManyToOne
+    @JoinColumn(name = "delivery_manager_id", nullable = false)
+    private User deliveryManager;
 
-    @Column(name = "recipient_id",nullable = false)
-    private Integer recipientId;
+    @ManyToOne
+    @JoinColumn(name = "recipient_id", nullable = false)
+    private Contact recipient;
 
     @OneToMany(mappedBy = "order")
     private List<OrderHistory> orderHistory;
@@ -79,44 +83,45 @@ public class Order {
         this.sum = sum;
     }
 
-    public Integer getOrderHandlerManagerId() {
-        return orderHandlerManagerId;
-    }
-
-    public void setOrderHandlerManagerId(Integer orderHandlerManagerId) {
-        this.orderHandlerManagerId = orderHandlerManagerId;
-    }
-
-    public Integer getReceiveManagerId() {
-        return receiveManagerId;
-    }
-
-    public void setReceiveManagerId(Integer receiveManagerId) {
-        this.receiveManagerId = receiveManagerId;
-    }
-
-    public Integer getDeliveryManagerId() {
-        return deliveryManagerId;
-    }
-
-    public void setDeliveryManagerId(Integer deliveryManagerId) {
-        this.deliveryManagerId = deliveryManagerId;
-    }
-
-    public Integer getRecipientId() {
-        return recipientId;
-    }
-
-    public void setRecipientId(Integer recipientId) {
-        this.recipientId = recipientId;
-    }
-
     public List<OrderHistory> getOrderHistory() {
         return orderHistory;
     }
 
     public void setOrderHistory(List<OrderHistory> orderHistory) {
         this.orderHistory = orderHistory;
+    }
+
+    public User getHandlerManager() {
+        return handlerManager;
+    }
+
+    public void setHandlerManager(User handlerManager) {
+        this.handlerManager = handlerManager;
+    }
+
+    public User getDeliveryManager() {
+        return deliveryManager;
+    }
+
+    public void setDeliveryManager(User deliveryManager) {
+        this.deliveryManager = deliveryManager;
+    }
+
+    public Contact getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(Contact recipient) {
+        this.recipient = recipient;
+    }
+
+    public User getReceiveManager() {
+
+        return receiveManager;
+    }
+
+    public void setReceiveManager(User receiveManager) {
+        this.receiveManager = receiveManager;
     }
 
     @Override
@@ -127,16 +132,17 @@ public class Order {
         Order order = (Order) o;
 
         if (customerId != null ? !customerId.equals(order.customerId) : order.customerId != null) return false;
-        if (deliveryManagerId != null ? !deliveryManagerId.equals(order.deliveryManagerId) : order.deliveryManagerId != null)
+        if (deliveryManager != null ? !deliveryManager.equals(order.deliveryManager) : order.deliveryManager != null)
+            return false;
+        if (handlerManager != null ? !handlerManager.equals(order.handlerManager) : order.handlerManager != null)
             return false;
         if (id != null ? !id.equals(order.id) : order.id != null) return false;
         if (orderDescription != null ? !orderDescription.equals(order.orderDescription) : order.orderDescription != null)
             return false;
-        if (orderHandlerManagerId != null ? !orderHandlerManagerId.equals(order.orderHandlerManagerId) : order.orderHandlerManagerId != null)
+        if (orderHistory != null ? !orderHistory.equals(order.orderHistory) : order.orderHistory != null) return false;
+        if (receiveManager != null ? !receiveManager.equals(order.receiveManager) : order.receiveManager != null)
             return false;
-        if (receiveManagerId != null ? !receiveManagerId.equals(order.receiveManagerId) : order.receiveManagerId != null)
-            return false;
-        if (recipientId != null ? !recipientId.equals(order.recipientId) : order.recipientId != null) return false;
+        if (recipient != null ? !recipient.equals(order.recipient) : order.recipient != null) return false;
         if (status != null ? !status.equals(order.status) : order.status != null) return false;
         if (sum != null ? !sum.equals(order.sum) : order.sum != null) return false;
 
@@ -150,10 +156,11 @@ public class Order {
         result = 31 * result + (customerId != null ? customerId.hashCode() : 0);
         result = 31 * result + (orderDescription != null ? orderDescription.hashCode() : 0);
         result = 31 * result + (sum != null ? sum.hashCode() : 0);
-        result = 31 * result + (orderHandlerManagerId != null ? orderHandlerManagerId.hashCode() : 0);
-        result = 31 * result + (receiveManagerId != null ? receiveManagerId.hashCode() : 0);
-        result = 31 * result + (deliveryManagerId != null ? deliveryManagerId.hashCode() : 0);
-        result = 31 * result + (recipientId != null ? recipientId.hashCode() : 0);
+        result = 31 * result + (handlerManager != null ? handlerManager.hashCode() : 0);
+        result = 31 * result + (receiveManager != null ? receiveManager.hashCode() : 0);
+        result = 31 * result + (deliveryManager != null ? deliveryManager.hashCode() : 0);
+        result = 31 * result + (recipient != null ? recipient.hashCode() : 0);
+        result = 31 * result + (orderHistory != null ? orderHistory.hashCode() : 0);
         return result;
     }
 }

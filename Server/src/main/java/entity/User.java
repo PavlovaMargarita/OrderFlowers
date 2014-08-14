@@ -28,7 +28,16 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderHistory> orderHistory;
-    
+
+    @OneToMany(mappedBy = "handlerManager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Order> listHandlerManager;
+
+    @OneToMany(mappedBy = "receiveManager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Order> listReceiveManager;
+
+    @OneToMany(mappedBy = "deliveryManager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Order> listDeliveryManager;
+
     public User(){}
 
     public String getPassword() {

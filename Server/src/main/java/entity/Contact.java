@@ -2,6 +2,7 @@ package entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "contact")
@@ -37,6 +38,9 @@ public class Contact {
 
     @Column(nullable = true)
     private Integer flat;
+
+    @OneToMany(mappedBy = "recipient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Order> listOrderRecipient;
 
     public Contact(){}
 
@@ -120,6 +124,13 @@ public class Contact {
         this.flat = flat;
     }
 
+    public List<Order> getListOrderRecipient() {
+        return listOrderRecipient;
+    }
+
+    public void setListOrderRecipient(List<Order> listOrderRecipient) {
+        this.listOrderRecipient = listOrderRecipient;
+    }
 
     @Override
     public boolean equals(Object o) {
