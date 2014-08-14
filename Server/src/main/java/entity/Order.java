@@ -3,6 +3,7 @@ package entity;
 import bl.enums.OrderStatusEnum;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -45,7 +46,9 @@ public class Order {
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderHistory> orderHistory;
 
-    public Order(){}
+    public Order(){
+        orderHistory = new ArrayList<OrderHistory>();
+    }
 
     public Integer getId() {
         return id;

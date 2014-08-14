@@ -3,7 +3,6 @@ package entity;
 import bl.enums.OrderStatusEnum;
 
 import javax.persistence.*;
-import javax.persistence.EnumType;
 import java.util.Date;
 
 @Entity
@@ -34,8 +33,7 @@ public class OrderHistory {
 	private String comment;
 
 
-    public OrderHistory(){
-    }
+    public OrderHistory(){}
 
     public Order getOrder() {
         return order;

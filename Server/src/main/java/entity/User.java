@@ -3,6 +3,7 @@ package entity;
 import bl.enums.RoleEnum;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,8 +13,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "contact_id", nullable = false)
-    private Integer contact;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contact_id", nullable = false)
+    private Contact contact;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -37,7 +39,13 @@ public class User {
     @OneToMany(mappedBy = "deliveryManager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Order> listDeliveryManager;
 
-    public User(){}
+
+    public User(){
+        orderHistory = new ArrayList<OrderHistory>();
+        listHandlerManager = new ArrayList<Order>();
+        listReceiveManager = new ArrayList<Order>();
+        listDeliveryManager = new ArrayList<Order>();
+    }
 
     public String getPassword() {
         return password;
@@ -63,11 +71,11 @@ public class User {
         this.role = role;
     }
 
-    public Integer getContact() {
+    public Contact getContact() {
         return contact;
     }
 
-    public void setContact(Integer contact) {
+    public void setContact(Contact contact) {
         this.contact = contact;
     }
 
@@ -109,31 +117,5 @@ public class User {
 
     public void setListDeliveryManager(List<Order> listDeliveryManager) {
         this.listDeliveryManager = listDeliveryManager;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (contact != null ? !contact.equals(user.contact) : user.contact != null) return false;
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        if (login != null ? !login.equals(user.login) : user.login != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (role != user.role) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (contact != null ? contact.hashCode() : 0);
-        result = 31 * result + (role != null ? role.hashCode() : 0);
-        result = 31 * result + (login != null ? login.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        return result;
     }
 }
