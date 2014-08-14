@@ -1,7 +1,5 @@
 package entity;
 
-import bl.enums.OrderStatusEnum;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,39 +8,36 @@ import java.util.List;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "order_id")
     private Integer id;
 
-    @Column(nullable = true)
-    @Enumerated(EnumType.STRING)
-    private OrderStatusEnum status;
+    @Column(nullable = false)
+    private String status;
 
-    @Column(name = "customer_id", nullable = true)
+    @Column(name = "customer_id", nullable = false)
     private Integer customerId;
 
-    @Column(name = "order_description", nullable = true)
+    @Column(name = "order_description", nullable = false)
     private String orderDescription;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Integer sum;
 
-    @Column(name = "order_handler_manager_id", nullable = true)
+    @Column(name = "order_handler_manager_id", nullable = false)
     private Integer orderHandlerManagerId;
 
-    @Column(name = "receive_manager_id", nullable = true)
+    @Column(name = "receive_manager_id", nullable = false)
     private Integer receiveManagerId;
 
-    @Column(name = "delivery_manager_id", nullable = true)
+    @Column(name = "delivery_manager_id", nullable = false)
     private Integer deliveryManagerId;
 
-    @Column(name = "recipient_id", nullable = true)
+    @Column(name = "recipient_id",nullable = false)
     private Integer recipientId;
 
     @OneToMany(mappedBy = "order")
     private List<OrderHistory> orderHistory;
 
-    public Order() {
-    }
+    public Order(){}
 
     public Integer getId() {
         return id;
@@ -52,11 +47,11 @@ public class Order {
         this.id = id;
     }
 
-    public OrderStatusEnum getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(OrderStatusEnum status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

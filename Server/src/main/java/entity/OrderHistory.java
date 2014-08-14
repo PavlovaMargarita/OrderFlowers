@@ -1,9 +1,11 @@
 package entity;
 
 import bl.enums.OrderStatusEnum;
+import org.hibernate.type.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.EnumType;
+import java.sql.Date;
 
 @Entity
 @Table(name = "order_history")
@@ -14,61 +16,30 @@ public class OrderHistory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "user_id", nullable = true)
-    private Integer userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private OrderStatusEnum status;
+	@Enumerated(EnumType.STRING)
+	private OrderStatusEnum status;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
-
-    @Column(name = "change_date", nullable = false)
+	
+	@Column(name = "change_date", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date changeDate;
+	private Date changeDate;
 
     @Column(nullable = true, length = 255)
-    private String comment;
+	private String comment;
 
-    public OrderHistory() {
 
+    public OrderHistory(){
     }
 
     @Access(value = AccessType.PROPERTY)
-    public Date getChangeDate() {
-        return changeDate;
-    }
-
-    public void setChangeDate(Date changeDate) {
-        this.changeDate = changeDate;
-    }
-
-    public OrderStatusEnum getStatus() {
-        return status;
-    }
-
-    public void setStatus(OrderStatusEnum status) {
-        this.status = status;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
     public Order getOrder() {
         return order;
     }
@@ -77,15 +48,46 @@ public class OrderHistory {
         this.order = order;
     }
 
-    public Integer getId() {
-        return id;
+	public Date getChangeDate() {
+		return changeDate;
+	}
+
+	public void setChangeDate(Date changeDate) {
+		this.changeDate = changeDate;
+	}
+
+    public OrderStatusEnum getStatus() {
+        return status;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setStatus(OrderStatusEnum status) {
+        this.status = status;
+    }
+    
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+    public User getUser() {
+        return user;
     }
 
-
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -98,7 +100,7 @@ public class OrderHistory {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (order != null ? !order.equals(that.order) : that.order != null) return false;
         if (status != that.status) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (user != null ? !user.equals(that.user) : that.user != null) return false;
 
         return true;
     }
@@ -106,7 +108,7 @@ public class OrderHistory {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (order != null ? order.hashCode() : 0);
         result = 31 * result + (changeDate != null ? changeDate.hashCode() : 0);
