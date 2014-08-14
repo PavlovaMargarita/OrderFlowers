@@ -1,6 +1,9 @@
 package entity;
 
+import bl.enums.RoleEnum;
+
 import javax.persistence.*;
+
 
 @Entity
 @Table(name = "user")
@@ -14,7 +17,7 @@ public class User {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private RoleEnum role;
+    private RoleEnum  role;
 
     @Column(nullable = false, length = 30)
     private String login;
@@ -65,6 +68,29 @@ public class User {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        User user = (User) o;
 
+        if (contact != null ? !contact.equals(user.contact) : user.contact != null) return false;
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (login != null ? !login.equals(user.login) : user.login != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (role != user.role) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (contact != null ? contact.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        result = 31 * result + (login != null ? login.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        return result;
+    }
 }

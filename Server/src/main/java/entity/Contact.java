@@ -119,4 +119,41 @@ public class Contact {
     public void setFlat(Integer flat) {
         this.flat = flat;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Contact contact = (Contact) o;
+
+        if (city != null ? !city.equals(contact.city) : contact.city != null) return false;
+        if (dateOfBirth != null ? !dateOfBirth.equals(contact.dateOfBirth) : contact.dateOfBirth != null) return false;
+        if (email != null ? !email.equals(contact.email) : contact.email != null) return false;
+        if (flat != null ? !flat.equals(contact.flat) : contact.flat != null) return false;
+        if (home != null ? !home.equals(contact.home) : contact.home != null) return false;
+        if (id != null ? !id.equals(contact.id) : contact.id != null) return false;
+        if (name != null ? !name.equals(contact.name) : contact.name != null) return false;
+        if (patronymic != null ? !patronymic.equals(contact.patronymic) : contact.patronymic != null) return false;
+        if (street != null ? !street.equals(contact.street) : contact.street != null) return false;
+        if (surname != null ? !surname.equals(contact.surname) : contact.surname != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (patronymic != null ? patronymic.hashCode() : 0);
+        result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (street != null ? street.hashCode() : 0);
+        result = 31 * result + (home != null ? home.hashCode() : 0);
+        result = 31 * result + (flat != null ? flat.hashCode() : 0);
+        return result;
+    }
 }

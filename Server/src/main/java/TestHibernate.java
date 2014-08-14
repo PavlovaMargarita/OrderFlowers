@@ -1,3 +1,4 @@
+import bl.enums.PhoneTypeEnum;
 import entity.Phone;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,7 +10,7 @@ public class TestHibernate {
         phone.setCountryCode((short)375);
         phone.setOperatorCode((short) 29);
         phone.setPhoneNumber(1234567);
-        phone.setPhoneType("home");
+        phone.setPhoneType(PhoneTypeEnum.HOME);
         phone.setComment("test");
         phone.setContactId(1);
 

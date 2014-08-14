@@ -88,4 +88,35 @@ public class Phone {
     public void setContactId(Integer contactId) {
         this.contactId = contactId;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Phone phone = (Phone) o;
+
+        if (comment != null ? !comment.equals(phone.comment) : phone.comment != null) return false;
+        if (contactId != null ? !contactId.equals(phone.contactId) : phone.contactId != null) return false;
+        if (countryCode != null ? !countryCode.equals(phone.countryCode) : phone.countryCode != null) return false;
+        if (id != null ? !id.equals(phone.id) : phone.id != null) return false;
+        if (operatorCode != null ? !operatorCode.equals(phone.operatorCode) : phone.operatorCode != null) return false;
+        if (phoneNumber != null ? !phoneNumber.equals(phone.phoneNumber) : phone.phoneNumber != null) return false;
+        if (phoneType != phone.phoneType) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (countryCode != null ? countryCode.hashCode() : 0);
+        result = 31 * result + (operatorCode != null ? operatorCode.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
+        result = 31 * result + (phoneType != null ? phoneType.hashCode() : 0);
+        result = 31 * result + (comment != null ? comment.hashCode() : 0);
+        result = 31 * result + (contactId != null ? contactId.hashCode() : 0);
+        return result;
+    }
 }

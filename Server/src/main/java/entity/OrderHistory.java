@@ -77,4 +77,33 @@ public class OrderHistory {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OrderHistory that = (OrderHistory) o;
+
+        if (changeDate != null ? !changeDate.equals(that.changeDate) : that.changeDate != null) return false;
+        if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (orderId != null ? !orderId.equals(that.orderId) : that.orderId != null) return false;
+        if (statusId != null ? !statusId.equals(that.statusId) : that.statusId != null) return false;
+        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (statusId != null ? statusId.hashCode() : 0);
+        result = 31 * result + (orderId != null ? orderId.hashCode() : 0);
+        result = 31 * result + (changeDate != null ? changeDate.hashCode() : 0);
+        result = 31 * result + (comment != null ? comment.hashCode() : 0);
+        return result;
+    }
 }
