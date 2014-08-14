@@ -1,61 +1,58 @@
-package bl.dao.contact;
+package bl.dao.phone;
 
-import entity.Contact;
-import org.hibernate.Criteria;
+import entity.Phone;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import java.util.List;
 
-
-public class ContactDAOImpl implements ContactDAO {
-    private static ContactDAOImpl ourInstance = new ContactDAOImpl();
+public class PhoneDAOImpl implements PhoneDAO {
+    private static PhoneDAOImpl ourInstance = new PhoneDAOImpl();
     private SessionFactory factory;
 
-    private ContactDAOImpl(){
+    private PhoneDAOImpl(){
         factory = new Configuration().configure().buildSessionFactory();
     }
 
-    public static ContactDAOImpl getInstance() {
+    public static PhoneDAOImpl getInstance() {
         return ourInstance;
     }
 
-    public Integer createContact(Contact contact){
-        if (contact == null){
-            throw new NullPointerException("contact is null");
-        }
+    public Integer createPhone(Phone phone) {
         Integer id = null;
         Session session = null;
         Transaction transaction = null;
+        if (phone == null){
+            throw new NullPointerException("phone is null");
+        }
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            id = (Integer) session.save(contact);
+            id = (Integer) session.save(phone);
             transaction.commit();
         }
         finally {
             if (transaction != null && transaction.isActive()){
                 transaction.rollback();
             }
-            if (session != null && session.isOpen()){
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }
         return id;
     }
 
-    public boolean deleteContact(int id){
+    public boolean deletePhone(int id) {
         boolean result = false;
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            Contact contact = (Contact) session.get(Contact.class, id);
-            if (contact != null){
-                session.delete(contact);
+            Phone phone = (Phone) session.get(Phone.class, id);
+            if (phone != null){
+                session.delete(phone);
                 result = true;
             }
             transaction.commit();
@@ -71,49 +68,31 @@ public class ContactDAOImpl implements ContactDAO {
         return result;
     }
 
-    public Contact readContact(int id){
-        Contact contact = null;
+    public Phone readPhone(int id) {
+        Phone phone = null;
         Session session = null;
         try {
             session = factory.openSession();
-            contact = (Contact) session.get(Contact.class, id);
+            phone = (Phone) session.get(Phone.class, id);
         }
         finally {
             if (session != null && session.isOpen()) {
                 session.close();
             }
         }
-        return contact;
+        return phone;
     }
 
-
-    public List<Contact> readAllContacts() {
-        List<Contact> contacts = null;
-        Session session = null;
-        try {
-            session = factory.openSession();
-            Criteria criteria = session.createCriteria(Contact.class);
-            contacts = criteria.list();
+    public void updatePhone(Phone phone) {
+        if (phone == null){
+            throw new NullPointerException("phone is null");
         }
-        finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return contacts;
-    }
-
-    public void updateContact(Contact contact){
-        if (contact == null){
-            throw new NullPointerException("contact is null");
-        }
-
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.update(contact);
+            session.update(phone);
             transaction.commit();
         }
         finally {
