@@ -13,7 +13,7 @@ public class TestHibernate {
         phone.setPhoneType(PhoneTypeEnum.HOME);
         phone.setComment("test");
         phone.setContactId(1);
-
+//Hello
 
         SessionFactory factory = new Configuration().configure().buildSessionFactory();
         Session session = factory.openSession();
