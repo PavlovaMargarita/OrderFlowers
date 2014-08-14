@@ -1,40 +1,48 @@
 package entity;
 
+import bl.enums.OrderStatusEnum;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "order_flowers")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_id")
     private Integer id;
 
-    @Column(nullable = false)
-    private String status;
+    @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
+    private OrderStatusEnum status;
 
-    @Column(name = "customer_id", nullable = false)
+    @Column(name = "customer_id", nullable = true)
     private Integer customerId;
 
-    @Column(name = "order_description", nullable = false)
+    @Column(name = "order_description", nullable = true)
     private String orderDescription;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer sum;
 
-    @Column(name = "order_handler_manager_id", nullable = false)
+    @Column(name = "order_handler_manager_id", nullable = true)
     private Integer orderHandlerManagerId;
 
-    @Column(name = "receive_manager_id", nullable = false)
+    @Column(name = "receive_manager_id", nullable = true)
     private Integer receiveManagerId;
 
-    @Column(name = "delivery_manager_id", nullable = false)
+    @Column(name = "delivery_manager_id", nullable = true)
     private Integer deliveryManagerId;
 
-    @Column(name = "recipient_id",nullable = false)
+    @Column(name = "recipient_id", nullable = true)
     private Integer recipientId;
 
+    @OneToMany(mappedBy = "order")
+    private List<OrderHistory> orderHistory;
 
-    public Order(){}
+    public Order() {
+    }
 
     public Integer getId() {
         return id;
@@ -44,11 +52,11 @@ public class Order {
         this.id = id;
     }
 
-    public String getStatus() {
+    public OrderStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatusEnum status) {
         this.status = status;
     }
 
@@ -108,6 +116,13 @@ public class Order {
         this.recipientId = recipientId;
     }
 
+    public List<OrderHistory> getOrderHistory() {
+        return orderHistory;
+    }
+
+    public void setOrderHistory(List<OrderHistory> orderHistory) {
+        this.orderHistory = orderHistory;
+    }
 
     @Override
     public boolean equals(Object o) {
