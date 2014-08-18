@@ -1,7 +1,10 @@
 package bl.dao.contact;
 
 import entity.Contact;
-import org.hibernate.*;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
@@ -83,19 +86,12 @@ public class ContactDAOImpl implements ContactDAO {
         return contact;
     }
 
-    public List<Contact> readAllContacts() {
-        List<Contact> contacts = null;
-        Session session = null;
-        try {
-            session = factory.openSession();
-            Criteria criteria = session.createCriteria(Contact.class);
-            contacts = criteria.list();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return contacts;
+    public List<Contact> readAllContacts(){
+        Session session = factory.openSession();
+        Query query = session.createQuery("from Contact where isDelete = :isDelete");
+        query.setBoolean("isDelete", false);
+        List<Contact> result = query.list();
+        return result;
     }
 
     public void updateContact(Contact contact) {
