@@ -87,10 +87,19 @@ public class ContactDAOImpl implements ContactDAO {
     }
 
     public List<Contact> readAllContacts(){
-        Session session = factory.openSession();
-        Query query = session.createQuery("from Contact where isDelete = :isDelete");
-        query.setBoolean("isDelete", false);
-        List<Contact> result = query.list();
+        Session session = null;
+        List<Contact> result = null;
+        try {
+            session = factory.openSession();
+            Query query = session.createQuery("from Contact where isDelete = :isDelete");
+            query.setBoolean("isDelete", false);
+            result = query.list();
+        }
+        finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
         return result;
     }
 
