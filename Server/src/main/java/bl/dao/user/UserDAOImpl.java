@@ -1,9 +1,12 @@
 package bl.dao.user;
 
 import entity.User;
-import org.hibernate.*;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+
 import java.util.List;
 
 /**
@@ -90,10 +93,12 @@ public class UserDAOImpl implements UserDAO {
     public List<User> readAllUsers() {
         List<User> users = null;
         Session session = null;
+
         try {
             session = factory.openSession();
-            Criteria criteria = session.createCriteria(User.class);
-            users = criteria.list();
+            Query query = session.createQuery("from Contact where isDelete = :isDelete");
+            query.setBoolean("isDelete", false);
+            users = query.list();
         }
         finally {
             if (session != null && session.isOpen()) {
