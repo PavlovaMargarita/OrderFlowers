@@ -40,19 +40,23 @@ public class Contact {
     @Column(nullable = true)
     private Integer flat;
 
+    @Column(name = "is_delete", nullable = false)
+    private Boolean isDelete;
+
     @OneToMany(mappedBy = "recipient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Order> listOrderRecipient;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Order> listOrderCustomer;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Phone> phones;
 
     public Contact(){
         phones = new ArrayList<Phone>();
         listOrderRecipient = new ArrayList<Order>();
         listOrderCustomer = new ArrayList<Order>();
+        isDelete = false;
     }
 
     public Integer getId() {
@@ -157,5 +161,13 @@ public class Contact {
 
     public void setPhones(List<Phone> phones) {
         this.phones = phones;
+    }
+
+    public Boolean getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
     }
 }

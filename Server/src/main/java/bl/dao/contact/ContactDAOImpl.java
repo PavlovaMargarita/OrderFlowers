@@ -1,10 +1,7 @@
 package bl.dao.contact;
 
 import entity.Contact;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
@@ -14,7 +11,7 @@ public class ContactDAOImpl implements ContactDAO {
     private static ContactDAOImpl ourInstance = new ContactDAOImpl();
     private SessionFactory factory;
 
-    private ContactDAOImpl(){
+    private ContactDAOImpl() {
         factory = new Configuration().configure().buildSessionFactory();
     }
 
@@ -22,8 +19,8 @@ public class ContactDAOImpl implements ContactDAO {
         return ourInstance;
     }
 
-    public Integer createContact(Contact contact){
-        if (contact == null){
+    public Integer createContact(Contact contact) {
+        if (contact == null) {
             throw new NullPointerException("contact is null");
         }
         Integer id = null;
@@ -34,30 +31,31 @@ public class ContactDAOImpl implements ContactDAO {
             transaction = session.beginTransaction();
             id = (Integer) session.save(contact);
             transaction.commit();
-        }
-        finally {
-            if (transaction != null && transaction.isActive()){
+        } finally {
+            if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
-            if (session != null && session.isOpen()){
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }
         return id;
     }
 
-    public boolean deleteContact(int id){
+    @SuppressWarnings("JpaQlInspection")
+    public boolean deleteContact(int id) {
         boolean result = false;
         Session session = null;
         Transaction transaction = null;
+        Contact contact = null;
+        String hql = "update Contact set isDelete = :isDelete where id = :id";
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            Contact contact = (Contact) session.get(Contact.class, id);
-            if (contact != null){
-                session.delete(contact);
-                result = true;
-            }
+            Query query = session.createQuery(hql);
+            query.setBoolean("isDelete", true);
+            query.setInteger("id", id);
+            query.executeUpdate();
             transaction.commit();
         }
         finally {
@@ -71,21 +69,19 @@ public class ContactDAOImpl implements ContactDAO {
         return result;
     }
 
-    public Contact readContact(int id){
+    public Contact readContact(int id) {
         Contact contact = null;
         Session session = null;
         try {
             session = factory.openSession();
             contact = (Contact) session.get(Contact.class, id);
-        }
-        finally {
+        } finally {
             if (session != null && session.isOpen()) {
                 session.close();
             }
         }
         return contact;
     }
-
 
     public List<Contact> readAllContacts() {
         List<Contact> contacts = null;
@@ -94,8 +90,7 @@ public class ContactDAOImpl implements ContactDAO {
             session = factory.openSession();
             Criteria criteria = session.createCriteria(Contact.class);
             contacts = criteria.list();
-        }
-        finally {
+        } finally {
             if (session != null && session.isOpen()) {
                 session.close();
             }
@@ -103,8 +98,8 @@ public class ContactDAOImpl implements ContactDAO {
         return contacts;
     }
 
-    public void updateContact(Contact contact){
-        if (contact == null){
+    public void updateContact(Contact contact) {
+        if (contact == null) {
             throw new NullPointerException("contact is null");
         }
 
@@ -115,9 +110,8 @@ public class ContactDAOImpl implements ContactDAO {
             transaction = session.beginTransaction();
             session.update(contact);
             transaction.commit();
-        }
-        finally {
-            if (transaction != null && transaction.isActive()){
+        } finally {
+            if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
             if (session != null && session.isOpen()) {

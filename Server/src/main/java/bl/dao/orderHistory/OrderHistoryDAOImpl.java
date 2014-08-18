@@ -45,32 +45,6 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO {
         return id;
     }
 
-    public boolean deleteOrderHistory(int id) {
-        boolean result = false;
-        Session session = null;
-        Transaction transaction = null;
-        OrderHistory orderHistory = null;
-        try {
-            session = factory.openSession();
-            transaction = session.beginTransaction();
-            orderHistory = (OrderHistory) session.get(OrderHistory.class, id);
-            if (orderHistory != null){
-                session.delete(orderHistory);
-                result = true;
-            }
-            transaction.commit();
-        }
-        finally {
-            if (transaction != null && transaction.isActive()){
-                transaction.rollback();
-            }
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return result;
-    }
-
     public OrderHistory readOrderHistory(int id) {
         OrderHistory orderHistory = null;
         Session session = null;

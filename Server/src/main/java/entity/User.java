@@ -27,6 +27,9 @@ public class User {
     @Column(nullable = false, length = 30)
     private String password;
 
+    @Column(name = "is_delete", nullable = false)
+    private Boolean isDelete;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderHistory> orderHistory;
 
@@ -45,6 +48,7 @@ public class User {
         listHandlerManager = new ArrayList<Order>();
         listReceiveManager = new ArrayList<Order>();
         listDeliveryManager = new ArrayList<Order>();
+        isDelete = false;
     }
 
     public String getPassword() {
@@ -117,5 +121,13 @@ public class User {
 
     public void setListDeliveryManager(List<Order> listDeliveryManager) {
         this.listDeliveryManager = listDeliveryManager;
+    }
+
+    public Boolean getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
     }
 }

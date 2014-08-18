@@ -1,12 +1,9 @@
 package bl.dao.user;
 
 import entity.User;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
+import org.hibernate.Query;
 import org.hibernate.cfg.Configuration;
-
 import java.util.List;
 
 /**
@@ -48,19 +45,20 @@ public class UserDAOImpl implements UserDAO {
         return id;
     }
 
+    @SuppressWarnings("JpaQlInspection")
     public boolean deleteUser(int id){
         boolean result = false;
         Session session = null;
         Transaction transaction = null;
         User user = null;
+        String hql = "update User set isDelete = :isDelete where id = :id";
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            user = (User) session.get(User.class, id);
-            if (user != null){
-                session.delete(user);
-                result = true;
-            }
+            Query query = session.createQuery(hql);
+            query.setBoolean("isDelete", true);
+            query.setInteger("id", id);
+            query.executeUpdate();
             transaction.commit();
         }
         finally {
@@ -88,7 +86,6 @@ public class UserDAOImpl implements UserDAO {
         }
         return user;
     }
-
 
     public List<User> readAllUsers() {
         List<User> users = null;

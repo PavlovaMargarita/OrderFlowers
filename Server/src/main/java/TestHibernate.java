@@ -1,4 +1,8 @@
+import bl.dao.contact.ContactDAOImpl;
+import bl.dao.user.UserDAOImpl;
+import bl.enums.RoleEnum;
 import entity.Contact;
+import entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -15,17 +19,24 @@ public class TestHibernate {
 //        Contact contact = new Contact();
 //        contact.setName("Margarita");
 //        contact.setSurname("Pavlova");
+//        ContactDAOImpl.getInstance().createContact(contact);
 
 //        phone.setOwner(contact);
 //Hello
-        SessionFactory factory = new Configuration().configure().buildSessionFactory();
-        Session session = factory.openSession();
-        session.beginTransaction();
-        Contact contact = (Contact)session.get(Contact.class, 1);
-        session.delete(contact);
+//        User user = new User();
+//        user.setId(1);
+//        user.setLogin("login");
+//        user.setPassword("pass");
+//        user.setContact(contact);
+//        user.setRole(RoleEnum.ADMIN);
+//        user.setIsDelete(false);
+
+
+        ContactDAOImpl.getInstance().deleteContact(1);
+
 //        session.update(contact);
 //        session.save(contact);
 //        session.save(phone);
-        session.getTransaction().commit();
+
     }
 }
