@@ -12,7 +12,7 @@ import java.util.List;
 public class PhoneTest {
     @Test
     @BeforeClass
-    public void testReadWritePhone(){
+    public void testReadCreatePhone(){
         Contact contact = new Contact();
         contact.setSurname("Иванов");
         contact.setName("Иван");
@@ -67,7 +67,7 @@ public class PhoneTest {
         ContactDAOImpl.getInstance().createContact(contact);
         PhoneDAOImpl.getInstance().createPhone(phone);
         PhoneDAOImpl.getInstance().deletePhone(phone.getId());
-        Assert.assertEquals("Phone is not deleted", 0, PhoneDAOImpl.getInstance().readAllPhones(contact).size());
+        Assert.assertEquals("Phone is not deleted", null, PhoneDAOImpl.getInstance().readPhone(phone.getId()));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class PhoneTest {
         phone.setPhoneType(PhoneTypeEnum.MOBILE);
         ContactDAOImpl.getInstance().createContact(contact);
         PhoneDAOImpl.getInstance().createPhone(phone);
-        phone.setCountryCode((short)123);
+        phone.setCountryCode((short) 123);
         PhoneDAOImpl.getInstance().updatePhone(phone);
 
         List<Phone> phoneList = PhoneDAOImpl.getInstance().readAllPhones(contact);

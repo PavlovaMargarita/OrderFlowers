@@ -1,10 +1,12 @@
 package bl.dao.order;
 
+import entity.Contact;
 import entity.Order;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import entity.Phone;
+import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
+
+import java.util.List;
 
 /**
  * Created by Margarita on 14.08.2014.
@@ -77,5 +79,41 @@ public class OrderDAOImpl implements OrderDAO {
                 session.close();
             }
         }
+    }
+
+    @Override
+    public List<Order> readAllOrders() {
+        Session session = null;
+        List<Order> result = null;
+        try {
+            session = factory.openSession();
+            Criteria criteria = session.createCriteria(Order.class);
+            result = criteria.list();
+        }
+        finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<Order> readAllOrder(Contact contact) {
+        List<Order> result = null;
+        Session session = null;
+
+        try {
+            session = factory.openSession();
+            Query query = session.createQuery("from Order where customer = :customer");
+            query.setParameter("customer", contact);
+            result = query.list();
+        }
+        finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return result;
     }
 }

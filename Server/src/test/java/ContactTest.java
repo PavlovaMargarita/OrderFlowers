@@ -13,7 +13,7 @@ import java.util.List;
 public class ContactTest {
     @Test
     @BeforeClass
-    public void  testReadWriteContact(){
+    public void testReadCreateContact(){
         Contact contact1 = new Contact();
         contact1.setSurname("Иванов");
         contact1.setName("Иван");
@@ -78,7 +78,7 @@ public class ContactTest {
         contact.setHome(2);
         ContactDAOImpl.getInstance().createContact(contact);
         ContactDAOImpl.getInstance().deleteContact(contact.getId());
-        Assert.assertEquals("Contact is not deleted", 0, ContactDAOImpl.getInstance().readAllContacts().size());
+        Assert.assertEquals("Contact is not deleted", new Boolean(true), ContactDAOImpl.getInstance().readContact(contact.getId()).getIsDelete());
     }
 
     @Test

@@ -1,10 +1,15 @@
 package bl.dao.orderHistory;
 
+import entity.Order;
 import entity.OrderHistory;
+import entity.Phone;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+
+import java.util.List;
 
 /**
  * Created by Александр on 14.08.2014.
@@ -80,5 +85,24 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO {
                 session.close();
             }
         }
+    }
+
+    @Override
+    public List readOrderHistory(Order order) {
+        List<OrderHistory> result = null;
+        Session session = null;
+
+        try {
+            session = factory.openSession();
+            Query query = session.createQuery("from OrderHistory where order = :order");
+            query.setParameter("order", order);
+            result = query.list();
+        }
+        finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return result;
     }
 }

@@ -111,21 +111,21 @@ public class PhoneDAOImpl implements PhoneDAO {
 
     @Override
     public List readAllPhones(Contact contact) {
-        List<Phone> phones = null;
+        List<Phone> result = null;
         Session session = null;
 
         try {
             session = factory.openSession();
             Query query = session.createQuery("from Phone where owner = :owner");
             query.setParameter("owner", contact);
-            phones = query.list();
+            result = query.list();
         }
         finally {
             if (session != null && session.isOpen()) {
                 session.close();
             }
         }
-        return phones;
+        return result;
     }
 
 }

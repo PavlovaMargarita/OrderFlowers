@@ -96,7 +96,7 @@ public class UserDAOImpl implements UserDAO {
 
         try {
             session = factory.openSession();
-            Query query = session.createQuery("from Contact where isDelete = :isDelete");
+            Query query = session.createQuery("from User where isDelete = :isDelete");
             query.setBoolean("isDelete", false);
             users = query.list();
         }
