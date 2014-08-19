@@ -3,7 +3,7 @@
  */
 public class MainTest {
     public static void main(String[] args) {
-        ContactTest contactTest = new ContactTest();
-        contactTest.testUpdateContact();
+        PhoneTest phoneTest = new PhoneTest();
+        phoneTest.testUpdateContact();
     }
 }

@@ -1,6 +1,9 @@
 package bl.dao.phone;
 
+import entity.Contact;
 import entity.Phone;
+
+import java.util.List;
 
 
 public interface PhoneDAO {
@@ -8,4 +11,6 @@ public interface PhoneDAO {
     public boolean deletePhone(int id); //if the phone is deleted, the method returns true, otherwise false
     public Phone readPhone(int id); //if the phone is not found, returns null
     public void updatePhone(Phone phone);
+    public List readAllPhones(Contact contact);
+
 }

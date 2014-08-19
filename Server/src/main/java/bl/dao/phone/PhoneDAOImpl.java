@@ -1,10 +1,14 @@
 package bl.dao.phone;
 
+import entity.Contact;
 import entity.Phone;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+
+import java.util.List;
 
 
 public class PhoneDAOImpl implements PhoneDAO {
@@ -104,4 +108,24 @@ public class PhoneDAOImpl implements PhoneDAO {
             }
         }
     }
+
+    @Override
+    public List readAllPhones(Contact contact) {
+        List<Phone> phones = null;
+        Session session = null;
+
+        try {
+            session = factory.openSession();
+            Query query = session.createQuery("from Phone where owner = :owner");
+            query.setParameter("owner", contact);
+            phones = query.list();
+        }
+        finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return phones;
+    }
+
 }
