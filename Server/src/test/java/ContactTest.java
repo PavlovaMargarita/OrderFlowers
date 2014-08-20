@@ -43,7 +43,6 @@ public class ContactTest {
             Assert.assertEquals("Surname is not equals", contact1.getSurname(), contactList.get(0).getSurname());
             Assert.assertEquals("Name is not equals", contact1.getName(), contactList.get(0).getName());
             Assert.assertEquals("Patronymic is not equals", contact1.getPatronymic(), contactList.get(0).getPatronymic());
-            //---не придумала, как по-другому сравнить
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String date1 = dateFormat.format(contact1.getDateOfBirth());
             Assert.assertEquals("Date of birth is not equals", date1, contactList.get(0).getDateOfBirth().toString());
@@ -52,7 +51,6 @@ public class ContactTest {
             Assert.assertEquals("Surname is not equals", contact2.getSurname(), contactList.get(1).getSurname());
             Assert.assertEquals("Name is not equals", contact2.getName(), contactList.get(1).getName());
             Assert.assertEquals("Patronymic is not equals", contact2.getPatronymic(), contactList.get(1).getPatronymic());
-            //---не придумала, как по-другому сравнить
             String date2 = dateFormat.format(contact2.getDateOfBirth());
             Assert.assertEquals("Date of birth is not equals", date1, contactList.get(1).getDateOfBirth().toString());
             Assert.assertEquals("Home of birth is not equals", contact2.getHome(), contactList.get(1).getHome());

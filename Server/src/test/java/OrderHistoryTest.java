@@ -16,9 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created by Margarita on 19.08.2014.
- */
 public class OrderHistoryTest {
     public void testReadCreteOrderHistory(){
         Contact contact = new Contact();
