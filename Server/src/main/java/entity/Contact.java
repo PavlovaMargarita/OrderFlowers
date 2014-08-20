@@ -22,7 +22,6 @@ public class Contact {
     private String patronymic;
 
     @Column(nullable = true)
-    @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
     @Column(nullable = true, length = 50)
