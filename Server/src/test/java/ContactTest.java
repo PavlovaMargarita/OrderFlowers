@@ -4,10 +4,10 @@ import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class ContactTest {
@@ -22,7 +22,7 @@ public class ContactTest {
         calendar1.set(Calendar.DATE, 13);
         calendar1.set(Calendar.MONTH, 9);
         calendar1.set(Calendar.YEAR, 2013);
-        Date dateOfBirth1 = calendar1.getTime();
+        Date dateOfBirth1 = new Date(calendar1.getTime().getTime());
         contact1.setDateOfBirth(dateOfBirth1);
         contact1.setHome(2);
         Contact contact2 = new Contact();
@@ -33,7 +33,7 @@ public class ContactTest {
         calendar2.set(Calendar.MONTH, 6);
         calendar2.set(Calendar.DATE, 7);
         calendar2.set(Calendar.YEAR, 2010);
-        Date dateOfBirth2 = calendar1.getTime();
+        Date dateOfBirth2 = new Date(calendar1.getTime().getTime());
         contact2.setDateOfBirth(dateOfBirth2);
         contact2.setHome(17);
         ContactDAOImpl.getInstance().createContact(contact1);
@@ -73,7 +73,7 @@ public class ContactTest {
         calendar.set(Calendar.DATE, 13);
         calendar.set(Calendar.MONTH, 9);
         calendar.set(Calendar.YEAR, 2013);
-        Date dateOfBirth1 = calendar.getTime();
+        Date dateOfBirth1 = new Date(calendar.getTime().getTime());
         contact.setDateOfBirth(dateOfBirth1);
         contact.setHome(2);
         ContactDAOImpl.getInstance().createContact(contact);
@@ -92,7 +92,7 @@ public class ContactTest {
         calendar.set(Calendar.DATE, 13);
         calendar.set(Calendar.MONTH, 9);
         calendar.set(Calendar.YEAR, 2013);
-        Date dateOfBirth = calendar.getTime();
+        Date dateOfBirth = new Date(calendar.getTime().getTime());
         contact.setDateOfBirth(dateOfBirth);
         contact.setHome(2);
         ContactDAOImpl.getInstance().createContact(contact);
@@ -100,7 +100,7 @@ public class ContactTest {
         calendar.set(Calendar.DATE, 13);
         calendar.set(Calendar.MONTH, 2);
         calendar.set(Calendar.YEAR, 2013);
-        dateOfBirth = calendar.getTime();
+        dateOfBirth = new Date(calendar.getTime().getTime());
         contact.setDateOfBirth(dateOfBirth);
         ContactDAOImpl.getInstance().updateContact(contact);
         List<Contact> contactList = ContactDAOImpl.getInstance().readAllContacts();

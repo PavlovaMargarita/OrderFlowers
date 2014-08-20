@@ -7,8 +7,8 @@ import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.sql.Date;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class UserTest {
@@ -65,7 +65,7 @@ public class UserTest {
         calendar.set(Calendar.DATE, 13);
         calendar.set(Calendar.MONTH, 9);
         calendar.set(Calendar.YEAR, 2013);
-        Date dateOfBirth1 = calendar.getTime();
+        Date dateOfBirth1 = new Date(calendar.getTime().getTime());
         contact.setDateOfBirth(dateOfBirth1);
         contact.setHome(2);
         ContactDAOImpl.getInstance().createContact(contact);
@@ -91,7 +91,7 @@ public class UserTest {
         calendar.set(Calendar.DATE, 13);
         calendar.set(Calendar.MONTH, 9);
         calendar.set(Calendar.YEAR, 2013);
-        Date dateOfBirth1 = calendar.getTime();
+        Date dateOfBirth1 = new Date(calendar.getTime().getTime());
         contact.setDateOfBirth(dateOfBirth1);
         contact.setHome(2);
         ContactDAOImpl.getInstance().createContact(contact);

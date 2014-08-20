@@ -10,11 +10,11 @@ import entity.OrderHistory;
 import entity.User;
 import junit.framework.Assert;
 
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Margarita on 19.08.2014.
@@ -49,7 +49,7 @@ public class OrderHistoryTest {
         calendar.set(Calendar.MONTH, 6);
         calendar.set(Calendar.DATE, 7);
         calendar.set(Calendar.YEAR, 2010);
-        Date date1 = calendar.getTime();
+        Date date1 = new Date(calendar.getTime().getTime());
         orderHistory1.setChangeDate(date1);
         orderHistory1.setOrder(order);
         orderHistory1.setUser(user);
@@ -60,7 +60,7 @@ public class OrderHistoryTest {
         calendar.set(Calendar.MONTH, 10);
         calendar.set(Calendar.DATE, 15);
         calendar.set(Calendar.YEAR, 2011);
-        Date date2 = calendar.getTime();
+        Date date2 = new Date(calendar.getTime().getTime());
         orderHistory2.setChangeDate(date2);
         orderHistory2.setOrder(order);
         orderHistory2.setUser(user);
@@ -118,7 +118,7 @@ public class OrderHistoryTest {
         calendar.set(Calendar.MONTH, 6);
         calendar.set(Calendar.DATE, 7);
         calendar.set(Calendar.YEAR, 2010);
-        Date date1 = calendar.getTime();
+        Date date1 = new Date(calendar.getTime().getTime());
         orderHistory.setChangeDate(date1);
         orderHistory.setOrder(order);
         orderHistory.setUser(user);
