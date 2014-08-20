@@ -89,6 +89,28 @@ public class UserDAOImpl implements UserDAO {
         }
         return user;
     }
+    
+    
+    public User readUser(String login, String password){
+        User user = null;
+        Session session = null;
+        try {
+            session = factory.openSession();
+            Query query = session.createQuery("from User where login = :login AND password = :password");
+            query.setString("login", login);
+            query.setString("password", password);
+            List<User> temp = query.list();
+            if (temp.size() != 0){
+                user = temp.get(0);
+            }
+        }
+        finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return user;
+    }
 
     public List<User> readAllUsers() {
         List<User> users = null;
