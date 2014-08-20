@@ -26,7 +26,6 @@ public class OrderHistory {
     private Order order;
 	
 	@Column(name = "change_date", nullable = false)
-    @Temporal(TemporalType.DATE)
 	private Date changeDate;
 
     @Column(nullable = true, length = 255)
