@@ -130,4 +130,40 @@ public class User {
     public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (!contact.equals(user.contact)) return false;
+        if (!id.equals(user.id)) return false;
+        if (!isDelete.equals(user.isDelete)) return false;
+        if (!listDeliveryManager.equals(user.listDeliveryManager)) return false;
+        if (!listHandlerManager.equals(user.listHandlerManager)) return false;
+        if (!listReceiveManager.equals(user.listReceiveManager)) return false;
+        if (!login.equals(user.login)) return false;
+        if (!orderHistory.equals(user.orderHistory)) return false;
+        if (!password.equals(user.password)) return false;
+        if (role != user.role) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + contact.hashCode();
+        result = 31 * result + role.hashCode();
+        result = 31 * result + login.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + isDelete.hashCode();
+        result = 31 * result + orderHistory.hashCode();
+        result = 31 * result + listHandlerManager.hashCode();
+        result = 31 * result + listReceiveManager.hashCode();
+        result = 31 * result + listDeliveryManager.hashCode();
+        return result;
+    }
 }

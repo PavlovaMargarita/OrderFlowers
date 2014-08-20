@@ -130,4 +130,40 @@ public class Order {
     public void setCustomer(Contact customer) {
         this.customer = customer;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Order order = (Order) o;
+
+        if (!customer.equals(order.customer)) return false;
+        if (!deliveryManager.equals(order.deliveryManager)) return false;
+        if (!handlerManager.equals(order.handlerManager)) return false;
+        if (!id.equals(order.id)) return false;
+        if (!orderDescription.equals(order.orderDescription)) return false;
+        if (!orderHistory.equals(order.orderHistory)) return false;
+        if (!receiveManager.equals(order.receiveManager)) return false;
+        if (!recipient.equals(order.recipient)) return false;
+        if (status != order.status) return false;
+        if (!sum.equals(order.sum)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + status.hashCode();
+        result = 31 * result + customer.hashCode();
+        result = 31 * result + orderDescription.hashCode();
+        result = 31 * result + sum.hashCode();
+        result = 31 * result + handlerManager.hashCode();
+        result = 31 * result + receiveManager.hashCode();
+        result = 31 * result + deliveryManager.hashCode();
+        result = 31 * result + recipient.hashCode();
+        result = 31 * result + orderHistory.hashCode();
+        return result;
+    }
 }

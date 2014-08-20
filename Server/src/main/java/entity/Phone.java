@@ -89,4 +89,34 @@ public class Phone {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Phone phone = (Phone) o;
+
+        if (!comment.equals(phone.comment)) return false;
+        if (!countryCode.equals(phone.countryCode)) return false;
+        if (!id.equals(phone.id)) return false;
+        if (!operatorCode.equals(phone.operatorCode)) return false;
+        if (!owner.equals(phone.owner)) return false;
+        if (!phoneNumber.equals(phone.phoneNumber)) return false;
+        if (phoneType != phone.phoneType) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + owner.hashCode();
+        result = 31 * result + countryCode.hashCode();
+        result = 31 * result + operatorCode.hashCode();
+        result = 31 * result + phoneNumber.hashCode();
+        result = 31 * result + phoneType.hashCode();
+        result = 31 * result + comment.hashCode();
+        return result;
+    }
 }

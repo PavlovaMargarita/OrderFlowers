@@ -82,4 +82,32 @@ public class OrderHistory {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OrderHistory that = (OrderHistory) o;
+
+        if (!changeDate.equals(that.changeDate)) return false;
+        if (!comment.equals(that.comment)) return false;
+        if (!id.equals(that.id)) return false;
+        if (!order.equals(that.order)) return false;
+        if (status != that.status) return false;
+        if (!user.equals(that.user)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + user.hashCode();
+        result = 31 * result + status.hashCode();
+        result = 31 * result + order.hashCode();
+        result = 31 * result + changeDate.hashCode();
+        result = 31 * result + comment.hashCode();
+        return result;
+    }
 }
