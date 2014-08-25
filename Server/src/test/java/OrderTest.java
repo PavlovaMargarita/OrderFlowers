@@ -1,11 +1,11 @@
-import bl.dao.contact.ContactDAOImpl;
-import bl.dao.order.OrderDAOImpl;
-import bl.dao.user.UserDAOImpl;
-import bl.enums.OrderStatusEnum;
-import bl.enums.RoleEnum;
-import entity.Contact;
-import entity.Order;
-import entity.User;
+import com.itechart.cources.bl.dao.contact.ContactDAOImpl;
+import com.itechart.cources.bl.dao.order.OrderDAOImpl;
+import com.itechart.cources.bl.dao.user.UserDAOImpl;
+import com.itechart.cources.bl.enums.OrderStatusEnum;
+import com.itechart.cources.bl.enums.RoleEnum;
+import com.itechart.cources.entity.Contact;
+import com.itechart.cources.entity.Order;
+import com.itechart.cources.entity.User;
 import junit.framework.Assert;
 
 import java.util.*;

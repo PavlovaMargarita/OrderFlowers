@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+    </head>
+
+    <body ng-app="myapp">
+        <div ng-controller="MyController">
+            Login: <input type="text" id="login"/>
+            Password: <input type="text" id="password">
+            <button ng-click="myData.doClick(item, $event)">Enter</button>
+            {{myData.a}}
+        </div>
+        <script>
+            angular.module("myapp", [])
+                .controller("MyController", function($scope, $http) {
+                    $scope.myData = {};
+                    $scope.myData.doClick = function(item, event) {
+                        var response = $http({
+                            method: "post",
+                            url: "http://localhost:8085/OrderFlowers/autorize",
+                            data: {
+                                login: "log",
+                                password: "pass"
+                            }
+                        });
+                        response.success(function(data)
+                        {
+                            $scope.myData.a = response.data;
+                        });
+                    }
+                });
+        </script>
+
+    </body>
+
+</html>

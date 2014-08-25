@@ -1,8 +1,8 @@
-import bl.dao.contact.ContactDAOImpl;
-import bl.dao.user.UserDAOImpl;
-import bl.enums.RoleEnum;
-import entity.Contact;
-import entity.User;
+import com.itechart.cources.bl.dao.contact.ContactDAOImpl;
+import com.itechart.cources.bl.dao.user.UserDAOImpl;
+import com.itechart.cources.bl.enums.RoleEnum;
+import com.itechart.cources.entity.Contact;
+import com.itechart.cources.entity.User;
 import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
