@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+        <div class="order-list">
+            <div class="btn-toolbar">
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-order-search">Поиск</button>
+                </div>
+
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-success">Добавить</button>
+                    <button type="button" class="btn btn-danger">Удалить</button>
+                </div>
+            </div>
+
+            <table class="table table-hover">
+                <thead>
+                <tr class="info">
+                    <th>&nbsp;</th>
+                    <th>Дата заказа</th>
+                    <th>Фамилия заказчика</th>
+                    <th>Фамилия получателя</th>
+                    <th>Редактировать</th>
+                </tr>
+                </thead>
+
+                <tr>
+                    <td><input type="checkbox"/></td>
+                    <td>2014-08-02</td>
+                    <td>Петров</td>
+                    <td>Сидоров</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox"/></td>
+                    <td>2014-08-02</td>
+                    <td>Сидоров</td>
+                    <td>Пирожков</td>
+                    <td></td>
+                </tr>
+            </table>
+
+            <!--постраничная навигация-->
+            <div class="page-menu">
+                <ul class="pagination">
+                    <li class="disabled"><a href="#">&laquo;</a></li>
+                    <li class="active"><a href="#">1<span class="sr-only">(current)</span></a></li>
+                    <li class="disabled"><a href="#">2</a></li>
+                    <li class="disabled"><a href="#">&raquo</a></li>
+                </ul>
+            </div>
+
+            <!--popup окно поиска заказа-->
+            <div class="modal fade" id="modal-order-search" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Закрыть</span></button>
+                            <h4 class="modal-title">Пользователь</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="box" id="customer-and-receiver">
+                                <h4>Отправитель и получатель</h4>
+                                <hr>
+                                <div class="form-group">
+                                    <label>Фамилия отправителя</label>
+                                    <input type="text" class="form-control" name="customer-surname" id="customer-surname">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Фамилия получателя</label>
+                                    <input type="text" class="form-control" name="receiver-surname" id="receiver-surname">
+                                </div>
+                            </div>
+
+                            <div class="box" id="order-date-range">
+                                <h4>Диапазон даты заказа</h4>
+                                <hr>
+                                <div class="form-group">
+                                    <label>От</label>
+                                    <input type="date" class="form-control" name="order-date-lower-range" id="order-date-lower-range">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>До</label>
+                                    <input type="date" class="form-control" name="order-date-upper-range" id="order-date-upper-range">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                            <button type="button" class="btn btn-info">Поиск</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

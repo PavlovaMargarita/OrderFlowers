@@ -1,0 +1,28 @@
+body {
+    background: url(../images/background-authorization.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.container {
+    margin-top: 15%;
+    width: 400px;
+    padding: 30px;
+    background-color: white;
+    -moz-border-radius: 10pt;
+    -webkit-border-radius: 10pt;
+    border-radius: 10pt;
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.form-control {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-info {
+    float: right;
+}
