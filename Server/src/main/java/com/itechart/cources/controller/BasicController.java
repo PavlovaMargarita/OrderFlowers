@@ -1,9 +1,11 @@
 package com.itechart.cources.controller;
 
 import com.google.gson.Gson;
+import com.itechart.cources.bl.service.authorization.Authorization;
 import com.itechart.cources.entity.User;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,18 +17,14 @@ import javax.ws.rs.core.MediaType;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-/**
- * Created by Александр on 21.08.2014.
- */
+
+
 
 @Controller
 @RequestMapping("/OrderFlowers")
 public class BasicController {
-
-    @RequestMapping(method = RequestMethod.GET, value = "/hello")
-    public @ResponseBody String helloWorld() {
-        return "HelloWorld";
-    }
+    @Autowired
+    private Authorization authorizationService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public String indexPage() {
@@ -35,8 +33,11 @@ public class BasicController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/authorize")
     @Consumes(MediaType.APPLICATION_JSON)
-    public @ResponseBody String authorization(HttpServletRequest request) {
-        StringBuilder builder = new StringBuilder();
+    public @ResponseBody String authorization(HttpServletRequest request) throws IOException, JSONException{
+        JSONObject jsonObject = fromJson(request);
+        User user = authorizationService.execute(jsonObject.getString("login"), jsonObject.getString("password"));
+
+        /*StringBuilder builder = new StringBuilder();
         try {
             BufferedReader reader = request.getReader();
             String line = null;
@@ -62,7 +63,27 @@ public class BasicController {
         user.setLogin(login);
         Gson gson = new Gson();
         String json = gson.toJson(user);
-        return json;
+        return json;*/
+        return toJson(user);
+    }
 
+
+
+    //преобразование json-строки в объект, который хранит пришедшие параметры
+    private JSONObject fromJson(HttpServletRequest request) throws IOException, JSONException{
+        StringBuilder builder = new StringBuilder();
+        BufferedReader reader = request.getReader();
+        String line = null;
+        while ((line = reader.readLine()) != null){
+            builder.append(line);
+        }
+        reader.close();
+        return new JSONObject(builder.toString());
+    }
+
+    //преобразование объекта в json-строку
+    private String toJson(Object object){
+        Gson gson = new Gson();
+        return gson.toJson(object);
     }
 }
