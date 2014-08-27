@@ -23,6 +23,7 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/OrderFlowers")
 public class BasicController {
+    //вроде надо файлик, чтобы указать, где лежат сервисы (лекция, архив java 2014)
     @Autowired
     private Authorization authorizationService;
 
