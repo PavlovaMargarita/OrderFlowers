@@ -1,11 +1,11 @@
-import com.itechart.cources.bl.dao.contact.ContactDAOImpl;
-import com.itechart.cources.bl.dao.order.OrderDAOImpl;
-import com.itechart.cources.bl.dao.user.UserDAOImpl;
-import com.itechart.cources.bl.enums.OrderStatusEnum;
-import com.itechart.cources.bl.enums.RoleEnum;
-import com.itechart.cources.entity.Contact;
-import com.itechart.cources.entity.Order;
-import com.itechart.cources.entity.User;
+import com.itechart.courses.bl.dao.contact.ContactDAOImpl;
+import com.itechart.courses.bl.dao.order.OrderDAOImpl;
+import com.itechart.courses.bl.dao.user.UserDAOImpl;
+import com.itechart.courses.bl.enums.OrderStatusEnum;
+import com.itechart.courses.bl.enums.RoleEnum;
+import com.itechart.courses.entity.Contact;
+import com.itechart.courses.entity.Order;
+import com.itechart.courses.entity.User;
 import junit.framework.Assert;
 
 import java.util.*;

@@ -1,8 +1,8 @@
-import com.itechart.cources.bl.dao.contact.ContactDAOImpl;
-import com.itechart.cources.bl.dao.phone.PhoneDAOImpl;
-import com.itechart.cources.bl.enums.PhoneTypeEnum;
-import com.itechart.cources.entity.Contact;
-import com.itechart.cources.entity.Phone;
+import com.itechart.courses.bl.dao.contact.ContactDAOImpl;
+import com.itechart.courses.bl.dao.phone.PhoneDAOImpl;
+import com.itechart.courses.bl.enums.PhoneTypeEnum;
+import com.itechart.courses.entity.Contact;
+import com.itechart.courses.entity.Phone;
 import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

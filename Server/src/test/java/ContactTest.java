@@ -1,5 +1,5 @@
-import com.itechart.cources.bl.dao.contact.ContactDAOImpl;
-import com.itechart.cources.entity.Contact;
+import com.itechart.courses.bl.dao.contact.ContactDAOImpl;
+import com.itechart.courses.entity.Contact;
 import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
