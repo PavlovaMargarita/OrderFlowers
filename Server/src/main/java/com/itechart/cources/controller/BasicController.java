@@ -1,5 +1,6 @@
 package com.itechart.cources.controller;
 
+import com.google.gson.Gson;
 import com.itechart.cources.entity.User;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,7 +58,11 @@ public class BasicController {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return login + " " + password;
+        User user = new User();
+        user.setLogin(login);
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        return json;
 
     }
 }
