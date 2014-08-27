@@ -17,7 +17,7 @@
                     $scope.myData.doClick = function(item, event) {
                         var response = $http({
                             method: "post",
-                            url: "http://localhost:8085/OrderFlowers/autorize",
+                            url: "/OrderFlowers/authorize",
                             data: {
                                 login: "log",
                                 password: "pass"
