@@ -14,8 +14,8 @@ public class AuthorizationImpl implements Authorization {
 
     @Override
     public UserDTO execute(String login, String password) {
-        User user = UserDAOImpl.getInstance().readUser(login, password);
         UserDTO userDTO = null;
+        User user = UserDAOImpl.getInstance().readUser(login, password);
         if (user != null){
             userDTO = new UserDTO();
             userDTO.setRole(user.getRole());
