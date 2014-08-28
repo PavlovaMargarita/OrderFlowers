@@ -10,14 +10,15 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+        <script type="text/javascript" src="script/authorization.js"></script>
     </head>
 
     <body>
-        <form name="authorization" id="authorization">
-            <div class="container">
+        <form name="authorization" id="authorization" ng-app="OrderFlowers">
+            <div class="container" ng-controller="AuthorizationController">
                 <input class="form-control" placeholder="Ваш логин" name="login" id="login"/>
                 <input type="password" class="form-control" placeholder="Ваш пароль" name="password" id="password"/>
-                <button type="button" class="btn btn-info">Войти</button>
+                <button type="button" class="btn btn-info" ng-click="authorization.doClick(item, $event)">Войти</button>
             </div>
         </form>
     </body>
