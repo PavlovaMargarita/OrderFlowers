@@ -15,28 +15,26 @@
 }
 
 .contact, .contact-list, .order-list, .user-list {
-    padding-left:  10%;
-    padding-right: 10%;
-    margin-top: 40pt;
-    margin-bottom: 40pt;
     min-width: 800px;
     max-width: 1366px;
+    padding-left:  10%;
+    padding-right: 10%;
 }
 
-.contact .contact-information {
+.contact .contact-information, .user, .contact-search, .order-search {
     margin: 0 auto;
     width: 400pt;
     text-align: center;
 }
 
-.contact .input-group {
+.contact .input-group, .user .input-group, .contact-search .input-group, .order-search .input-group {
     width: 100%;
     margin-top: 10pt;
     margin-bottom: 10pt;
 }
 
-.contact .input-group-addon {
-    width: 135pt;
+.contact .input-group-addon, .user .input-group-addon, .contact-search .input-group-addon, .order-search .input-group-addon {
+    width: 140pt;
     color: white;
     font-weight: bold;
     background-image: -webkit-linear-gradient(top,#5bc0de 0,#2aabd2 100%);
@@ -63,10 +61,4 @@
     background-image: -webkit-gradient(linear,left top,left bottom,from(#5bc0de),to(#2aabd2));
     background-image: linear-gradient(to bottom,#5bc0de 0,#2aabd2 100%);
     border-color: #28a4c9;
-}
-
-.modal-body h4 {
-    color: #2aabd2;
-    font-weight: bold;
-    text-align: right;
 }

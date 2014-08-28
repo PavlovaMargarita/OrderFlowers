@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+        <div class="user">
+            <div class="box">
+                <div class="input-group">
+                    <span class="input-group-addon">Контакт</span>
+                    <select class="form-control" name="contact" id="contact">
+                        <option>Иванов Александр Сергеевич</option>
+                        <option>Петров Петр Петрович</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon">Роль</span>
+                    <select class="form-control" name="role" id="role">
+                        <option>Менеджер службы доставки</option>
+                        <option>Обработчик заказов</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon">Логин</span>
+                    <input type="text" class="form-control" name="login" id="login">
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon">Пароль</span>
+                    <input type="text" class="form-control" name="password" id="password">
+                </div>
+            </div>
+
+            <button class="btn btn-info" id="create-edit-user-button">Создать</button>
+        </div>
+    </body>
+</html>

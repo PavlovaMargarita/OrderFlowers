@@ -13,8 +13,8 @@
         <div class="user-list">
             <div class="btn-toolbar">
                 <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-user">Добавить</button>
-                    <button type="button" class="btn btn-danger">Удалить</button>
+                    <button class="btn btn-success">Добавить</button>
+                    <button class="btn btn-danger">Удалить</button>
                 </div>
             </div>
 
@@ -50,51 +50,6 @@
                     <li class="disabled"><a href="#">2</a></li>
                     <li class="disabled"><a href="#">&raquo</a></li>
                 </ul>
-            </div>
-
-            <!--popup окно создания и редактирования пользователя-->
-            <div class="modal fade" id="modal-user" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Закрыть</span></button>
-                            <h4 class="modal-title">Пользователь</h4>
-                        </div>
-
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Контакт</label>
-                                <select class="form-control" name="contact-id" id="contact-id">
-                                    <option>Иванов Александр Сергеевич</option>
-                                    <option>Петров Петр Петрович</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Роль</label>
-                                <select class="form-control" name="contact-role" id="contact-role">
-                                    <option>Менеджер службы доставки</option>
-                                    <option>Обработчик заказов</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Логин</label>
-                                <input type="text" class="form-control" name="user-login" id="user-login"/>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Пароль</label>
-                                <input type="text" class="form-control" name="user-password" id="user-password"/>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                            <button type="button" class="btn btn-info">Создать</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </body>

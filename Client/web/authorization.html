@@ -19,6 +19,7 @@
                 <input class="form-control" placeholder="Ваш логин" name="login" ng-model="login"/>
                 <input type="password" class="form-control" placeholder="Ваш пароль" name="password" ng-model="password"/>
                 <button type="button" class="btn btn-info" ng-click="authorization.doClick(item, $event)">Войти</button>
+                {{authorization.info}}
             </div>
         </form>
     </body>
