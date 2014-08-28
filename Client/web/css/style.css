@@ -1,3 +1,12 @@
+body {
+    background: url("../images/background-authorization.png") repeat;
+}
+
+.content {
+    padding-top: 3%;
+    padding-bottom: 5%;
+}
+
 .box {
     margin-bottom: 40pt;
     width: 100%;
@@ -17,8 +26,8 @@
 .contact, .contact-list, .order-list, .user-list {
     min-width: 800px;
     max-width: 1366px;
-    padding-left:  10%;
-    padding-right: 10%;
+    padding-left:  5%;
+    padding-right: 5%;
 }
 
 .contact .contact-information, .user, .contact-search, .order-search {
@@ -37,11 +46,14 @@
     width: 140pt;
     color: white;
     font-weight: bold;
-    background-image: -webkit-linear-gradient(top,#5bc0de 0,#2aabd2 100%);
-    background-image: -o-linear-gradient(top,#5bc0de 0,#2aabd2 100%);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(#5bc0de),to(#2aabd2));
-    background-image: linear-gradient(to bottom,#5bc0de 0,#2aabd2 100%);
-    border-color: #28a4c9;
+    background-image: -webkit-linear-gradient(top,#d9534f 0,#c12e2a 100%);
+    background-image: -o-linear-gradient(top,#d9534f 0,#c12e2a 100%);
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#d9534f),to(#c12e2a));
+    background-image: linear-gradient(to bottom,#d9534f 0,#c12e2a 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffc12e2a', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    background-repeat: repeat-x;
+    border-color: #b92c28;
 }
 
 .contact .btn-toolbar, .contact-list .btn-toolbar, .order-list .btn-toolbar, .user-list .btn-toolbar{
@@ -61,4 +73,19 @@
     background-image: -webkit-gradient(linear,left top,left bottom,from(#5bc0de),to(#2aabd2));
     background-image: linear-gradient(to bottom,#5bc0de 0,#2aabd2 100%);
     border-color: #28a4c9;
+}
+
+.authorization .container {
+    margin-top: 5%;
+    width: 400px;
+    padding: 30px;
+}
+
+.authorization .form-control {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.authorization .btn-primary {
+    width: 100%;
 }
