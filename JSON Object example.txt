@@ -1,0 +1,137 @@
+
+//---------------- Index.html
+<script>
+            angular.module("myapp", [])
+                .controller("MyController", function($scope, $http) {
+                    $scope.myData = {};
+                    $scope.myData.doClick = function(item, event) {
+                        var book = {title: 'H2G2', description: 'пришло', illustrations: 'false', isbn: '134-234', nbOfPage:'123', price: '24.0'};
+                        $http.defaults.useXDomain = true;
+                        var response = $http({
+                            method: "post",
+                            url: "/OrderFlowers/autorize",
+                            data: JSON.stringify(book),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        response.success(function(data)
+                        {
+                            $scope.myData.a = response.data;
+                        });
+                    }
+                });
+        </script>
+		
+//--------------------------------------------------------------
+//--------- BasicController(method signature)-------------------
+
+    @RequestMapping(method = RequestMethod.POST, value = "/autorize")
+    public @ResponseBody String autorization(@RequestBody Book book) {
+        System.out.println(book);
+
+        return "login + password";
+    }
+
+//----------------- Entity book(для примера)--------------------
+package com.itechart.cources.entity;
+
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@Entity
+@XmlRootElement
+public class Book {
+
+    public static final String FIND_ALL = "Book.findAllBooks";
+
+    public Book() {
+    }
+
+    @Id @GeneratedValue
+    private Long id;
+
+    @Column(nullable = false)
+    private String title;
+
+    private float price;
+
+    @Column(length = 2000)
+    private String description;
+
+    private String isbn;
+
+    private Integer nbOfPage;
+
+    private Boolean illustrations;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public Integer getNbOfPage() {
+        return nbOfPage;
+    }
+
+    public void setNbOfPage(Integer nbOfPage) {
+        this.nbOfPage = nbOfPage;
+    }
+
+    public Boolean getIllustrations() {
+        return illustrations;
+    }
+
+    public void setIllustrations(Boolean illustrations) {
+        this.illustrations = illustrations;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", nbOfPage=" + nbOfPage +
+                ", illustrations=" + illustrations +
+                '}';
+    }
+}
+//---------------------------------------------------------------------------
