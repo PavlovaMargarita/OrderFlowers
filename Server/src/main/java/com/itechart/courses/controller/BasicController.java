@@ -1,8 +1,8 @@
 package com.itechart.courses.controller;
 
 import com.google.gson.Gson;
+import com.itechart.courses.bl.dto.UserDTO;
 import com.itechart.courses.bl.service.authorization.Authorization;
-import com.itechart.courses.entity.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,8 @@ public class BasicController {
     @Consumes(MediaType.APPLICATION_JSON)
     public @ResponseBody String authorization(HttpServletRequest request) throws IOException, JSONException{
         JSONObject jsonObject = fromJson(request);
-        User user = authorization.execute(jsonObject.getString("login"), jsonObject.getString("password"));
-        return toJson(user);
+        UserDTO userDTO = authorization.execute(jsonObject.getString("login"), jsonObject.getString("password"));
+        return toJson(userDTO);
     }
     //преобразование json-строки в объект, который хранит пришедшие параметры
     private JSONObject fromJson(HttpServletRequest request) throws IOException, JSONException {

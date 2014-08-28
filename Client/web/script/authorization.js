@@ -6,8 +6,8 @@ angular.module("OrderFlowers", [])
                 method: "post",
                 url: "/OrderFlowers/authorize",
                 data: {
-                    login: document.getElementById("login").value,
-                    password: document.getElementById("login").value
+                    login: $scope.login,
+                    password: $scope.password
                 }
             });
             response.success(function (data) {

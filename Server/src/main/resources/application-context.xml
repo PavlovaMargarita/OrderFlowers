@@ -7,5 +7,6 @@
 
     <context:component-scan base-package="com.itechart.courses.bl.dao.user"/>
     <context:component-scan base-package="com.itechart.courses.bl.service.authorization"/>
+    <context:component-scan base-package="com.itechart.courses.bl.dto"/>
 
 </beans>

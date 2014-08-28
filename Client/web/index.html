@@ -6,8 +6,8 @@
 </head>
 <body ng-app="OrderFlowers">
 <div ng-controller="AuthorizationController">
-    Login: <input type="text" id="login"/>
-    Password: <input type="text" id="password">
+    Login: <input type="text" ng-model="login"/>
+    Password: <input type="text" ng-model="password">
     <button ng-click="authorization.doClick(item, $event)">Enter</button>
     {{authorization.info}}
 </div>
