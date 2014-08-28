@@ -1,16 +1,67 @@
 <!DOCTYPE>
 <html>
 <head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/authorization-style.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
-    <script type="text/javascript" src="script/authorization.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-route.js"></script>
+    <script type="text/javascript" src="script/app.js"></script>
+    <script type="text/javascript" src="script/controller/authorization.js"></script>
+    <script type="text/javascript" src="script/controller/contact.js"></script>
+    <script type="text/javascript" src="script/controller/orderFlowers.js"></script>
+    <script type="text/javascript" src="script/controller/user.js"></script>
+
+
 </head>
 <body ng-app="OrderFlowers">
-<div ng-controller="AuthorizationController">
-    Login: <input type="text" ng-model="login"/>
-    Password: <input type="text" ng-model="password">
-    <button ng-click="authorization.doClick(item, $event)">Enter</button>
-    {{authorization.info}}
-</div>
+<header>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Контакт <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#contactList">Список контактов</a></li>
+                            <li><a href="#contactSearch">Поиск контактов</a></li>
+                            <li><a href="#contactCreate">Создать контакт</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Пользователь <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#userList">Список пользователей</a></li>
+                            <li><a href="#userCreate">Создать пользователя</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Заказ <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#orderList">Список заказов</a></li>
+                            <li><a href="#orderSearch">Поиск заказов</a></li>
+                            <li><a href="#orderCreate">Создать заказ</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Log out</a></li>
+                </ul>
 
+
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div id="main">
+    <div ng-view>
+
+    </div>
+</div>
 </body>
 </html>

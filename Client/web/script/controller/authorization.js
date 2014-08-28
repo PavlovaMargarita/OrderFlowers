@@ -1,5 +1,4 @@
-angular.module("OrderFlowers", [])
-    .controller("AuthorizationController", function ($scope, $http) {
+app.controller("authorizationController", function ($scope, $http) {
         $scope.authorization = {};
         $scope.authorization.doClick = function (item, event) {
             var response = $http({
@@ -12,6 +11,9 @@ angular.module("OrderFlowers", [])
             });
             response.success(function (data) {
                 $scope.authorization.info = data.login;
+            });
+            response.error(function (data) {
+                $scope.authorization.info = "error";
             });
         }
     });
