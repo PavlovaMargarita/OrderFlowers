@@ -11,16 +11,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthorizationImpl implements Authorization {
 
-    @Autowired
-    public UserDTO userDTO;
 
     @Override
     public UserDTO execute(String login, String password) {
-        UserDAO userDAO = UserDAOImpl.getInstance();
-        User user = userDAO.readUser(login, password);
-        userDTO.setRole(user.getRole());
-        userDTO.setLogin(user.getLogin());
-        userDTO.setPassword(user.getPassword());
+        User user = UserDAOImpl.getInstance().readUser(login, password);
+        UserDTO userDTO = null;
+        if (user != null){
+            userDTO = new UserDTO();
+            userDTO.setRole(user.getRole());
+            userDTO.setLogin(user.getLogin());
+            userDTO.setPassword(user.getPassword());
+        }
         return userDTO;
     }
 }
