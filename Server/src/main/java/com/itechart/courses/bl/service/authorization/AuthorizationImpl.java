@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthorizationImpl implements Authorization {
-
-
     @Override
     public UserDTO execute(String login, String password) {
         UserDTO userDTO = null;
