@@ -4,6 +4,7 @@ import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
