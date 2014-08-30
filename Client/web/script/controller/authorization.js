@@ -1,5 +1,7 @@
 app.controller("authorizationController", function ($scope, $http) {
+        $scope.navbarVisibility = true; //флаг видимости меню
         $scope.authorization = {};
+
         $scope.authorization.doClick = function (item, event) {
             var response = $http({
                 method: "post",
