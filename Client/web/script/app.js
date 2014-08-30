@@ -39,6 +39,4 @@ app.config(function($routeProvider){
             templateUrl: 'pages/user_create.html',
             controller: 'userCreateController'
         } )
-
-
 })
