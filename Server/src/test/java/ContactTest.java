@@ -1,4 +1,4 @@
-import com.itechart.courses.bl.dao.contact.ContactDAOImpl;
+import com.itechart.courses.dao.contact.ContactDAOImpl;
 import com.itechart.courses.entity.Contact;
 import junit.framework.Assert;
 import org.junit.BeforeClass;

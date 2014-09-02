@@ -1,6 +1,6 @@
 package com.itechart.courses.entity;
 
-import com.itechart.courses.bl.enums.OrderStatusEnum;
+import com.itechart.courses.enums.OrderStatusEnum;
 
 import javax.persistence.*;
 import java.sql.Date;

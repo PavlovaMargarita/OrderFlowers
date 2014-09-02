@@ -1,4 +1,4 @@
-package com.itechart.courses.bl.enums;
+package com.itechart.courses.enums;
 
 /**
  * Created by Margarita on 14.08.2014.

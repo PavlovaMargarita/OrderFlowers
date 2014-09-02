@@ -1,6 +1,6 @@
 package com.itechart.courses.entity;
 
-import com.itechart.courses.bl.enums.RoleEnum;
+import com.itechart.courses.enums.RoleEnum;
 
 import javax.persistence.*;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
-import com.itechart.courses.bl.dao.contact.ContactDAOImpl;
-import com.itechart.courses.bl.dao.phone.PhoneDAOImpl;
-import com.itechart.courses.bl.enums.PhoneTypeEnum;
+import com.itechart.courses.dao.contact.ContactDAOImpl;
+import com.itechart.courses.dao.phone.PhoneDAOImpl;
+import com.itechart.courses.enums.PhoneTypeEnum;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Phone;
 import junit.framework.Assert;

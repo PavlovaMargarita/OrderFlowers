@@ -1,4 +1,4 @@
-package com.itechart.courses.bl.dao.user;
+package com.itechart.courses.dao.user;
 
 import com.itechart.courses.entity.User;
 import org.hibernate.Query;

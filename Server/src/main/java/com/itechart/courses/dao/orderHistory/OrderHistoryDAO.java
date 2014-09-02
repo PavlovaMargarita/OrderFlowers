@@ -1,4 +1,4 @@
-package com.itechart.courses.bl.dao.orderHistory;
+package com.itechart.courses.dao.orderHistory;
 
 import com.itechart.courses.entity.Order;
 import com.itechart.courses.entity.OrderHistory;

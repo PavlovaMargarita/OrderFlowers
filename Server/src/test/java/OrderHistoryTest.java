@@ -1,9 +1,9 @@
-import com.itechart.courses.bl.dao.contact.ContactDAOImpl;
-import com.itechart.courses.bl.dao.order.OrderDAOImpl;
-import com.itechart.courses.bl.dao.orderHistory.OrderHistoryDAOImpl;
-import com.itechart.courses.bl.dao.user.UserDAOImpl;
-import com.itechart.courses.bl.enums.OrderStatusEnum;
-import com.itechart.courses.bl.enums.RoleEnum;
+import com.itechart.courses.dao.contact.ContactDAOImpl;
+import com.itechart.courses.dao.order.OrderDAOImpl;
+import com.itechart.courses.dao.orderHistory.OrderHistoryDAOImpl;
+import com.itechart.courses.dao.user.UserDAOImpl;
+import com.itechart.courses.enums.OrderStatusEnum;
+import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
 import com.itechart.courses.entity.OrderHistory;

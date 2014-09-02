@@ -1,6 +1,6 @@
 package com.itechart.courses.entity;
 
-import com.itechart.courses.bl.enums.PhoneTypeEnum;
+import com.itechart.courses.enums.PhoneTypeEnum;
 
 import javax.persistence.*;
 
