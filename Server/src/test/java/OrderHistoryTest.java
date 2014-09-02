@@ -1,6 +1,10 @@
+import com.itechart.courses.dao.contact.ContactDAO;
 import com.itechart.courses.dao.contact.ContactDAOImpl;
+import com.itechart.courses.dao.order.OrderDAO;
 import com.itechart.courses.dao.order.OrderDAOImpl;
+import com.itechart.courses.dao.orderHistory.OrderHistoryDAO;
 import com.itechart.courses.dao.orderHistory.OrderHistoryDAOImpl;
+import com.itechart.courses.dao.user.UserDAO;
 import com.itechart.courses.dao.user.UserDAOImpl;
 import com.itechart.courses.enums.OrderStatusEnum;
 import com.itechart.courses.enums.RoleEnum;
@@ -9,6 +13,7 @@ import com.itechart.courses.entity.Order;
 import com.itechart.courses.entity.OrderHistory;
 import com.itechart.courses.entity.User;
 import junit.framework.Assert;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Date;
 import java.text.DateFormat;
@@ -17,6 +22,19 @@ import java.util.Calendar;
 import java.util.List;
 
 public class OrderHistoryTest {
+
+    @Autowired
+    ContactDAO contactDAO;
+
+    @Autowired
+    UserDAO userDAO;
+
+    @Autowired
+    OrderDAO orderDAO;
+
+    @Autowired
+    OrderHistoryDAO orderHistoryDAO;
+
     public void testReadCreteOrderHistory(){
         Contact contact = new Contact();
         contact.setSurname("Иванов");
@@ -62,13 +80,13 @@ public class OrderHistoryTest {
         orderHistory2.setOrder(order);
         orderHistory2.setUser(user);
 
-        ContactDAOImpl.getInstance().createContact(contact);
-        UserDAOImpl.getInstance().createUser(user);
-        OrderDAOImpl.getInstance().createOrder(order);
-        OrderHistoryDAOImpl.getInstance().createOrderHistory(orderHistory1);
-        OrderHistoryDAOImpl.getInstance().createOrderHistory(orderHistory2);
+        contactDAO.createContact(contact);
+        userDAO.createUser(user);
+        orderDAO.createOrder(order);
+        orderHistoryDAO.createOrderHistory(orderHistory1);
+        orderHistoryDAO.createOrderHistory(orderHistory2);
         try{
-            List<OrderHistory> orderHistoryList  = OrderHistoryDAOImpl.getInstance().readOrderHistory(order);
+            List<OrderHistory> orderHistoryList  = orderHistoryDAO.readOrderHistory(order);
             Assert.assertEquals("Order History status is not equals", orderHistory1.getStatus(), orderHistoryList.get(0).getStatus());
             Assert.assertEquals("Order History status is not equals", orderHistory1.getComment(), orderHistoryList.get(0).getComment());
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -119,13 +137,13 @@ public class OrderHistoryTest {
         orderHistory.setChangeDate(date1);
         orderHistory.setOrder(order);
         orderHistory.setUser(user);
-        ContactDAOImpl.getInstance().createContact(contact);
-        UserDAOImpl.getInstance().createUser(user);
-        OrderDAOImpl.getInstance().createOrder(order);
-        OrderHistoryDAOImpl.getInstance().createOrderHistory(orderHistory);
+        contactDAO.createContact(contact);
+        userDAO.createUser(user);
+        orderDAO.createOrder(order);
+        orderHistoryDAO.createOrderHistory(orderHistory);
         orderHistory.setStatus(OrderStatusEnum.NEW);
-        OrderHistoryDAOImpl.getInstance().updateOrderHistory(orderHistory);
-        Assert.assertEquals("Order History status is not equals", orderHistory.getStatus(), OrderDAOImpl.getInstance().readOrder(orderHistory.getId()).getStatus());
+        orderHistoryDAO.updateOrderHistory(orderHistory);
+        Assert.assertEquals("Order History status is not equals", orderHistory.getStatus(), orderDAO.readOrder(orderHistory.getId()).getStatus());
 
     }
 }

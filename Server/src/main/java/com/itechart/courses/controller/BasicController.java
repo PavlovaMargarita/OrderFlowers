@@ -2,7 +2,7 @@ package com.itechart.courses.controller;
 
 import com.google.gson.Gson;
 import com.itechart.courses.dto.UserDTO;
-import com.itechart.courses.service.authorization.AuthorizationService;
+import com.itechart.courses.service.authorization.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +21,6 @@ public class BasicController {
     //вроде надо файлик, чтобы указать, где лежат сервисы (лекция, архив java 2014)
     @Autowired
     private AuthorizationService authorization;
-
-    @RequestMapping(method = RequestMethod.GET, value = "/")
-    public String indexPage() {
-        return "index";
-    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/authorize")
     @Consumes(MediaType.APPLICATION_JSON)

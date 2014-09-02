@@ -6,23 +6,29 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * Created by Margarita on 14.08.2014.
  */
 
+@Repository
 public class UserDAOImpl implements UserDAO {
-    private static UserDAOImpl ourInstance = new UserDAOImpl();
-    private SessionFactory factory;
 
-    public static UserDAOImpl getInstance() {
-        return ourInstance;
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
 
-    private UserDAOImpl() {
-        factory = new Configuration().configure().buildSessionFactory();
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public Integer createUser(User user){
@@ -33,7 +39,7 @@ public class UserDAOImpl implements UserDAO {
             throw new NullPointerException("user is null");
         }
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             id = (Integer) session.save(user);
             transaction.commit();
@@ -57,7 +63,7 @@ public class UserDAOImpl implements UserDAO {
         User user = null;
         String hql = "update User set isDelete = :isDelete where id = :id";
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             Query query = session.createQuery(hql);
             query.setBoolean("isDelete", true);
@@ -80,7 +86,7 @@ public class UserDAOImpl implements UserDAO {
         User user = null;
         Session session = null;
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             user = (User) session.get(User.class, id);
         }
         finally {
@@ -96,7 +102,7 @@ public class UserDAOImpl implements UserDAO {
         User user = null;
         Session session = null;
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             Query query = session.createQuery("from User where login = :login AND password = :password");
             query.setString("login", login);
             query.setString("password", password);
@@ -117,9 +123,8 @@ public class UserDAOImpl implements UserDAO {
     public List<User> readAllUsers() {
         List<User> users = null;
         Session session = null;
-
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             Query query = session.createQuery("from User where isDelete = :isDelete");
             query.setBoolean("isDelete", false);
             users = query.list();
@@ -139,7 +144,7 @@ public class UserDAOImpl implements UserDAO {
             throw new NullPointerException("user is null");
         }
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.update(user);
             transaction.commit();

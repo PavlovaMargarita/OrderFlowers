@@ -1,4 +1,6 @@
+import com.itechart.courses.dao.contact.ContactDAO;
 import com.itechart.courses.dao.contact.ContactDAOImpl;
+import com.itechart.courses.dao.phone.PhoneDAO;
 import com.itechart.courses.dao.phone.PhoneDAOImpl;
 import com.itechart.courses.enums.PhoneTypeEnum;
 import com.itechart.courses.entity.Contact;
@@ -6,10 +8,18 @@ import com.itechart.courses.entity.Phone;
 import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class PhoneTest {
+
+    @Autowired
+    ContactDAO contactDAO;
+
+    @Autowired
+    PhoneDAO phoneDAO;
+
     @Test
     @BeforeClass
     public void testReadCreatePhone(){
@@ -29,11 +39,11 @@ public class PhoneTest {
         phone2.setPhoneNumber(1234567);
         phone2.setPhoneType(PhoneTypeEnum.MOBILE);
 
-        ContactDAOImpl.getInstance().createContact(contact);
-        PhoneDAOImpl.getInstance().createPhone(phone1);
-        PhoneDAOImpl.getInstance().createPhone(phone2);
+        contactDAO.createContact(contact);
+        phoneDAO.createPhone(phone1);
+        phoneDAO.createPhone(phone2);
         try {
-            List<Phone> phoneList = PhoneDAOImpl.getInstance().readAllPhones(contact);
+            List<Phone> phoneList = phoneDAO.readAllPhones(contact);
             Assert.assertEquals("Country code is not equals", phone1.getCountryCode(), phoneList.get(0).getCountryCode());
             Assert.assertEquals("Operator code is not equals", phone1.getOperatorCode(), phoneList.get(0).getOperatorCode());
             Assert.assertEquals("Phone number is not equals", phone1.getPhoneNumber(), phoneList.get(0).getPhoneNumber());
@@ -64,10 +74,10 @@ public class PhoneTest {
         phone.setOperatorCode((short) 33);
         phone.setPhoneNumber(7654321);
         phone.setPhoneType(PhoneTypeEnum.MOBILE);
-        ContactDAOImpl.getInstance().createContact(contact);
-        PhoneDAOImpl.getInstance().createPhone(phone);
-        PhoneDAOImpl.getInstance().deletePhone(phone.getId());
-        Assert.assertEquals("Phone is not deleted", null, PhoneDAOImpl.getInstance().readPhone(phone.getId()));
+        contactDAO.createContact(contact);
+        phoneDAO.createPhone(phone);
+        phoneDAO.deletePhone(phone.getId());
+        Assert.assertEquals("Phone is not deleted", null, phoneDAO.readPhone(phone.getId()));
     }
 
     @Test
@@ -82,12 +92,12 @@ public class PhoneTest {
         phone.setOperatorCode((short) 33);
         phone.setPhoneNumber(7654321);
         phone.setPhoneType(PhoneTypeEnum.MOBILE);
-        ContactDAOImpl.getInstance().createContact(contact);
-        PhoneDAOImpl.getInstance().createPhone(phone);
+        contactDAO.createContact(contact);
+        phoneDAO.createPhone(phone);
         phone.setCountryCode((short) 123);
-        PhoneDAOImpl.getInstance().updatePhone(phone);
+        phoneDAO.updatePhone(phone);
 
-        List<Phone> phoneList = PhoneDAOImpl.getInstance().readAllPhones(contact);
+        List<Phone> phoneList = phoneDAO.readAllPhones(contact);
         Assert.assertEquals("Country code is not equals", phone.getCountryCode(), phoneList.get(0).getCountryCode());
 
 

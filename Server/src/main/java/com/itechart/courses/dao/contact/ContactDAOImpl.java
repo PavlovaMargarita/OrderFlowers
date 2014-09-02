@@ -5,22 +5,17 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
-
+@Repository
 public class ContactDAOImpl implements ContactDAO {
-    private static ContactDAOImpl ourInstance = new ContactDAOImpl();
-    private SessionFactory factory;
 
-    private ContactDAOImpl() {
-        factory = new Configuration().configure().buildSessionFactory();
-    }
-
-    public static ContactDAOImpl getInstance() {
-        return ourInstance;
-    }
+    @Autowired
+    private SessionFactory sessionFactory;
 
     public Integer createContact(Contact contact) {
         if (contact == null) {
@@ -30,7 +25,7 @@ public class ContactDAOImpl implements ContactDAO {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             id = (Integer) session.save(contact);
             transaction.commit();
@@ -53,7 +48,7 @@ public class ContactDAOImpl implements ContactDAO {
         Contact contact = null;
         String hql = "update Contact set isDelete = :isDelete where id = :id";
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             Query query = session.createQuery(hql);
             query.setBoolean("isDelete", true);
@@ -76,7 +71,7 @@ public class ContactDAOImpl implements ContactDAO {
         Contact contact = null;
         Session session = null;
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             contact = (Contact) session.get(Contact.class, id);
         } finally {
             if (session != null && session.isOpen()) {
@@ -91,7 +86,7 @@ public class ContactDAOImpl implements ContactDAO {
         Session session = null;
         List<Contact> result = null;
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             Query query = session.createQuery("from Contact where isDelete = :isDelete");
             query.setBoolean("isDelete", false);
             result = query.list();
@@ -112,7 +107,7 @@ public class ContactDAOImpl implements ContactDAO {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.update(contact);
             transaction.commit();

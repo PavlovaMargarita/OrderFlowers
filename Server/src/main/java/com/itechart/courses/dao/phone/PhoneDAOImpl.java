@@ -7,20 +7,24 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
-
+@Repository
 public class PhoneDAOImpl implements PhoneDAO {
-    private static PhoneDAOImpl ourInstance = new PhoneDAOImpl();
-    private SessionFactory factory;
 
-    private PhoneDAOImpl(){
-        factory = new Configuration().configure().buildSessionFactory();
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
 
-    public static PhoneDAOImpl getInstance() {
-        return ourInstance;
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public Integer createPhone(Phone phone) {
@@ -31,7 +35,7 @@ public class PhoneDAOImpl implements PhoneDAO {
             throw new NullPointerException("phone is null");
         }
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             id = (Integer) session.save(phone);
             transaction.commit();
@@ -52,7 +56,7 @@ public class PhoneDAOImpl implements PhoneDAO {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             Phone phone = (Phone) session.get(Phone.class, id);
             if (phone != null){
@@ -76,7 +80,7 @@ public class PhoneDAOImpl implements PhoneDAO {
         Phone phone = null;
         Session session = null;
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             phone = (Phone) session.get(Phone.class, id);
         }
         finally {
@@ -94,7 +98,7 @@ public class PhoneDAOImpl implements PhoneDAO {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.update(phone);
             transaction.commit();
@@ -115,7 +119,7 @@ public class PhoneDAOImpl implements PhoneDAO {
         Session session = null;
 
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             Query query = session.createQuery("from Phone where owner = :owner");
             query.setParameter("owner", contact);
             result = query.list();
