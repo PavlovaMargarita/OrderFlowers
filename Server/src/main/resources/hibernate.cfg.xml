@@ -6,7 +6,7 @@
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="connection.url">jdbc:mysql://localhost/flowers_order</property>
         <property name="connection.username">root</property>
-        <property name="connection.password">1234567</property>
+        <property name="connection.password"> 61igufavkik</property>
         <property name="connection.pool_size">10</property>
         <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
         <property name="show_sql">true</property>
@@ -18,6 +18,5 @@
         <mapping class="com.itechart.courses.entity.Contact" />
         <mapping class="com.itechart.courses.entity.User" />
         <mapping class="com.itechart.courses.entity.Order" />
-
     </session-factory>
 </hibernate-configuration>
