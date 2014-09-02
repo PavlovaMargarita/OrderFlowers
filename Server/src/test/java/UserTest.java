@@ -1,6 +1,6 @@
-import com.itechart.courses.bl.dao.contact.ContactDAOImpl;
-import com.itechart.courses.bl.dao.user.UserDAOImpl;
-import com.itechart.courses.bl.enums.RoleEnum;
+import com.itechart.courses.dao.contact.ContactDAOImpl;
+import com.itechart.courses.dao.user.UserDAOImpl;
+import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.User;
 import junit.framework.Assert;

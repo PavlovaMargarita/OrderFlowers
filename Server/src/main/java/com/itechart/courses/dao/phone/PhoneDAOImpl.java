@@ -1,6 +1,7 @@
-package com.itechart.courses.bl.dao.contact;
+package com.itechart.courses.dao.phone;
 
 import com.itechart.courses.entity.Contact;
+import com.itechart.courses.entity.Phone;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,32 +11,33 @@ import org.hibernate.cfg.Configuration;
 import java.util.List;
 
 
-public class ContactDAOImpl implements ContactDAO {
-    private static ContactDAOImpl ourInstance = new ContactDAOImpl();
+public class PhoneDAOImpl implements PhoneDAO {
+    private static PhoneDAOImpl ourInstance = new PhoneDAOImpl();
     private SessionFactory factory;
 
-    private ContactDAOImpl() {
+    private PhoneDAOImpl(){
         factory = new Configuration().configure().buildSessionFactory();
     }
 
-    public static ContactDAOImpl getInstance() {
+    public static PhoneDAOImpl getInstance() {
         return ourInstance;
     }
 
-    public Integer createContact(Contact contact) {
-        if (contact == null) {
-            throw new NullPointerException("contact is null");
-        }
+    public Integer createPhone(Phone phone) {
         Integer id = null;
         Session session = null;
         Transaction transaction = null;
+        if (phone == null){
+            throw new NullPointerException("phone is null");
+        }
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            id = (Integer) session.save(contact);
+            id = (Integer) session.save(phone);
             transaction.commit();
-        } finally {
-            if (transaction != null && transaction.isActive()) {
+        }
+        finally {
+            if (transaction != null && transaction.isActive()){
                 transaction.rollback();
             }
             if (session != null && session.isOpen()) {
@@ -45,20 +47,18 @@ public class ContactDAOImpl implements ContactDAO {
         return id;
     }
 
-    @SuppressWarnings("JpaQlInspection")
-    public boolean deleteContact(int id) {
+    public boolean deletePhone(int id) {
         boolean result = false;
         Session session = null;
         Transaction transaction = null;
-        Contact contact = null;
-        String hql = "update Contact set isDelete = :isDelete where id = :id";
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            Query query = session.createQuery(hql);
-            query.setBoolean("isDelete", true);
-            query.setInteger("id", id);
-            query.executeUpdate();
+            Phone phone = (Phone) session.get(Phone.class, id);
+            if (phone != null){
+                session.delete(phone);
+                result = true;
+            }
             transaction.commit();
         }
         finally {
@@ -72,28 +72,52 @@ public class ContactDAOImpl implements ContactDAO {
         return result;
     }
 
-    public Contact readContact(int id) {
-        Contact contact = null;
+    public Phone readPhone(int id) {
+        Phone phone = null;
         Session session = null;
         try {
             session = factory.openSession();
-            contact = (Contact) session.get(Contact.class, id);
-        } finally {
+            phone = (Phone) session.get(Phone.class, id);
+        }
+        finally {
             if (session != null && session.isOpen()) {
                 session.close();
             }
         }
-        return contact;
+        return phone;
     }
 
-    @SuppressWarnings("JpaQlInspection")
-    public List<Contact> readAllContacts(){
+    public void updatePhone(Phone phone) {
+        if (phone == null){
+            throw new NullPointerException("phone is null");
+        }
         Session session = null;
-        List<Contact> result = null;
+        Transaction transaction = null;
         try {
             session = factory.openSession();
-            Query query = session.createQuery("from Contact where isDelete = :isDelete");
-            query.setBoolean("isDelete", false);
+            transaction = session.beginTransaction();
+            session.update(phone);
+            transaction.commit();
+        }
+        finally {
+            if (transaction != null && transaction.isActive()){
+                transaction.rollback();
+            }
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+    }
+
+    @Override
+    public List readAllPhones(Contact contact) {
+        List<Phone> result = null;
+        Session session = null;
+
+        try {
+            session = factory.openSession();
+            Query query = session.createQuery("from Phone where owner = :owner");
+            query.setParameter("owner", contact);
             result = query.list();
         }
         finally {
@@ -104,25 +128,4 @@ public class ContactDAOImpl implements ContactDAO {
         return result;
     }
 
-    public void updateContact(Contact contact) {
-        if (contact == null) {
-            throw new NullPointerException("contact is null");
-        }
-
-        Session session = null;
-        Transaction transaction = null;
-        try {
-            session = factory.openSession();
-            transaction = session.beginTransaction();
-            session.update(contact);
-            transaction.commit();
-        } finally {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-    }
 }

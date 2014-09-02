@@ -1,4 +1,4 @@
-package com.itechart.courses.bl.dao.contact;
+package com.itechart.courses.dao.contact;
 
 import com.itechart.courses.entity.Contact;
 

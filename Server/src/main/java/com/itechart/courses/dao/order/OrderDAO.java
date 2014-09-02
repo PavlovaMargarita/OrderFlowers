@@ -1,4 +1,4 @@
-package com.itechart.courses.bl.dao.order;
+package com.itechart.courses.dao.order;
 
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
