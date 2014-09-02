@@ -12,7 +12,7 @@
         <property name="suffix" value=".html" />
     </bean>
 
-    <mvc:resources mapping="/**" location="/" />
+    <!--<mvc:resources mapping="/**" location="/" />-->
     <mvc:annotation-driven />
 
 </beans>
