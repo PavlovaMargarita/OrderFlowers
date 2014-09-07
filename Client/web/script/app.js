@@ -2,7 +2,7 @@ var app = angular.module("OrderFlowers", ['ngRoute']);
 
 app.run(function($rootScope){
     $rootScope.menuVisibility = false; //Отображение меню. True - видим.
-    $rootScope.role = null; //Можем хранить роль пользователя, не используя cookie. $rootScope работает по принципу глобальной переменной
+    $rootScope.role = false; //Можем хранить роль пользователя, не используя cookie. $rootScope работает по принципу глобальной переменной
 });
 
 app.config(function($routeProvider){
@@ -22,6 +22,10 @@ app.config(function($routeProvider){
         .when('/contactSearch', {
             templateUrl: 'pages/contact_search.html',
             controller: 'contactSearchController'
+        } )
+        .when('/contactCorrect/:id', {
+            templateUrl: 'pages/contact_create.html',
+            controller: 'contactCorrectController'
         } )
 
         .when('/orderList', {

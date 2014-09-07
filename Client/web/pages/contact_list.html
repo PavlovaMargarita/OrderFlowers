@@ -22,21 +22,25 @@
             </tr>
         </thead>
 
-        <tr>
+        <tr data-ng-repeat="contact in contacts">
             <td><input type="checkbox"/></td>
-            <td>Иванов Иван Иванович</td>
-            <td>2014-08-02</td>
-            <td>Минск, Партизанский пр-кт, 12, 56</td>
-            <td></td>
+            <td>{{contact.surname}} {{contact.name}} {{contact.patronymic}}</td>
+            <td>{{contact.dateOfBirth}}</td>
+            <td>{{contact.city}}</td>
+            <td>
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-success"><a href="#contactCorrect/{{contact.id}}">Редактировать</a></button>
+                </div>
+            </td>
         </tr>
 
-        <tr>
-            <td><input type="checkbox"/></td>
-            <td>Сидоров Сергей Сергеевич</td>
-            <td>2014-08-02</td>
-            <td>Минск, Партизанский пр-кт, 12, 56</td>
-            <td></td>
-        </tr>
+        <!--<tr>-->
+            <!--<td><input type="checkbox"/></td>-->
+            <!--<td>Сидоров Сергей Сергеевич</td>-->
+            <!--<td>2014-08-02</td>-->
+            <!--<td>Минск, Партизанский пр-кт, 12, 56</td>-->
+            <!--<td></td>-->
+        <!--</tr>-->
     </table>
 
     <!--постраничная навигация-->

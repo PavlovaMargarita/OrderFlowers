@@ -1,24 +1,16 @@
 package com.itechart.courses.dto;
 
 import com.itechart.courses.enums.PhoneTypeEnum;
-import com.itechart.courses.entity.Contact;
-import org.springframework.stereotype.Component;
 
-@Component
+/**
+ * Created by Margarita on 07.09.2014.
+ */
 public class PhoneDTO {
-
     private Integer id;
-
-    private Contact owner;
-
     private Short countryCode;
-
     private Short operatorCode;
-
     private Integer phoneNumber;
-
     private PhoneTypeEnum phoneType;
-
     private String comment;
 
     public Integer getId() {
@@ -27,14 +19,6 @@ public class PhoneDTO {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Contact getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Contact owner) {
-        this.owner = owner;
     }
 
     public Short getCountryCode() {

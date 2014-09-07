@@ -22,7 +22,7 @@
                 <div class="container-fluid">
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
                         <ul class="nav navbar-nav">
-                            <li class="dropdown">
+                            <li class="dropdown" ng-show="role == 'RECEIVING_ORDERS_MANAGER' || role == 'SUPERVISOR' || role == 'ADMIN'">
                                 <a href="" class="dropdown-toggle" data-toggle="dropdown">Контакт <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="#contactList">Список контактов</a></li>
@@ -31,7 +31,7 @@
                                 </ul>
                             </li>
 
-                            <li class="dropdown">
+                            <li class="dropdown" ng-show="role == 'ADMIN'">
                                 <a href="" class="dropdown-toggle" data-toggle="dropdown">Пользователь <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="#userList">Список пользователей</a></li>
@@ -43,8 +43,8 @@
                                 <a href="" class="dropdown-toggle" data-toggle="dropdown">Заказ <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="#orderList">Список заказов</a></li>
-                                    <li><a href="#orderSearch">Поиск заказов</a></li>
-                                    <li><a href="#orderCreate">Создать заказ</a></li>
+                                    <li ng-show="role == 'RECEIVING_ORDERS_MANAGER' || role == 'SUPERVISOR' || role == 'ADMIN'"><a href="#orderSearch">Поиск заказов</a></li>
+                                    <li ng-show="role == 'RECEIVING_ORDERS_MANAGER' || role == 'SUPERVISOR' || role == 'ADMIN'"><a href="#orderCreate">Создать заказ</a></li>
                                 </ul>
                             </li>
                         </ul>

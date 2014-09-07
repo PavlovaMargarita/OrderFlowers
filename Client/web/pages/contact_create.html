@@ -1,21 +1,21 @@
-<div class="contact">
+<div class="contact" ng-model="contact">
     <div class="contact-information">
         <div class="box" id="snp-box">
             <h3>ФИО</h3>
             <hr>
             <div class="input-group">
                 <span class="input-group-addon">Фамилия</span>
-                <input type="text" class="form-control" name="surname" id="surname"/>
+                <input type="text" class="form-control" name="surname" id="surname" value="{{contact.surname}}"/>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">Имя</span>
-                <input type="text" class="form-control"/>
+                <input type="text" class="form-control" value="{{contact.name}}"/>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">Отчество</span>
-                <input type="text" class="form-control" name="patronymic" id="patronymic"/>
+                <input type="text" class="form-control" name="patronymic" id="patronymic" value="{{contact.patronymic}}"/>
             </div>
         </div>
 
@@ -24,12 +24,12 @@
             <hr>
             <div class="input-group">
                 <span class="input-group-addon">Дата рождения</span>
-                <input type="date" class="form-control" name="date-of-birth" id="date-of-birth"/>
+                <input type="date" class="form-control" name="date-of-birth" id="date-of-birth" value="{{contact.dateOfBirth}}"/>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">Email</span>
-                <input type="email" class="form-control" name="email" id="email"/>
+                <input type="email" class="form-control" name="email" id="email" value="{{contact.email}}"/>
             </div>
         </div>
 
@@ -38,22 +38,22 @@
             <hr>
             <div class="input-group">
                 <span class="input-group-addon">Город</span>
-                <input type="text" class="form-control" name="city" id="city"/>
+                <input type="text" class="form-control" name="city" id="city" value="{{contact.city}}"/>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">Улица</span>
-                <input type="text" class="form-control" name="street" id="street">
+                <input type="text" class="form-control" name="street" id="street" value="{{contact.street}}">
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">Дом</span>
-                <input type="text" class="form-control" name="house" id="house">
+                <input type="text" class="form-control" name="home" id="home" value="{{contact.home}}">
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">Квартира</span>
-                <input type="text" class="form-control" name="flat" id="flat">
+                <input type="text" class="form-control" name="flat" id="flat" value="{{contact.flat}}">
             </div>
         </div>
     </div>
