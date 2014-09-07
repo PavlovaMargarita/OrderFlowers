@@ -5,11 +5,16 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <import resource="spring-security.xml"/>
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="configLocation">
+            <value>classpath:hibernate.cfg.xml</value>
+        </property>
+        <property name="packagesToScan" value="com.itechart.courses.dao"/>
+    </bean>
 
-    <context:component-scan base-package="com.itechart.courses.bl.dao"/>
-    <context:component-scan base-package="com.itechart.courses.bl.service.authorization"/>
-    <context:component-scan base-package="com.itechart.courses.bl.dto"/>
+    <context:component-scan base-package="com.itechart.courses.dao"/>
+    <context:component-scan base-package="com.itechart.courses.service.authorization"/>
+    <context:component-scan base-package="com.itechart.courses.dto"/>
 
     <bean id="customUserDetailsService"
           class="com.itechart.courses.authentification.CustomUserDetailService">

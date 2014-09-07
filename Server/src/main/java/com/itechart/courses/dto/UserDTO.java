@@ -1,11 +1,7 @@
-package com.itechart.courses.bl.dto;
+package com.itechart.courses.dto;
 
-import com.itechart.courses.bl.enums.RoleEnum;
+import com.itechart.courses.enums.RoleEnum;
 import org.springframework.stereotype.Component;
-
-/**
- * Created by Александр on 28.08.2014.
- */
 
 @Component
 public class UserDTO {

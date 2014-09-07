@@ -1,4 +1,10 @@
 var app = angular.module("OrderFlowers", ['ngRoute']);
+
+app.run(function($rootScope){
+    $rootScope.menuVisibility = false; //Отображение меню. True - видим.
+    $rootScope.role = null; //Можем хранить роль пользователя, не используя cookie. $rootScope работает по принципу глобальной переменной
+});
+
 app.config(function($routeProvider){
     $routeProvider
         .when('/login', {
@@ -39,6 +45,4 @@ app.config(function($routeProvider){
             templateUrl: 'pages/user_create.html',
             controller: 'userCreateController'
         } )
-
-
-})
+});

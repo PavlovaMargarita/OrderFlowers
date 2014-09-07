@@ -1,7 +1,6 @@
 package com.itechart.courses.authentification;
 
-import com.itechart.courses.bl.dao.user.UserDAO;
-import com.itechart.courses.bl.dao.user.UserDAOImpl;
+import com.itechart.courses.dao.user.UserDAO;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,10 +20,12 @@ import java.util.Set;
  */
 public class CustomUserDetailService implements UserDetailsService {
 
+    @Autowired(required = true)
+    UserDAO userDAO;
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        com.itechart.courses.entity.User user = UserDAOImpl.getInstance().readUser(login);
+        com.itechart.courses.entity.User user = userDAO.readUser(login);
         if(user != null) {
             List<GrantedAuthority> authorities = buildUserAuthority(user);
             return buildUserForAuthentication(user, authorities);

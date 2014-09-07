@@ -1,12 +1,16 @@
-import com.itechart.courses.bl.dao.contact.ContactDAOImpl;
-import com.itechart.courses.bl.dao.order.OrderDAOImpl;
-import com.itechart.courses.bl.dao.user.UserDAOImpl;
-import com.itechart.courses.bl.enums.OrderStatusEnum;
-import com.itechart.courses.bl.enums.RoleEnum;
+import com.itechart.courses.dao.contact.ContactDAO;
+import com.itechart.courses.dao.contact.ContactDAOImpl;
+import com.itechart.courses.dao.order.OrderDAO;
+import com.itechart.courses.dao.order.OrderDAOImpl;
+import com.itechart.courses.dao.user.UserDAO;
+import com.itechart.courses.dao.user.UserDAOImpl;
+import com.itechart.courses.enums.OrderStatusEnum;
+import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
 import com.itechart.courses.entity.User;
 import junit.framework.Assert;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
@@ -14,6 +18,16 @@ import java.util.*;
  * Created by Margarita on 19.08.2014.
  */
 public class OrderTest {
+
+    @Autowired
+    ContactDAO contactDAO;
+
+    @Autowired
+    UserDAO userDAO;
+
+    @Autowired
+    OrderDAO orderDAO;
+
     public void testReadCreateOrder(){
         Contact contact = new Contact();
         contact.setSurname("Иванов");
@@ -46,12 +60,12 @@ public class OrderTest {
         order2.setRecipient(contact);
         order2.setOrderDescription("test2");
 
-        ContactDAOImpl.getInstance().createContact(contact);
-        UserDAOImpl.getInstance().createUser(user);
-        OrderDAOImpl.getInstance().createOrder(order1);
-        OrderDAOImpl.getInstance().createOrder(order2);
+        contactDAO.createContact(contact);
+        userDAO.createUser(user);
+        orderDAO.createOrder(order1);
+        orderDAO.createOrder(order2);
         try{
-            List<Order> orderList = OrderDAOImpl.getInstance().readAllOrder(contact);
+            List<Order> orderList = orderDAO.readAllOrder(contact);
             Assert.assertEquals("Order description is not equals", order1.getOrderDescription(), orderList.get(0).getOrderDescription());
             Assert.assertEquals("Order status is not equals", order1.getStatus(), orderList.get(0).getStatus());
             Assert.assertEquals("Order sum is not equals", order1.getSum(), orderList.get(0).getSum());
@@ -88,14 +102,14 @@ public class OrderTest {
         order.setRecipient(contact);
         order.setOrderDescription("test1");
 
-        ContactDAOImpl.getInstance().createContact(contact);
-        UserDAOImpl.getInstance().createUser(user);
-        OrderDAOImpl.getInstance().createOrder(order);
+        contactDAO.createContact(contact);
+        userDAO.createUser(user);
+        orderDAO.createOrder(order);
 
         order.setSum(2600);
 
-        OrderDAOImpl.getInstance().updateOrder(order);
-        Assert.assertEquals("Order sum is not equals", order.getSum(), OrderDAOImpl.getInstance().readOrder(order.getId()).getSum());
+        orderDAO.updateOrder(order);
+        Assert.assertEquals("Order sum is not equals", order.getSum(), orderDAO.readOrder(order.getId()).getSum());
 
     }
 }

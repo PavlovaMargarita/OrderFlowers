@@ -18,6 +18,5 @@
         <mapping class="com.itechart.courses.entity.Contact" />
         <mapping class="com.itechart.courses.entity.User" />
         <mapping class="com.itechart.courses.entity.Order" />
-
     </session-factory>
 </hibernate-configuration>

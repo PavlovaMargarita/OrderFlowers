@@ -1,17 +1,27 @@
-import com.itechart.courses.bl.dao.contact.ContactDAOImpl;
-import com.itechart.courses.bl.dao.user.UserDAOImpl;
-import com.itechart.courses.bl.enums.RoleEnum;
+import com.itechart.courses.dao.contact.ContactDAO;
+import com.itechart.courses.dao.contact.ContactDAOImpl;
+import com.itechart.courses.dao.user.UserDAO;
+import com.itechart.courses.dao.user.UserDAOImpl;
+import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.User;
 import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
 public class UserTest {
+
+    @Autowired
+    UserDAO userDAO;
+
+    @Autowired
+    ContactDAO contactDAO;
+
     @Test
     @BeforeClass
     public void testReadCreateUser(){
@@ -35,12 +45,12 @@ public class UserTest {
         user2.setPassword("test2");
         user2.setRole(RoleEnum.SUPERVISOR);
 
-        ContactDAOImpl.getInstance().createContact(contact1);
-        ContactDAOImpl.getInstance().createContact(contact2);
-        UserDAOImpl.getInstance().createUser(user1);
-        UserDAOImpl.getInstance().createUser(user2);
+        contactDAO.createContact(contact1);
+        contactDAO.createContact(contact2);
+        userDAO.createUser(user1);
+        userDAO.createUser(user2);
         try {
-            List<User> userList = UserDAOImpl.getInstance().readAllUsers();
+            List<User> userList = userDAO.readAllUsers();
             Assert.assertEquals("Login is not equals", user1.getLogin(), userList.get(0).getLogin());
             Assert.assertEquals("Password is not equals", user1.getPassword(), userList.get(0).getPassword());
             Assert.assertEquals("Role is not equals", user1.getRole(), userList.get(0).getRole());
@@ -68,16 +78,16 @@ public class UserTest {
         Date dateOfBirth1 = new Date(calendar.getTime().getTime());
         contact.setDateOfBirth(dateOfBirth1);
         contact.setHome(2);
-        ContactDAOImpl.getInstance().createContact(contact);
+        contactDAO.createContact(contact);
 
         User user = new User();
         user.setContact(contact);
         user.setLogin("test1");
         user.setPassword("test1");
         user.setRole(RoleEnum.SERVICE_DELIVERY_MANAGER);
-        UserDAOImpl.getInstance().createUser(user);
-        UserDAOImpl.getInstance().deleteUser(user.getId());
-        Assert.assertEquals("User is not deleted", new Boolean(true), UserDAOImpl.getInstance().readUser(user.getId()).getIsDelete());
+        userDAO.createUser(user);
+        userDAO.deleteUser(user.getId());
+        Assert.assertEquals("User is not deleted", new Boolean(true), userDAO.readUser(user.getId()).getIsDelete());
     }
 
     @Test
@@ -94,17 +104,17 @@ public class UserTest {
         Date dateOfBirth1 = new Date(calendar.getTime().getTime());
         contact.setDateOfBirth(dateOfBirth1);
         contact.setHome(2);
-        ContactDAOImpl.getInstance().createContact(contact);
+        contactDAO.createContact(contact);
 
         User user = new User();
         user.setContact(contact);
         user.setLogin("test1");
         user.setPassword("test1");
         user.setRole(RoleEnum.SERVICE_DELIVERY_MANAGER);
-        UserDAOImpl.getInstance().createUser(user);
+        userDAO.createUser(user);
         user.setRole(RoleEnum.RECEIVING_ORDERS_MANAGER);
-        UserDAOImpl.getInstance().updateUser(user);
-        Assert.assertEquals("User role is not equals", user.getRole(), UserDAOImpl.getInstance().readAllUsers().get(0).getRole());
+        userDAO.updateUser(user);
+        Assert.assertEquals("User role is not equals", user.getRole(), userDAO.readAllUsers().get(0).getRole());
 
 
     }

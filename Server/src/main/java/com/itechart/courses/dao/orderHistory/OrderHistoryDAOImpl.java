@@ -1,4 +1,4 @@
-package com.itechart.courses.bl.dao.orderHistory;
+package com.itechart.courses.dao.orderHistory;
 
 import com.itechart.courses.entity.Order;
 import com.itechart.courses.entity.OrderHistory;
@@ -6,24 +6,27 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.springframework.stereotype.Component;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * Created by Александр on 14.08.2014.
  */
-public class OrderHistoryDAOImpl implements OrderHistoryDAO {
-    private static OrderHistoryDAOImpl ourInstance = new OrderHistoryDAOImpl();
-    private SessionFactory factory;
 
-    private OrderHistoryDAOImpl(){
-        factory = new Configuration().configure().buildSessionFactory();
+@Repository
+public class OrderHistoryDAOImpl implements OrderHistoryDAO {
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
 
-    public static OrderHistoryDAOImpl getInstance() {
-        return ourInstance;
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public Integer createOrderHistory(OrderHistory orderHistory) {
@@ -34,7 +37,7 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO {
             throw new NullPointerException("orderHistory is null");
         }
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             id = (Integer) session.save(orderHistory);
             transaction.commit();
@@ -54,7 +57,7 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO {
         OrderHistory orderHistory = null;
         Session session = null;
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             orderHistory = (OrderHistory) session.get(OrderHistory.class, id);
         }
         finally {
@@ -72,7 +75,7 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO {
             throw new NullPointerException("orderHistory is null");
         }
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.update(orderHistory);
             transaction.commit();
@@ -93,7 +96,7 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO {
         Session session = null;
 
         try {
-            session = factory.openSession();
+            session = sessionFactory.openSession();
             Query query = session.createQuery("from OrderHistory where order = :order");
             query.setParameter("order", order);
             result = query.list();
