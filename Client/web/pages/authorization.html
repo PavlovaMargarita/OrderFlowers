@@ -1,7 +1,9 @@
 <div class="authorization">
     <div class="container" ng-controller = "authorizationController">
-        <input class="form-control" placeholder="Ваш логин" name="login" ng-model="login"/>
-        <input type="password" class="form-control" placeholder="Ваш пароль" name="password" ng-model="password"/>
-        <button type="button" class="btn btn-primary" ng-click="authorization.doClick(item, $event)"> Войти</button>
+        <form action="/j_spring_security_check" method="POST">
+            <input type="text" class="form-control" placeholder="Ваш логин" name="j_username"/>
+            <input type="password" class="form-control" placeholder="Ваш пароль" name="j_password"/>
+            <button type="submit" class="btn btn-primary"> Войти</button>
+        </form>
     </div>
 </div>

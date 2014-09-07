@@ -47,6 +47,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
     private User buildUserForAuthentication(com.itechart.courses.entity.User user,
                                             List<GrantedAuthority> authorities) {
+        System.out.println(user.getLogin());
         return new User(user.getLogin(), user.getPassword(),
                 !user.getIsDelete(), true, true, true, authorities);
     }

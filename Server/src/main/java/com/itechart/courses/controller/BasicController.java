@@ -3,6 +3,7 @@ package com.itechart.courses.controller;
 import com.google.gson.Gson;
 import com.itechart.courses.bl.dto.UserDTO;
 import com.itechart.courses.bl.service.authorization.Authorization;
+import com.itechart.courses.entity.Contact;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/OrderFlowers")
@@ -33,6 +35,11 @@ public class BasicController {
         JSONObject jsonObject = fromJson(request);
         UserDTO userDTO = authorization.execute(jsonObject.getString("login"), jsonObject.getString("password"));
         return toJson(userDTO);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getContacts")
+    public @ResponseBody List<Contact> getContacts(){
+        return null;
     }
     //преобразование json-строки в объект, который хранит пришедшие параметры
     private JSONObject fromJson(HttpServletRequest request) throws IOException, JSONException {

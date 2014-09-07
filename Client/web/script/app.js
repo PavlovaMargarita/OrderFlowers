@@ -1,7 +1,7 @@
 var app = angular.module("OrderFlowers", ['ngRoute']);
 app.config(function($routeProvider){
     $routeProvider
-        .when('/', {
+        .when('/login', {
             templateUrl: 'pages/authorization.html',
             controller: 'authorizationController'
         } )
