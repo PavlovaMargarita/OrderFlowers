@@ -65,12 +65,12 @@
 
         <div class="btn-toolbar">
             <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-phone">Добавить</button>
-                <button type="button" class="btn btn-info">Удалить</button>
+                <button type="button" class="btn btn-info" onclick="showCreatePhonePopUp()">Добавить</button>
+                <button type="button" class="btn btn-info" onclick="deletePhones()">Удалить</button>
             </div>
         </div>
 
-        <table class="table table-hover">
+        <table class="table table-hover" id="phone-table">
             <thead>
             <tr class="info">
                 <th>&nbsp;</th>
@@ -84,13 +84,16 @@
             </thead>
 
             <tr>
-                <td><input type="checkbox"/></td>
-                <td>375</td>
-                <td>29</td>
-                <td>295-68-59</td>
-                <td>Мобильный</td>
-                <td>блаблабла</td>
-                <td>Здесь находится комментарий</td>
+                <td name="command-and-checkbox-td">
+                    <input type="checkbox" name="delete-contact-checkbox"/>
+                    <input type="hidden" name="command"/>
+                </td>
+                <td name="country-code-td">375</td>
+                <td name="operator-code-td">29</td>
+                <td name="phone-number-td">295-68-59</td>
+                <td name="phone-type-td">Мобильный</td>
+                <td name="phone-comment-td">Здесь находится комментарий</td>
+                <td><img src="../images/edit-button.png" onclick="showEditPhonePopUp(this)"></td>
             </tr>
         </table>
     </div>
@@ -121,43 +124,43 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Закрыть</span></button>
-                    <h4 class="modal-title" id="modal-label">Телефонный номер</h4>
+                    <h4 class="modal-title" id="modal-phone-title">Телефонный номер</h4>
                 </div>
 
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Код страны</label>
-                        <input type="text" class="form-control" name="country-code" id="country-code" placeholder="введите код страны">
+                        <input type="text" class="form-control" id="country-code" placeholder="введите код страны">
                     </div>
 
                     <div class="form-group">
                         <label>Код оператора</label>
-                        <input type="text" class="form-control" name="opertaor-code" id="operator-code" placeholder="введите код оператора">
+                        <input type="text" class="form-control" id="operator-code" placeholder="введите код оператора">
                     </div>
 
                     <div class="form-group">
                         <label>Телефонный номер</label>
-                        <input type="text" class="form-control" name="phone-number" id="phone-number" placeholder="введите телефонный номер">
+                        <input type="text" class="form-control" id="phone-number" placeholder="введите телефонный номер">
                     </div>
 
                     <div class="form-group">
                         <label>Тип телефонного номера</label>
-                        <select class="form-control">
-                            <option value="0">Выберите тип телефонного номера</option>
-                            <option value="1">Домашний</option>
-                            <option value="2">Мобильный</option>
+                        <select class="form-control" id="phone-type">
+                            <option value="NONE">Выберите тип телефонного номера</option>
+                            <option value="HOME">Домашний</option>
+                            <option value="MOBILE">Мобильный</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label>Комментарий</label>
-                        <textarea class="form-control" rows="6"></textarea>
+                        <textarea class="form-control" id="phone-comment" rows="6"></textarea>
                     </div>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-info">Сохранить</button>
+                    <button type="button" class="btn btn-info" id="modal-phone-button-save"></button>
                 </div>
             </div>
         </div>
