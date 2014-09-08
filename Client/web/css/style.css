@@ -89,3 +89,8 @@ body {
 .authorization .btn-primary {
     width: 100%;
 }
+
+#phone-table img {
+    width: 15pt;
+    cursor: hand;
+}
