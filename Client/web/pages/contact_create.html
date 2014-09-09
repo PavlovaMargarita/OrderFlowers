@@ -1,21 +1,23 @@
-<div class="contact" ng-model="contact">
-    <div class="contact-information">
+<div class="contact">
+    <div class="contact-information" >
+        <!--ng-controller="contactCorrectController"-->
         <div class="box" id="snp-box">
             <h3>ФИО</h3>
             <hr>
+            <input type="hidden" class="form-control" name="id" id="id" ng-model="contact.id"/>
             <div class="input-group">
                 <span class="input-group-addon">Фамилия</span>
-                <input type="text" class="form-control" name="surname" id="surname" value="{{contact.surname}}"/>
+                <input type="text" class="form-control" name="surname" id="surname" ng-model="contact.surname"/>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">Имя</span>
-                <input type="text" class="form-control" value="{{contact.name}}"/>
+                <input type="text" class="form-control" id="name" name="name" ng-model="contact.name"/>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">Отчество</span>
-                <input type="text" class="form-control" name="patronymic" id="patronymic" value="{{contact.patronymic}}"/>
+                <input type="text" class="form-control" name="patronymic" id="patronymic" ng-model="contact.patronymic"/>
             </div>
         </div>
 
@@ -24,12 +26,12 @@
             <hr>
             <div class="input-group">
                 <span class="input-group-addon">Дата рождения</span>
-                <input type="date" class="form-control" name="date-of-birth" id="date-of-birth" value="{{contact.dateOfBirth}}"/>
+                <input type="date" class="form-control" name="date-of-birth" id="date-of-birth" ng-model="contact.dateOfBirth"/>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">Email</span>
-                <input type="email" class="form-control" name="email" id="email" value="{{contact.email}}"/>
+                <input type="email" class="form-control" name="email" id="email" ng-model="contact.email"/>
             </div>
         </div>
 
@@ -38,22 +40,22 @@
             <hr>
             <div class="input-group">
                 <span class="input-group-addon">Город</span>
-                <input type="text" class="form-control" name="city" id="city" value="{{contact.city}}"/>
+                <input type="text" class="form-control" name="city" id="city" ng-model="contact.city"/>
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">Улица</span>
-                <input type="text" class="form-control" name="street" id="street" value="{{contact.street}}">
+                <input type="text" class="form-control" name="street" id="street" ng-model="contact.street">
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">Дом</span>
-                <input type="text" class="form-control" name="home" id="home" value="{{contact.home}}">
+                <input type="text" class="form-control" name="home" id="home" ng-model="contact.home">
             </div>
 
             <div class="input-group">
                 <span class="input-group-addon">Квартира</span>
-                <input type="text" class="form-control" name="flat" id="flat" value="{{contact.flat}}">
+                <input type="text" class="form-control" name="flat" id="flat" ng-model="contact.flat">
             </div>
         </div>
     </div>
@@ -117,6 +119,8 @@
             </tr>
         </table>
     </div>
+
+    <button type="button" class="btn btn-primary" ng-click="save.doClick()"> Сохранить</button>
 
     <!-- Phone Modal Form -->
     <div class="modal fade" id="modal-phone" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">

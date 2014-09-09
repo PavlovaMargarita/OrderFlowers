@@ -1,5 +1,29 @@
 app.controller("contactCreateController", function ($scope, $http, $location) {
-    $scope.message = "contactCreateController";
+    $scope.save = {};
+    $scope.save.doClick = function(){
+        response = $http({
+            method: "post",
+            url: "/OrderFlowers/saveContactCreate",
+            data: {
+                surname: $scope.contact.surname,
+                name: $scope.contact.name,
+                patronymic: $scope.contact.patronymic,
+                dateOfBirth: $scope.contact.dateOfBirth,
+                email: $scope.contact.email,
+                city: $scope.contact.city,
+                street: $scope.contact.street,
+                home: $scope.contact.home,
+                flat: $scope.contact.flat
+            }
+        });
+        response.success(function (data) {
+            $location.path('/contactList');
+            $location.replace();
+        });
+        response.error(function (data) {
+            $scope.authorization.info = "error";
+        });
+    }
 });
 
 app.controller("contactListController", function ($scope, $http, $location) {
@@ -20,7 +44,7 @@ app.controller("contactSearchController", function ($scope, $http) {
     $scope.message = "contactSearchController";
 });
 
-app.controller("contactCorrectController", function ($scope, $http, $routeParams) {
+app.controller("contactCorrectController", function ($scope, $http, $routeParams, $location) {
     var id = $routeParams.id;
     var response = $http({
         method: "get",
@@ -35,12 +59,47 @@ app.controller("contactCorrectController", function ($scope, $http, $routeParams
     response.error(function (data) {
         $scope.authorization.info = "error";
     });
+    $scope.save = {};
+    $scope.save.doClick = function(){
+        response = $http({
+            method: "post",
+            url: "/OrderFlowers/saveContactCorrect",
+            data: {
+                id: $scope.contact.id,
+                surname: $scope.contact.surname,
+                name: $scope.contact.name,
+                patronymic: $scope.contact.patronymic,
+                dateOfBirth: $scope.contact.dateOfBirth,
+                email: $scope.contact.email,
+                city: $scope.contact.city,
+                street: $scope.contact.street,
+                home: $scope.contact.home,
+                flat: $scope.contact.flat
+            }
+        });
+        response.success(function (data) {
+            var contactList = $http({
+                method: "get",
+                url: "/OrderFlowers/contactList"
+            });
+            contactList.success(function (data) {
+                $scope.contacts = data;
+                $location.path('/contactList');
+                $location.replace();
+            });
+            contactList.error(function (data) {
+                $scope.authorization.info = "error";
+            });
+        });
+        response.error(function (data) {
+            $scope.authorization.info = "error";
+        });
+    }
 });
 
-
 /*==================================================================
-        КЛИЕНТСКАЯ ЛОГИКА СТРАНИЦЫ contact.html
-====================================================================*/
+ КЛИЕНТСКАЯ ЛОГИКА СТРАНИЦЫ contact.html
+ ====================================================================*/
 
 //номер строки редактируемого телефона в таблице phone-table
 var phoneRowIndex = null;

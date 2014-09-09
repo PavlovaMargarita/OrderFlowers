@@ -184,13 +184,8 @@ public class Contact {
         if (home != null ? !home.equals(contact.home) : contact.home != null) return false;
         if (!id.equals(contact.id)) return false;
         if (isDelete != null ? !isDelete.equals(contact.isDelete) : contact.isDelete != null) return false;
-        if (listOrderCustomer != null ? !listOrderCustomer.equals(contact.listOrderCustomer) : contact.listOrderCustomer != null)
-            return false;
-        if (listOrderRecipient != null ? !listOrderRecipient.equals(contact.listOrderRecipient) : contact.listOrderRecipient != null)
-            return false;
         if (!name.equals(contact.name)) return false;
         if (patronymic != null ? !patronymic.equals(contact.patronymic) : contact.patronymic != null) return false;
-        if (phones != null ? !phones.equals(contact.phones) : contact.phones != null) return false;
         if (street != null ? !street.equals(contact.street) : contact.street != null) return false;
         if (!surname.equals(contact.surname)) return false;
 

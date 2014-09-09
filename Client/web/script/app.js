@@ -49,4 +49,8 @@ app.config(function($routeProvider){
             templateUrl: 'pages/user_create.html',
             controller: 'userCreateController'
         } )
+        .when('/userCorrect/:id', {
+            templateUrl: 'pages/user_create.html',
+            controller: 'userCorrectController'
+        } )
 });

@@ -1,5 +1,6 @@
 package com.itechart.courses.service.user;
 
+import com.itechart.courses.dao.contact.ContactDAO;
 import com.itechart.courses.dao.user.UserDAO;
 import com.itechart.courses.dto.UserDTO;
 import com.itechart.courses.entity.User;
@@ -15,6 +16,9 @@ public class UserServiceImpl implements UserService {
     @Autowired(required = true)
     UserDAO userDAO;
 
+    @Autowired(required = true)
+    ContactDAO contactDAO;
+
     @Override
     public UserDTO readUser(int id) {
         UserDTO userDTO = null;
@@ -26,14 +30,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(User user) {
+    public void createUser(UserDTO userDTO) {
+        User user = new User();
+        userDTOToUser(userDTO, user);
         userDAO.createUser(user);
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateUser(UserDTO userDTO) {
+        User user = userDAO.readUser(userDTO.getId());
+        userDTOToUser(userDTO, user);
         userDAO.updateUser(user);
     }
+
 
     @Override
     public void deleteUser(int id) {
@@ -52,10 +61,20 @@ public class UserServiceImpl implements UserService {
 
     public UserDTO userToUserDTO(User user){
         UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
         userDTO.setPassword(user.getPassword());
         userDTO.setLogin(user.getLogin());
-        userDTO.setPassword(user.getPassword());
+        userDTO.setRole(user.getRole());
+        userDTO.setSurname(user.getContact().getSurname());
+        userDTO.setName(user.getContact().getName());
+        userDTO.setPatronymic(user.getContact().getPatronymic());
+        userDTO.setIdContact(user.getContact().getId());
         return userDTO;
-
+    }
+    public void userDTOToUser(UserDTO userDTO, User user){
+        user.setLogin(userDTO.getLogin());
+        user.setPassword(userDTO.getPassword());
+        user.setRole(userDTO.getRole());
+        user.setContact(contactDAO.readContact(userDTO.getIdContact()));
     }
 }

@@ -7,10 +7,13 @@ import org.springframework.stereotype.Component;
 public class UserDTO {
 
     private RoleEnum role;
-
     private String login;
-
     private String password;
+    private int id;
+    private String surname;
+    private String name;
+    private String patronymic;
+    private int idContact;
 
     public RoleEnum getRole() {
         return role;
@@ -34,5 +37,45 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
+    public int getIdContact() {
+        return idContact;
+    }
+
+    public void setIdContact(int idContact) {
+        this.idContact = idContact;
     }
 }
