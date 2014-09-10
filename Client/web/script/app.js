@@ -1,4 +1,4 @@
-var app = angular.module("OrderFlowers", ['ngRoute']);
+var app = angular.module("OrderFlowers", ['ngRoute', 'checklist-model']);
 
 app.run(function($rootScope){
     $rootScope.menuVisibility = false; //Отображение меню. True - видим.

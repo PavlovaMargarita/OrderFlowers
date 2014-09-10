@@ -1,20 +1,17 @@
 package com.itechart.courses.controller;
 
-import com.google.gson.Gson;
 import com.itechart.courses.dto.ContactDTO;
+import com.itechart.courses.dto.DeleteDTO;
 import com.itechart.courses.dto.UserDTO;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.authorization.AuthorizationService;
 import com.itechart.courses.service.contact.ContactService;
 import com.itechart.courses.service.user.UserService;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +19,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/OrderFlowers")
 public class BasicController {
-    //вроде надо файлик, чтобы указать, где лежат сервисы (лекция, архив java 2014)
+
     @Autowired
     private AuthorizationService authorization;
 
@@ -31,13 +28,6 @@ public class BasicController {
 
     @Autowired
     private UserService userService;
-//    @RequestMapping(method = RequestMethod.POST, value = "/authorize")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public @ResponseBody String authorization(HttpServletRequest request) throws IOException, JSONException{
-//        JSONObject jsonObject = fromJson(request);
-//        UserDTO userDTO = authorization.execute(jsonObject.getString("login"), jsonObject.getString("password"));
-//        return toJson(userDTO);
-//    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/authorize")
     public @ResponseBody UserDTO authorization(@RequestBody UserDTO user) throws IOException, JSONException{
@@ -100,22 +90,22 @@ public class BasicController {
         userService.createUser(userDTO);
     }
 
-    //преобразование json-строки в объект, который хранит пришедшие параметры
-    private JSONObject fromJson(HttpServletRequest request) throws IOException, JSONException {
-        StringBuilder builder = new StringBuilder();
-        BufferedReader reader = request.getReader();
-        String line = null;
-        while ((line = reader.readLine()) != null){
-            builder.append(line);
+    @RequestMapping(method = RequestMethod.POST, value = "/userDelete")
+    public @ResponseBody void userDelete(@RequestBody DeleteDTO userId) throws IOException{
+        for(int i: userId.getDeleteId()){
+            userService.deleteUser(i);
         }
-        reader.close();
-        return new JSONObject(builder.toString());
-    }
-    //преобразование объекта в json-строку
-    private String toJson(Object object){
-        Gson gson = new Gson();
-        return gson.toJson(object);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/contactDelete")
+    public @ResponseBody boolean contactDelete(@RequestBody DeleteDTO contactId) throws IOException{
+        boolean delete = true;
+        for(int i: contactId.getDeleteId()){
+            if(!contactService.deleteContact(i)){
+                delete = false;
+            }
+        }
+        return delete;
+    }
 
 }

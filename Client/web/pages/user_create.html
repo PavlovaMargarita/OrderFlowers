@@ -2,13 +2,15 @@
     <div class="box">
         <div class="input-group">
             <span class="input-group-addon">Контакт</span>
-            <select class="form-control" name="contact" id="contact" data-ng-model="contact.id" ng-options="c.id as c.name for c in contacts">
+            <select class="form-control" name="contact" id="contact" data-ng-model="contact.id"
+                    ng-options="c.id as c.name for c in contacts">
             </select>
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">Роль</span>
-            <select class="form-control" name="role" id="role" data-ng-model="user.role" ng-options="role as role for role in roles">
+            <select class="form-control" name="role" id="role" data-ng-model="user.role"
+                    ng-options="role as role for role in roles">
             </select>
         </div>
 
@@ -25,4 +27,3 @@
 
     <button type="button" class="btn btn-primary" ng-click="save.doClick()"> Сохранить</button>
 </div>
-</body>
