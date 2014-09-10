@@ -67,8 +67,13 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public List searchContact() {
-        return null;
+    public List searchContact(ContactSearchDTO parameters) {
+        List contactDTOList = new ArrayList<ContactDTO>();
+        List<Contact> contactList = contactDAO.searchContact(parameters);
+        for (Contact contact : contactList){
+            contactDTOList.add(contactToContactDTO(contact));
+        }
+        return contactDTOList;
     }
 
     @Override
