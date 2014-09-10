@@ -11,4 +11,5 @@ public interface ContactDAO {
     public Contact readContact(int id); //if the contact is not found, returns null
     public void updateContact(Contact contact);
     public List<Contact> readAllContacts(); //if contacts not found, return null;
+    public List<Contact> searchContact(ContactSearchDTO parameters);
 }
