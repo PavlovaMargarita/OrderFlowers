@@ -4,17 +4,17 @@
         <hr>
         <div class="input-group">
             <span class="input-group-addon">Фамилия</span>
-            <input class="form-control" name="surname" id="surname"/>
+            <input class="form-control" name="surname" id="surname" ng-model="contact.surname"/>
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">Имя</span>
-            <input class="form-control" name="name" id="name"/>
+            <input class="form-control" name="name" id="name" ng-model="contact.name"/>
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">Отчество</span>
-            <input class="form-control" name="patronymic" id="patronymic"/>
+            <input class="form-control" name="patronymic" id="patronymic" ng-model="contact.patronymic"/>
         </div>
     </div>
 
@@ -23,12 +23,12 @@
         <hr>
         <div class="input-group">
             <span class="input-group-addon">От</span>
-            <input type="date" class="form-control" name="dob-lower-range" id="dob-lower-range"/>
+            <input type="date" class="form-control" name="dob-lower-range" id="dob-lower-range" ng-model="contact.lowerDateOfBirth"/>
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">До</span>
-            <input type="date" class="form-control" name="dob-upper-range" id="dob-upper-range"/>
+            <input type="date" class="form-control" name="dob-upper-range" id="dob-upper-range" ng-model="contact.upperDateOfBirth"/>
         </div>
     </div>
 
@@ -36,20 +36,25 @@
         <h3>Адрес</h3>
         <hr>
         <div class="input-group">
+            <span class="input-group-addon">Город</span>
+            <input type="text" class="form-control" name="city" id="city" ng-model="contact.city"/>
+        </div>
+
+        <div class="input-group">
             <span class="input-group-addon">Улица</span>
-            <input type="text" class="form-control" name="street" id="street"/>
+            <input type="text" class="form-control" name="street" id="street" ng-model="contact.street"/>
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">Дом</span>
-            <input type="text" class="form-control" name="house" id="house"/>
+            <input type="text" class="form-control" name="house" id="home" ng-model="contact.home"/>
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">Квартира</span>
-            <input type="text" class="form-control" name="flat" id="flat"/>
+            <input type="text" class="form-control" name="flat" id="flat" ng-model="contact.flat"/>
         </div>
     </div>
 
-    <button class="btn btn-primary">Поиск</button>
+    <button class="btn btn-primary" ng-click="save.doClick()">Поиск</button>
 </div>
