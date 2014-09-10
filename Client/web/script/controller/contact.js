@@ -73,8 +73,34 @@ app.controller("contactListController", function ($scope, $http, $location) {
     }
 });
 
-app.controller("contactSearchController", function ($scope, $http) {
-    $scope.message = "contactSearchController";
+app.controller("contactSearchController", function ($scope, $http, $location, $rootScope) {
+    $scope.save = {};
+    $scope.save.doClick = function(){
+        var contactSearch = $http({
+            method: "post",
+            url: "/OrderFlowers/contactSearch",
+            data: {
+                surname: $scope.contact.surname,
+                name: $scope.contact.name,
+                patronymic: $scope.contact.patronymic,
+                lowerDateOfBirth: $scope.contact.lowerDateOfBirth,
+                upperDateOfBirth: $scope.contact.upperDateOfBirth,
+                city: $scope.contact.city,
+                street: $scope.contact.street,
+                home: $scope.contact.home,
+                flat: $scope.contact.flat
+            }
+        });
+        contactSearch.success(function (data) {
+            $rootScope.isSearchContact = true;
+            $rootScope.data = data;
+            $location.path('/contactList');
+            $location.replace();
+        });
+        contactSearch.error(function (data) {
+            $scope.authorization.info = "error";
+        });
+    }
 });
 
 app.controller("contactCorrectController", function ($scope, $http, $routeParams, $location) {
