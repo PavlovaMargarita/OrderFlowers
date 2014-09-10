@@ -1,4 +1,5 @@
-app.controller("userListController", function ($scope, $http) {
+app.controller("userListController", function ($scope, $http, $location) {
+    $scope.usersToDelete = [];
     var response = $http({
         method: "get",
         url: "/OrderFlowers/userList"
@@ -9,6 +10,34 @@ app.controller("userListController", function ($scope, $http) {
     response.error(function (data) {
         $scope.authorization.info = "error";
     });
+
+    $scope.delete = {};
+    $scope.delete.doClick = function(){
+        var userDelete = $http({
+            method: "post",
+            url: "/OrderFlowers/userDelete",
+            data: {
+                deleteId: $scope.usersToDelete
+            }
+        });
+        userDelete.success(function (data) {
+            var userList = $http({
+                method: "get",
+                url: "/OrderFlowers/userList"
+            });
+            userList.success(function (data) {
+                $scope.users = data;
+                $location.path('/userList');
+                $location.replace();
+            });
+            userList.error(function (data) {
+                $scope.authorization.info = "error";
+            });
+        });
+        userDelete.error(function (data) {
+            $scope.authorization.info = "error";
+        });
+    }
 });
 
 app.controller("userCreateController", function ($scope, $http, $location) {

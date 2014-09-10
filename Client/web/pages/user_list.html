@@ -1,24 +1,20 @@
 <div class="user-list">
-    <div class="btn-toolbar">
-        <div class="btn-group btn-group-sm">
-            <button class="btn btn-success">Добавить</button>
-            <button class="btn btn-danger">Удалить</button>
-        </div>
-    </div>
+
+    <button type="button" class="btn btn-danger" ng-click="delete.doClick()"> Удалить</button>
 
     <table class="table table-hover">
         <thead>
-            <tr class="warning">
-                <th>&nbsp;</th>
-                <th>ФИО</th>
-                <th>Логин</th>
-                <th>Роль</th>
-                <th>Редактировать</th>
-            </tr>
+        <tr class="warning">
+            <th>&nbsp;</th>
+            <th>ФИО</th>
+            <th>Логин</th>
+            <th>Роль</th>
+            <th>Редактировать</th>
+        </tr>
         </thead>
 
         <tr data-ng-repeat="user in users">
-            <td><input type="checkbox"/></td>
+            <td><input type="checkbox" checklist-model="usersToDelete" checklist-value="user.id"/></td>
             <td>{{user.surname}} {{user.name}} {{user.patronymic}}</td>
             <td>{{user.login}}</td>
             <td>{{user.role}}</td>
@@ -28,15 +24,6 @@
                 </div>
             </td>
         </tr>
-        <!--<tr>-->
-            <!--<td><input type="checkbox"/></td>-->
-            <!--<td>Иванов</td>-->
-            <!--<td>Иван</td>-->
-            <!--<td>Иванович</td>-->
-            <!--<td>collman</td>-->
-            <!--<td>админ</td>-->
-            <!--<td></td>-->
-        <!--</tr>-->
     </table>
 
     <!--постраничная навигация-->

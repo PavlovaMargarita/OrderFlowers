@@ -43,8 +43,17 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public void deleteContact(int id) {
+    public boolean deleteContact(int id) {
+        List<User> users = userDAO.readAllUsers();
+        boolean delete = true;
+        for(User user: users){
+            if(user.getContact().getId() == id){
+                delete = false;
+                return false;
+            }
+        }
         contactDAO.deleteContact(id);
+        return true;
     }
 
     @Override

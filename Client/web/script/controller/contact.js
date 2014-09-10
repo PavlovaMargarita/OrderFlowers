@@ -27,6 +27,7 @@ app.controller("contactCreateController", function ($scope, $http, $location) {
 });
 
 app.controller("contactListController", function ($scope, $http, $location) {
+    $scope.contactsToDelete = [];
     var response = $http({
         method: "get",
         url: "/OrderFlowers/contactList"
@@ -37,7 +38,39 @@ app.controller("contactListController", function ($scope, $http, $location) {
     response.error(function (data) {
         $scope.authorization.info = "error";
     });
-//    $scope.message = "contactListController";
+
+
+    $scope.deleteContact = {};
+    $scope.deleteContact.doClick = function(){
+        var contactDelete = $http({
+            method: "post",
+            url: "/OrderFlowers/contactDelete",
+            data: {
+                deleteId: $scope.contactsToDelete
+            }
+        });
+        contactDelete.success(function (data) {
+            if(data == 'false'){
+                alert("Вы пытаетесь удалить контакт, который связан с пользователем");
+            }
+            var userList = $http({
+                method: "get",
+                url: "/OrderFlowers/contactList"
+            });
+            userList.success(function (data) {
+                $scope.contacts = data;
+                $location.path('/contactList');
+                $location.replace();
+                $scope.contactsToDelete = [];
+            });
+            userList.error(function (data) {
+                $scope.authorization.info = "error";
+            });
+        });
+        contactDelete.error(function (data) {
+            $scope.authorization.info = "error";
+        });
+    }
 });
 
 app.controller("contactSearchController", function ($scope, $http) {
