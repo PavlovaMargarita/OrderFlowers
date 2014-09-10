@@ -10,6 +10,6 @@ public interface ContactService {
     public void updateContact(ContactDTO contact);
     public boolean deleteContact(int id);
     public List readContact();
-    public List searchContact();
+    public List searchContact(ContactSearchDTO parameters);
     public List readContactForUser(int idUser);
 }
