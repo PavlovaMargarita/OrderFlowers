@@ -1,6 +1,7 @@
 package com.itechart.courses.controller;
 
 import com.itechart.courses.dto.ContactDTO;
+import com.itechart.courses.dto.ContactSearchDTO;
 import com.itechart.courses.dto.DeleteDTO;
 import com.itechart.courses.dto.UserDTO;
 import com.itechart.courses.dto.LoginDTO;
@@ -51,6 +52,11 @@ public class BasicController {
     @RequestMapping(method = RequestMethod.GET, value = "/contactList")
     public @ResponseBody List<ContactDTO> getContactList(){
         return contactService.readContact();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/contactSearch")
+    public @ResponseBody List<ContactDTO> contactSearch(@RequestBody ContactSearchDTO contactSearchDTO){
+        return contactService.searchContact(contactSearchDTO);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/contactCorrect")
