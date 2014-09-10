@@ -3,12 +3,15 @@ package com.itechart.courses.controller;
 import com.itechart.courses.dto.ContactDTO;
 import com.itechart.courses.dto.DeleteDTO;
 import com.itechart.courses.dto.UserDTO;
+import com.itechart.courses.dto.LoginDTO;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.authorization.AuthorizationService;
 import com.itechart.courses.service.contact.ContactService;
 import com.itechart.courses.service.user.UserService;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +31,16 @@ public class BasicController {
 
     @Autowired
     private UserService userService;
+
+    @RequestMapping(method = RequestMethod.GET, value = "/userInfo")
+    @ResponseBody
+    public LoginDTO currentUserInfo(Authentication authentication){
+        List<GrantedAuthority> authority = (List<GrantedAuthority>) authentication.getAuthorities();
+        String stringRole = authority.get(0).getAuthority();
+        String username = authentication.getName();
+        LoginDTO loginDTO = new LoginDTO(RoleEnum.valueOf(stringRole), username);
+        return loginDTO;
+    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/authorize")
     public @ResponseBody UserDTO authorization(@RequestBody UserDTO user) throws IOException, JSONException{
@@ -68,10 +81,9 @@ public class BasicController {
     @RequestMapping(method = RequestMethod.GET, value = "/roleEnum")
     public @ResponseBody List getRoleEnum(){
         List roleEnum = new ArrayList();
-        for(int i = 0; i < RoleEnum.values().length; i++){
+        for(int i = 0; i < RoleEnum.values().length; i++) {
             roleEnum.add(RoleEnum.values()[i]);
         }
-
         return roleEnum;
     }
 
@@ -107,5 +119,7 @@ public class BasicController {
         }
         return delete;
     }
+
+
 
 }

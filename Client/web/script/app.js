@@ -1,4 +1,4 @@
-var app = angular.module("OrderFlowers", ['ngRoute', 'checklist-model']);
+var app = angular.module("OrderFlowers", ['ngRoute', 'checklist-model', 'ngCookies']);
 
 app.run(function($rootScope){
     $rootScope.menuVisibility = false; //Отображение меню. True - видим.
@@ -7,7 +7,7 @@ app.run(function($rootScope){
 
 app.config(function($routeProvider){
     $routeProvider
-        .when('/', {
+        .when('/login', {
             templateUrl: 'pages/authorization.html',
             controller: 'authorizationController'
         } )
@@ -54,3 +54,4 @@ app.config(function($routeProvider){
             controller: 'userCorrectController'
         } )
 });
+

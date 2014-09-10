@@ -5,12 +5,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-
-import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -82,6 +78,28 @@ public class UserDAOImpl implements UserDAO {
         return result;
     }
 
+    @SuppressWarnings("JpaQlInspection")
+    @Override
+    public User readUser(String login) {
+        User user = null;
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Query query = session.createQuery("from User where login = :login");
+            query.setString("login", login);
+            List<User> temp = query.list();
+            if (temp.size() != 0){
+                user = temp.get(0);
+            }
+        }
+        finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return user;
+    }
+
     public User readUser(int id){
         User user = null;
         Session session = null;
@@ -118,6 +136,7 @@ public class UserDAOImpl implements UserDAO {
         }
         return user;
     }
+
 
     @SuppressWarnings("JpaQlInspection")
     public List<User> readAllUsers() {
