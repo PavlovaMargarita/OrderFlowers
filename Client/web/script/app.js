@@ -33,7 +33,7 @@ app.config(function($routeProvider){
             controller: 'orderListController'
         } )
         .when('/orderCreate', {
-            templateUrl: 'pages/order_list.html',
+            templateUrl: 'pages/order_create.html',
             controller: 'orderCreateController'
         } )
         .when('/orderSearch', {
