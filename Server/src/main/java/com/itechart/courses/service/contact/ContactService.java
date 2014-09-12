@@ -1,6 +1,7 @@
 package com.itechart.courses.service.contact;
 
 import com.itechart.courses.dto.ContactDTO;
+import com.itechart.courses.dto.ContactSearchDTO;
 
 import java.util.List;
 

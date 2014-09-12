@@ -3,6 +3,7 @@ package com.itechart.courses.service.contact;
 import com.itechart.courses.dao.contact.ContactDAO;
 import com.itechart.courses.dao.user.UserDAO;
 import com.itechart.courses.dto.ContactDTO;
+import com.itechart.courses.dto.ContactSearchDTO;
 import com.itechart.courses.dto.PhoneDTO;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Phone;
