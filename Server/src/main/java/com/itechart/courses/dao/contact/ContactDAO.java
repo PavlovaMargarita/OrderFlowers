@@ -1,5 +1,6 @@
 package com.itechart.courses.dao.contact;
 
+import com.itechart.courses.dto.ContactSearchDTO;
 import com.itechart.courses.entity.Contact;
 
 import java.util.List;

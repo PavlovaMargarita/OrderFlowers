@@ -1,5 +1,6 @@
 package com.itechart.courses.dao.contact;
 
+import com.itechart.courses.dto.ContactSearchDTO;
 import com.itechart.courses.entity.Contact;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
+import java.sql.Date;
 import java.util.List;
 
 @Repository
