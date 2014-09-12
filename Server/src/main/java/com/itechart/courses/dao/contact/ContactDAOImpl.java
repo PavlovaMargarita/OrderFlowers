@@ -125,14 +125,11 @@ public class ContactDAOImpl implements ContactDAO {
     }
     
     public List<Contact> searchContact(ContactSearchDTO parameters){
-    if (parameters == null){
-        throw new NullPointerException("parameters is null");
-    }
-    Session session = null;
-    List<Contact> contacts = null;
-    try
-    {
-        session = sessionFactory.openSession();
+        if (parameters == null){
+            throw new NullPointerException("parameters is null");
+        }
+        Session session = null;
+        List<Contact> contacts = null;
         StringBuilder builder = new StringBuilder();
         String surname = parameters.getSurname();
         String name = parameters.getName();
@@ -145,74 +142,110 @@ public class ContactDAOImpl implements ContactDAO {
         Integer flat = parameters.getFlat();
 
         if (surname != null){
-            builder.append("`surname` = '").append(surname).append("'");
+            builder.append("contact.surname = :surname");
         }
         if (name != null){
             if (builder.length() != 0){
                 builder.append(" AND ");
             }
-            builder.append("`name` = '").append(name).append("'");
+            builder.append("contact.name = :name");
         }
         if (patronymic != null){
             if (builder.length() != 0){
                 builder.append(" AND ");
             }
-            builder.append("`patronymic` = '").append(patronymic).append("'");
+            builder.append("contact.patronymic = :patronymic");
         }
 
         if (lowerDateOfBirth != null && upperDateOfBirth != null){
             if (builder.length() != 0){
                 builder.append(" AND ");
             }
-            builder.append("`dateOfBirth` BETWEEN '").append(lowerDateOfBirth).append("` AND `").append(upperDateOfBirth).append("'");
+            builder.append("contact.dateOfBirth BETWEEN :lowerDateOfBirth AND :upperDateOfBirth");
         }
         else if (lowerDateOfBirth != null){
             if (builder.length() != 0){
                 builder.append(" AND ");
             }
-            builder.append("`date_of_birth` >= '").append(lowerDateOfBirth).append("'");
+            builder.append("contact.dateOfBirth >= :lowerDateOfBirth");
         }
         else if (upperDateOfBirth != null){
             if (builder.length() != 0){
                 builder.append(" AND ");
             }
-            builder.append("`date_of_birth` <= '").append(lowerDateOfBirth).append("'");
+            builder.append("contact.dateOfBirth <= :upperDateOfBirth");
         }
 
         if (city != null){
             if (builder.length() != 0){
                 builder.append(" AND ");
             }
-            builder.append("`city` = '").append(city).append("'");
+            builder.append("contact.city = :city");
         }
         if (street != null){
             if (builder.length() != 0){
                 builder.append(" AND ");
             }
-            builder.append("`street` = '").append(street).append("'");
+            builder.append("contact.street = :street");
         }
         if (home != null){
             if (builder.length() != 0){
                 builder.append(" AND ");
             }
-            builder.append("`home` = '").append(home).append("'");
+            builder.append("contact.home = :home");
         }
         if (flat != null){
             if (builder.length() != 0){
                 builder.append(" AND ");
             }
-            builder.append("`flat` = ").append(flat).append("'");
+            builder.append("contact.flat = :flat");
         }
+        builder.insert(0, "from Contact contact where ");
+        builder.append(" AND contact.isDelete = false");
 
-        builder.insert(0, "SELECT * FROM `contact` where ");
-        Query query = session.createSQLQuery(builder.toString()).addEntity(Contact.class);
-        contacts = (List<Contact>) query.list();
-    }
-    finally {
-        if (session != null && session.isOpen()) {
-            session.close();
+        try {
+            session = sessionFactory.openSession();
+            Query query = session.createQuery(builder.toString());
+            if (surname != null){
+                query.setString("surname", surname);
+            }
+            if (name != null){
+                query.setString("name", name);
+            }
+            if (patronymic != null){
+                query.setString("patronymic", patronymic);
+            }
+
+            if (lowerDateOfBirth != null && upperDateOfBirth != null){
+                query.setDate("lowerDateOfBirth", lowerDateOfBirth);
+                query.setDate("upperDateOfBirth", upperDateOfBirth);
+            }
+            else if (lowerDateOfBirth != null){
+                query.setDate("lowerDateOfBirth", lowerDateOfBirth);
+            }
+            else if (upperDateOfBirth != null){
+                query.setDate("upperDateOfBirth", upperDateOfBirth);
+            }
+
+            if (city != null){
+                query.setString("city", city);
+            }
+            if (street != null){
+                query.setString("street", street);
+            }
+            if (home != null){
+                query.setInteger("home", home);
+            }
+            if (flat != null){
+                query.setInteger("flat", flat);
+            }
+            contacts = (List<Contact>) query.list();
         }
+        finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return contacts;
     }
-    return contacts;
-}
 }
