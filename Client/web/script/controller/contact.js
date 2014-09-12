@@ -26,19 +26,24 @@ app.controller("contactCreateController", function ($scope, $http, $location) {
     }
 });
 
-app.controller("contactListController", function ($scope, $http, $location) {
+app.controller("contactListController", function ($scope, $rootScope, $http, $location) {
     $scope.contactsToDelete = [];
-    var response = $http({
-        method: "get",
-        url: "/OrderFlowers/contactList"
-    });
-    response.success(function (data) {
-        $scope.contacts = data;
-    });
-    response.error(function (data) {
-        $scope.authorization.info = "error";
-    });
-
+    if ($rootScope.isSearchContact){
+        $scope.contacts = $rootScope.data;
+        $rootScope.isSearchContact = false;
+    }
+    else {
+        var response = $http({
+            method: "get",
+            url: "/OrderFlowers/contactList"
+        });
+        response.success(function (data) {
+            $scope.contacts = data;
+        });
+        response.error(function (data) {
+            $scope.authorization.info = "error";
+        });
+    }
 
     $scope.deleteContact = {};
     $scope.deleteContact.doClick = function(){
