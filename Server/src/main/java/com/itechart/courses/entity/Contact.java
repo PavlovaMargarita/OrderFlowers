@@ -21,7 +21,7 @@ public class Contact {
     @Column(nullable = true, length = 30)
     private String patronymic;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "date_of_birth")
     private Date dateOfBirth;
 
     @Column(nullable = true, length = 50)
