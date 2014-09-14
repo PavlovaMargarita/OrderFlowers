@@ -123,7 +123,26 @@ public class ContactDAOImpl implements ContactDAO {
             }
         }
     }
-    
+
+    @Override
+    public List<Contact> searchContactByDateOfBirth(int month, int day) {
+        List<Contact> contacts = null;
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Query query = session.createQuery("from Contact contact where DAYOFMONTH(contact.dateOfBirth) = :day and MONTH(contact.dateOfBirth) = :month");
+            query.setInteger("month", month);
+            query.setInteger("day", day);
+            contacts = query.list();
+        }
+        finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return contacts;
+    }
+
     public List<Contact> searchContact(ContactSearchDTO parameters){
         if (parameters == null){
             throw new NullPointerException("parameters is null");
