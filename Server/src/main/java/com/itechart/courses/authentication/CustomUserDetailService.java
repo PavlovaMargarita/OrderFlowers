@@ -1,4 +1,4 @@
-package com.itechart.courses.authentification;
+package com.itechart.courses.authentication;
 
 import com.itechart.courses.dao.user.UserDAO;
 import org.springframework.security.core.userdetails.User;
