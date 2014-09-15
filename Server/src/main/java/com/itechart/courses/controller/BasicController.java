@@ -1,13 +1,11 @@
 package com.itechart.courses.controller;
 
-import com.itechart.courses.dto.ContactDTO;
-import com.itechart.courses.dto.ContactSearchDTO;
-import com.itechart.courses.dto.DeleteDTO;
-import com.itechart.courses.dto.UserDTO;
-import com.itechart.courses.dto.LoginDTO;
+import com.itechart.courses.demon.SendEmailByTimer;
+import com.itechart.courses.dto.*;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.authorization.AuthorizationService;
 import com.itechart.courses.service.contact.ContactService;
+import com.itechart.courses.service.email.EmailService;
 import com.itechart.courses.service.user.UserService;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Controller
 @RequestMapping("/OrderFlowers")
@@ -32,6 +32,9 @@ public class BasicController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/userInfo")
     @ResponseBody
@@ -90,6 +93,7 @@ public class BasicController {
         for(int i = 0; i < RoleEnum.values().length; i++) {
             roleEnum.add(RoleEnum.values()[i]);
         }
+
         return roleEnum;
     }
 
@@ -109,16 +113,16 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/userDelete")
-    public @ResponseBody void userDelete(@RequestBody DeleteDTO userId) throws IOException{
-        for(int i: userId.getDeleteId()){
+    public @ResponseBody void userDelete(@RequestBody CheckDTO userId) throws IOException{
+        for(int i: userId.getCheckId()){
             userService.deleteUser(i);
         }
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/contactDelete")
-    public @ResponseBody boolean contactDelete(@RequestBody DeleteDTO contactId) throws IOException{
+    public @ResponseBody boolean contactDelete(@RequestBody CheckDTO contactId) throws IOException{
         boolean delete = true;
-        for(int i: contactId.getDeleteId()){
+        for(int i: contactId.getCheckId()){
             if(!contactService.deleteContact(i)){
                 delete = false;
             }
@@ -126,6 +130,21 @@ public class BasicController {
         return delete;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/showEmail")
+    public @ResponseBody List<String> showEmail(@RequestParam("checkId") ArrayList<Integer> contactId) throws IOException{
+        List<String> listEmail = new ArrayList<String>();
+        ContactDTO contact;
+        for(int i: contactId){
+            contact = contactService.readContact(i);
+            if (contact.getEmail() != null)
+                listEmail.add(contact.getEmail());
+        }
+        return listEmail;
+    }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/sendEmail")
+    public @ResponseBody void sendEmail(@RequestBody EmailDTO emailDTO) throws IOException{
+        emailService.sendEmail(emailDTO);
+    }
 
 }

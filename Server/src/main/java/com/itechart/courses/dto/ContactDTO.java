@@ -1,11 +1,8 @@
 package com.itechart.courses.dto;
 
-import org.springframework.stereotype.Component;
-
 import java.sql.Date;
 import java.util.List;
 
-@Component
 public class ContactDTO {
 
     private Integer id;
