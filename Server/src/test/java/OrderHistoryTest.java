@@ -13,14 +13,23 @@ import com.itechart.courses.entity.Order;
 import com.itechart.courses.entity.OrderHistory;
 import com.itechart.courses.entity.User;
 import junit.framework.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
+import javax.transaction.Transactional;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:/application-context.xml")
+@TransactionConfiguration(transactionManager = "transactionManager",defaultRollback = true)
 public class OrderHistoryTest {
 
     @Autowired
@@ -35,18 +44,18 @@ public class OrderHistoryTest {
     @Autowired
     OrderHistoryDAO orderHistoryDAO;
 
+    @Test
+    @Transactional
     public void testReadCreteOrderHistory(){
         Contact contact = new Contact();
         contact.setSurname("Иванов");
         contact.setName("Иван");
         contact.setPatronymic("Иванович");
-
         User user = new User();
         user.setContact(contact);
         user.setLogin("test1");
         user.setPassword("test1");
         user.setRole(RoleEnum.SERVICE_DELIVERY_MANAGER);
-
         Order order = new Order();
         order.setReceiveManager(user);
         order.setHandlerManager(user);
@@ -56,7 +65,6 @@ public class OrderHistoryTest {
         order.setCustomer(contact);
         order.setRecipient(contact);
         order.setOrderDescription("test1");
-
         OrderHistory orderHistory1 = new OrderHistory();
         orderHistory1.setComment("test1");
         orderHistory1.setStatus(OrderStatusEnum.ADOPTED);
@@ -68,7 +76,6 @@ public class OrderHistoryTest {
         orderHistory1.setChangeDate(date1);
         orderHistory1.setOrder(order);
         orderHistory1.setUser(user);
-
         OrderHistory orderHistory2 = new OrderHistory();
         orderHistory2.setComment("test2");
         orderHistory2.setStatus(OrderStatusEnum.ADOPTED);
@@ -79,7 +86,6 @@ public class OrderHistoryTest {
         orderHistory2.setChangeDate(date2);
         orderHistory2.setOrder(order);
         orderHistory2.setUser(user);
-
         contactDAO.createContact(contact);
         userDAO.createUser(user);
         orderDAO.createOrder(order);
@@ -92,30 +98,28 @@ public class OrderHistoryTest {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String dateStr1 = dateFormat.format(orderHistory1.getChangeDate());
             Assert.assertEquals("Order History change date is not equals", dateStr1, orderHistoryList.get(0).getChangeDate().toString());
-
             Assert.assertEquals("Order History status is not equals", orderHistory2.getStatus(), orderHistoryList.get(1).getStatus());
             Assert.assertEquals("Order History status is not equals", orderHistory2.getComment(), orderHistoryList.get(1).getComment());
             String dateStr2 = dateFormat.format(orderHistory2.getChangeDate());
             Assert.assertEquals("Order History change date is not equals", dateStr2, orderHistoryList.get(1).getChangeDate().toString());
-
         } catch (ArrayIndexOutOfBoundsException e){
             e.printStackTrace();
         }
 
     }
 
+    @Test
+    @Transactional
     public void testUpdateOrderHistory(){
         Contact contact = new Contact();
         contact.setSurname("Иванов");
         contact.setName("Иван");
         contact.setPatronymic("Иванович");
-
         User user = new User();
         user.setContact(contact);
         user.setLogin("test1");
         user.setPassword("test1");
         user.setRole(RoleEnum.SERVICE_DELIVERY_MANAGER);
-
         Order order = new Order();
         order.setReceiveManager(user);
         order.setHandlerManager(user);
@@ -125,7 +129,6 @@ public class OrderHistoryTest {
         order.setCustomer(contact);
         order.setRecipient(contact);
         order.setOrderDescription("test1");
-
         OrderHistory orderHistory = new OrderHistory();
         orderHistory.setComment("test1");
         orderHistory.setStatus(OrderStatusEnum.ADOPTED);
@@ -143,8 +146,8 @@ public class OrderHistoryTest {
         orderHistoryDAO.createOrderHistory(orderHistory);
         orderHistory.setStatus(OrderStatusEnum.NEW);
         orderHistoryDAO.updateOrderHistory(orderHistory);
-        Assert.assertEquals("Order History status is not equals", orderHistory.getStatus(), orderDAO.readOrder(orderHistory.getId()).getStatus());
-
+        orderHistory.getStatus();
+        Assert.assertEquals("Order History status is not equals", orderHistory.getStatus(), orderHistoryDAO.readOrderHistory(orderHistory.getId()).getStatus());
     }
 }
 

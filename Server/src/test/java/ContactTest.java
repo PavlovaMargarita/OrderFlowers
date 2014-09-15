@@ -4,21 +4,29 @@ import com.itechart.courses.entity.Contact;
 import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
+import javax.transaction.Transactional;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:/application-context.xml")
+@TransactionConfiguration(transactionManager = "transactionManager",defaultRollback = true)
 public class ContactTest {
 
     @Autowired
     ContactDAO contactDAO;
 
     @Test
-    @BeforeClass
+    @Transactional
     public void testReadCreateContact(){
         Contact contact1 = new Contact();
         contact1.setSurname("Иванов");
@@ -53,7 +61,6 @@ public class ContactTest {
             String date1 = dateFormat.format(contact1.getDateOfBirth());
             Assert.assertEquals("Date of birth is not equals", date1, contactList.get(0).getDateOfBirth().toString());
             Assert.assertEquals("Home of birth is not equals", contact1.getHome(), contactList.get(0).getHome());
-
             Assert.assertEquals("Surname is not equals", contact2.getSurname(), contactList.get(1).getSurname());
             Assert.assertEquals("Name is not equals", contact2.getName(), contactList.get(1).getName());
             Assert.assertEquals("Patronymic is not equals", contact2.getPatronymic(), contactList.get(1).getPatronymic());
@@ -66,8 +73,8 @@ public class ContactTest {
 
     }
 
-    @Test
-    @BeforeClass
+    /*@Test
+    @Transactional
     public void testDeleteContact(){
         Contact contact = new Contact();
         contact.setSurname("Иванов");
@@ -83,10 +90,10 @@ public class ContactTest {
         contactDAO.createContact(contact);
         contactDAO.deleteContact(contact.getId());
         Assert.assertEquals("Contact is not deleted", new Boolean(true), contactDAO.readContact(contact.getId()).getIsDelete());
-    }
+    }*/
 
     @Test
-    @BeforeClass
+    @Transactional
     public void testUpdateContact(){
         Contact contact = new Contact();
         contact.setSurname("Иванов");
@@ -116,9 +123,5 @@ public class ContactTest {
         String date = dateFormat.format(contact.getDateOfBirth());
         Assert.assertEquals("Date of birth is not equals", date, contactList.get(0).getDateOfBirth().toString());
         Assert.assertEquals("Home of birth is not equals", contact.getHome(), contactList.get(0).getHome());
-
-
     }
-
-
 }
