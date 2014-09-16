@@ -1,7 +1,6 @@
 package com.itechart.courses.service.authorization;
 
 import com.itechart.courses.dao.user.UserDAO;
-import com.itechart.courses.dao.user.UserDAOImpl;
 import com.itechart.courses.dto.UserDTO;
 import com.itechart.courses.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;

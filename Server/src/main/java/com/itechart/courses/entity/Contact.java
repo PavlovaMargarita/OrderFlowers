@@ -8,6 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "contact")
 public class Contact {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

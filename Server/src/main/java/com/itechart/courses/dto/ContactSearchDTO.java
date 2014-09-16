@@ -6,6 +6,7 @@ import java.sql.Date;
  * Created by User on 10.09.14.
  */
 public class ContactSearchDTO {
+
     private String surname;
     private String name;
     private String patronymic;

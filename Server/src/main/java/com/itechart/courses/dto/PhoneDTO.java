@@ -6,6 +6,7 @@ import com.itechart.courses.enums.PhoneTypeEnum;
  * Created by Margarita on 07.09.2014.
  */
 public class PhoneDTO {
+
     private Integer id;
     private Short countryCode;
     private Short operatorCode;

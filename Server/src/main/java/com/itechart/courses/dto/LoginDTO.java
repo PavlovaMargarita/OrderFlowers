@@ -8,7 +8,6 @@ import com.itechart.courses.enums.RoleEnum;
 public class LoginDTO {
 
     private String login;
-
     private RoleEnum role;
 
     public LoginDTO(RoleEnum role, String login) {

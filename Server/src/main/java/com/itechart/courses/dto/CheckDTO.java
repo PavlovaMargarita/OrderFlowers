@@ -6,6 +6,7 @@ import java.util.*;
  * Created by Margarita on 10.09.2014.
  */
 public class CheckDTO {
+
     private List<Integer> checkId;
 
     public CheckDTO() {

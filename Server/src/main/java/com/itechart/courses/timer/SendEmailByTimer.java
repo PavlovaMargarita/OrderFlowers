@@ -1,8 +1,6 @@
 package com.itechart.courses.timer;
 
 import com.itechart.courses.dao.contact.ContactDAO;
-import com.itechart.courses.dao.contact.ContactDAOImpl;
-import com.itechart.courses.dto.ContactSearchDTO;
 import com.itechart.courses.entity.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
