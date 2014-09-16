@@ -1,6 +1,5 @@
 package com.itechart.courses.controller;
 
-import com.itechart.courses.demon.SendEmailByTimer;
 import com.itechart.courses.dto.*;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.authorization.AuthorizationService;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Controller
 @RequestMapping("/OrderFlowers")
