@@ -1,11 +1,7 @@
 import com.itechart.courses.dao.contact.ContactDAO;
-import com.itechart.courses.dao.contact.ContactDAOImpl;
 import com.itechart.courses.dao.order.OrderDAO;
-import com.itechart.courses.dao.order.OrderDAOImpl;
 import com.itechart.courses.dao.orderHistory.OrderHistoryDAO;
-import com.itechart.courses.dao.orderHistory.OrderHistoryDAOImpl;
 import com.itechart.courses.dao.user.UserDAO;
-import com.itechart.courses.dao.user.UserDAOImpl;
 import com.itechart.courses.enums.OrderStatusEnum;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.entity.Contact;
@@ -55,7 +51,7 @@ public class OrderHistoryTest {
         user.setContact(contact);
         user.setLogin("test1");
         user.setPassword("test1");
-        user.setRole(RoleEnum.SERVICE_DELIVERY_MANAGER);
+        user.setRole(RoleEnum.ROLE_SERVICE_DELIVERY_MANAGER);
         Order order = new Order();
         order.setReceiveManager(user);
         order.setHandlerManager(user);
@@ -119,7 +115,7 @@ public class OrderHistoryTest {
         user.setContact(contact);
         user.setLogin("test1");
         user.setPassword("test1");
-        user.setRole(RoleEnum.SERVICE_DELIVERY_MANAGER);
+        user.setRole(RoleEnum.ROLE_SERVICE_DELIVERY_MANAGER);
         Order order = new Order();
         order.setReceiveManager(user);
         order.setHandlerManager(user);

@@ -1,12 +1,9 @@
 import com.itechart.courses.dao.contact.ContactDAO;
-import com.itechart.courses.dao.contact.ContactDAOImpl;
 import com.itechart.courses.dao.user.UserDAO;
-import com.itechart.courses.dao.user.UserDAOImpl;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.User;
 import junit.framework.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +41,12 @@ public class UserTest {
         user1.setContact(contact1);
         user1.setLogin("test1");
         user1.setPassword("test1");
-        user1.setRole(RoleEnum.SERVICE_DELIVERY_MANAGER);
+        user1.setRole(RoleEnum.ROLE_SERVICE_DELIVERY_MANAGER);
         User user2 = new User();
         user2.setContact(contact2);
         user2.setLogin("test2");
         user2.setPassword("test2");
-        user2.setRole(RoleEnum.SUPERVISOR);
+        user2.setRole(RoleEnum.ROLE_SUPERVISOR);
         contactDAO.createContact(contact1);
         contactDAO.createContact(contact2);
         userDAO.createUser(user1);
@@ -86,7 +83,7 @@ public class UserTest {
         user.setContact(contact);
         user.setLogin("test1");
         user.setPassword("test1");
-        user.setRole(RoleEnum.SERVICE_DELIVERY_MANAGER);
+        user.setRole(RoleEnum.ROLE_SERVICE_DELIVERY_MANAGER);
         userDAO.createUser(user);
         userDAO.deleteUser(user.getId());
         User r = userDAO.readUser(user.getId());
@@ -112,9 +109,9 @@ public class UserTest {
         user.setContact(contact);
         user.setLogin("test1");
         user.setPassword("test1");
-        user.setRole(RoleEnum.SERVICE_DELIVERY_MANAGER);
+        user.setRole(RoleEnum.ROLE_SERVICE_DELIVERY_MANAGER);
         userDAO.createUser(user);
-        user.setRole(RoleEnum.RECEIVING_ORDERS_MANAGER);
+        user.setRole(RoleEnum.ROLE_RECEIVING_ORDERS_MANAGER);
         userDAO.updateUser(user);
         Assert.assertEquals("User role is not equals", user.getRole(), userDAO.readAllUsers().get(0).getRole());
     }

@@ -6,13 +6,10 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
     <global-method-security secured-annotations="enabled"/>
-
     <http auto-config="true" use-expressions="true">
-        <intercept-url pattern="/#/login" access="isAnonymous()"/>
-        <intercept-url pattern="/hello" access="isAuthenticated()" />
 
         <!-- access denied page -->
-        <access-denied-handler error-page="/403" />
+        <access-denied-handler error-page="/#/login" />
         <form-login
                 login-page="/#/login"
                 authentication-failure-url="/#/login?error"

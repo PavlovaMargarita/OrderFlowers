@@ -24,7 +24,7 @@
                 <div class="container-fluid">
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
                         <ul class="nav navbar-nav">
-                            <li class="dropdown" ng-show="hasAuthority(['RECEIVING_ORDERS_MANAGER','SUPERVISOR','ADMIN'])">
+                            <li class="dropdown" ng-show="hasAuthority(['ROLE_RECEIVING_ORDERS_MANAGER','ROLE_SUPERVISOR','ROLE_ADMIN', 'ROLE_SERVICE_DELIVERY_MANAGER'])">
                                 <a href="" class="dropdown-toggle" data-toggle="dropdown">Контакт <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="#contactList">Список контактов</a></li>
@@ -33,7 +33,7 @@
                                 </ul>
                             </li>
 
-                            <li class="dropdown" ng-show="hasAuthority(['ADMIN'])">
+                            <li class="dropdown" ng-show="hasAuthority(['ROLE_ADMIN'])">
                                 <a href="" class="dropdown-toggle" data-toggle="dropdown">Пользователь <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="#userList">Список пользователей</a></li>
@@ -45,8 +45,8 @@
                                 <a href="" class="dropdown-toggle" data-toggle="dropdown">Заказ <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="#orderList">Список заказов</a></li>
-                                    <li ng-show="hasAuthority(['RECEIVING_ORDERS_MANAGER','SUPERVISOR', 'ADMIN' ])"><a href="#orderSearch">Поиск заказов</a></li>
-                                    <li ng-show="hasAuthority(['RECEIVING_ORDERS_MANAGER','SUPERVISOR', 'ADMIN' ])"><a href="#orderCreate">Создать заказ</a></li>
+                                    <li ng-show="hasAuthority(['ROLE_RECEIVING_ORDERS_MANAGER','ROLE_SUPERVISOR', 'ROLE_ADMIN' ])"><a href="#orderSearch">Поиск заказов</a></li>
+                                    <li ng-show="hasAuthority(['ROLE_RECEIVING_ORDERS_MANAGER','ROLE_SUPERVISOR', 'ROLE_ADMIN' ])"><a href="#orderCreate">Создать заказ</a></li>
                                 </ul>
                             </li>
                         </ul>
