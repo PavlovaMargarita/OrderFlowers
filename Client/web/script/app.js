@@ -1,8 +1,17 @@
 var app = angular.module("OrderFlowers", ['ngRoute', 'checklist-model', 'ngCookies']);
 
-app.run(function($rootScope){
-    $rootScope.menuVisibility = false; //Отображение меню. True - видим.
-    $rootScope.role = false; //Можем хранить роль пользователя, не используя cookie. $rootScope работает по принципу глобальной переменной
+app.run(function($rootScope, $cookieStore){
+
+    $rootScope.isAuth = function(){
+        var user = $cookieStore.get("userInfo");
+        return !(angular.isUndefined && user == null);
+    }
+
+    $rootScope.hasAuthority = function(roles){
+        var user = $cookieStore.get("userInfo");
+        var userRole = user.role;
+        return (roles.indexOf(userRole) > -1);
+    }
 });
 
 app.config(function($routeProvider){

@@ -1,17 +1,11 @@
-app.controller("orderListController", function ($scope, $http, $cookieStore) {
+app.controller("orderListController", function ($scope, AuthService) {
     $scope.message = "Order List";
 
-//    var response = $http({
-//        method: "get",
-//        url: "/OrderFlowers/userInfo"
-//    });
-//    response.success(function (data) {
-//        $cookieStore.put("userInfo", data);
-//        alert($cookieStore.get("userInfo").login);
-//    });
-//    response.error(function (data) {
-//        alert("ALERT");
-//    });
+    $scope.checkIfAuthenticated = function(){
+        return AuthService.isAuthenticated();
+    }
+
+
 });
 
 app.controller("orderCreateController", function ($scope, $http) {

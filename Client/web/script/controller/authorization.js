@@ -13,8 +13,6 @@ app.controller("authorizationController", function ($scope, $http, $location, $r
         });
     }
 
-    $scope.processAuthorization = function(){
-    }
     $scope.processSuccess = function(){
         var success = ($location.search()).success;
         if(success != null){
