@@ -15,11 +15,13 @@
         <access-denied-handler error-page="/403" />
         <form-login
                 login-page="/#/login"
-                default-target-url="/#/orderList"
+                authentication-failure-url="/#/login?error"
+                default-target-url="/#/login?success"
                 always-use-default-target="true"/>
-        <!--authentication-failure-url="/login?error"/>-->
 
-        <logout logout-success-url="/#/login?logout" />
+        <logout invalidate-session="true"
+                logout-success-url="/#/login?logout"
+                logout-url="/logout"/>
 
     </http>
 

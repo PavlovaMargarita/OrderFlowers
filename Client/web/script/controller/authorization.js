@@ -1,28 +1,52 @@
-app.controller("authorizationController", function ($scope, $http, $location, $rootScope) {
+app.controller("authorizationController", function ($scope, $http, $location, $rootScope, $cookieStore) {
     $scope.authorization = {};
 
-    $scope.authorization.doClick = function (item, event) {
+    var isSuccess = ($location.search()).success;
+    if(isSuccess){
         var response = $http({
-            method: "post",
-            url: "/OrderFlowers/authorize",
-            data: {
-                login: $scope.login,
-                password: $scope.password
-            }
+            method: "get",
+            url: "/OrderFlowers/userInfo"
         });
         response.success(function (data) {
-            $rootScope.role = data.role;
-            if($rootScope.role == 'RECEIVING_ORDERS_MANAGER' || $rootScope.role == 'SUPERVISOR' || $rootScope.role == 'ADMIN'){
-                $location.path('/contactList');
-            } else {
-                $location.path('/orderList');
-            }
-            $location.replace();
-            $rootScope.menuVisibility = true;
+            $cookieStore.put("userInfo", data);
+            $scope.successRedirect(data);
+        });
+    }
 
+    $scope.processAuthorization = function(){
+    }
+    $scope.processSuccess = function(){
+        var success = ($location.search()).success;
+        if(success != null){
+            $scope.storeCurrentUserInfo();
+        }
+    }
+
+    $scope.processError = function(){
+        var isError = ($location.search()).error;
+        if(isError){
+            return "Ошибка авторизации!";
+        }
+    }
+
+    $scope.storeCurrentUserInfo = function(){
+        var response = $http({
+            method: "get",
+            url: "/OrderFlowers/userInfo"})
+        .success(function (data) {
+            $cookieStore.put("userInfo", data);
+            $scope.successRedirect(data);})
+        .error(function (data) {
+            alert("ALERT");
         });
-        response.error(function (data) {
-            $scope.authorization.info = "error";
-        });
+    }
+
+    $scope.successRedirect = function(data){
+        if(data.role == 'RECEIVING_ORDERS_MANAGER' || data.role == 'SUPERVISOR' || data.role == 'ADMIN'){
+            $location.path('/contactList');
+        } else {
+            $location.path('/orderList');
+        }
+        $location.replace();
     }
 });
