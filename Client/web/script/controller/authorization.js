@@ -13,11 +13,6 @@ app.controller("authorizationController", function ($scope, $http, $location, $r
         });
     }
 
-    var isLogout = ($location.search()).logout;
-    if(isLogout){
-        $cookieStore.remove("userInfo");
-    }
-
     $scope.processSuccess = function(){
         var success = ($location.search()).success;
         if(success != null){
