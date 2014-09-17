@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface UserDAO {
     public Integer createUser(User user);  //return id(Integer) new user
-    public boolean deleteUser(int id); //if the user is deleted, the method returns true, otherwise false
+    public void deleteUser(int id);
     public User readUser(int id); //if the user is not found, returns null
     public User readUser(String login, String password);
     public User readUser(String login);

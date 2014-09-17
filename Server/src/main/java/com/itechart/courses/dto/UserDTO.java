@@ -1,9 +1,7 @@
 package com.itechart.courses.dto;
 
 import com.itechart.courses.enums.RoleEnum;
-import org.springframework.stereotype.Component;
 
-@Component
 public class UserDTO {
 
     private RoleEnum role;

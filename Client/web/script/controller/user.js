@@ -12,31 +12,33 @@ app.controller("userListController", function ($scope, $http, $location) {
     });
 
     $scope.delete = {};
-    $scope.delete.doClick = function(){
-        var userDelete = $http({
-            method: "post",
-            url: "/OrderFlowers/userDelete",
-            data: {
-                deleteId: $scope.usersToDelete
-            }
-        });
-        userDelete.success(function (data) {
-            var userList = $http({
-                method: "get",
-                url: "/OrderFlowers/userList"
+    $scope.delete.doClick = function() {
+        if ($scope.usersToDelete.length != 0) {
+            var userDelete = $http({
+                method: "post",
+                url: "/OrderFlowers/userDelete",
+                data: {
+                    deleteId: $scope.usersToDelete
+                }
             });
-            userList.success(function (data) {
-                $scope.users = data;
-                $location.path('/userList');
-                $location.replace();
+            userDelete.success(function (data) {
+                var userList = $http({
+                    method: "get",
+                    url: "/OrderFlowers/userList"
+                });
+                userList.success(function (data) {
+                    $scope.users = data;
+                    $location.path('/userList');
+                    $location.replace();
+                });
+                userList.error(function (data) {
+                    $scope.authorization.info = "error";
+                });
             });
-            userList.error(function (data) {
+            userDelete.error(function (data) {
                 $scope.authorization.info = "error";
             });
-        });
-        userDelete.error(function (data) {
-            $scope.authorization.info = "error";
-        });
+        }
     }
 });
 

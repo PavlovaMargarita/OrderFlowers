@@ -10,13 +10,23 @@ import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
 import com.itechart.courses.entity.User;
 import junit.framework.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 /**
  * Created by Margarita on 19.08.2014.
  */
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:/application-context.xml")
+@TransactionConfiguration(transactionManager = "transactionManager",defaultRollback = true)
 public class OrderTest {
 
     @Autowired
@@ -28,18 +38,18 @@ public class OrderTest {
     @Autowired
     OrderDAO orderDAO;
 
+    @Test
+    @Transactional
     public void testReadCreateOrder(){
         Contact contact = new Contact();
         contact.setSurname("Иванов");
         contact.setName("Иван");
         contact.setPatronymic("Иванович");
-
         User user = new User();
         user.setContact(contact);
         user.setLogin("test1");
         user.setPassword("test1");
         user.setRole(RoleEnum.SERVICE_DELIVERY_MANAGER);
-
         Order order1 = new Order();
         order1.setReceiveManager(user);
         order1.setHandlerManager(user);
@@ -49,7 +59,6 @@ public class OrderTest {
         order1.setCustomer(contact);
         order1.setRecipient(contact);
         order1.setOrderDescription("test1");
-
         Order order2 = new Order();
         order2.setReceiveManager(user);
         order2.setHandlerManager(user);
@@ -59,7 +68,6 @@ public class OrderTest {
         order2.setCustomer(contact);
         order2.setRecipient(contact);
         order2.setOrderDescription("test2");
-
         contactDAO.createContact(contact);
         userDAO.createUser(user);
         orderDAO.createOrder(order1);
@@ -69,29 +77,27 @@ public class OrderTest {
             Assert.assertEquals("Order description is not equals", order1.getOrderDescription(), orderList.get(0).getOrderDescription());
             Assert.assertEquals("Order status is not equals", order1.getStatus(), orderList.get(0).getStatus());
             Assert.assertEquals("Order sum is not equals", order1.getSum(), orderList.get(0).getSum());
-
             Assert.assertEquals("Order description is not equals", order2.getOrderDescription(), orderList.get(1).getOrderDescription());
             Assert.assertEquals("Order status is not equals", order2.getStatus(), orderList.get(1).getStatus());
             Assert.assertEquals("Order sum is not equals", order2.getSum(), orderList.get(1).getSum());
-
         }catch (ArrayIndexOutOfBoundsException e){
             e.printStackTrace();
         }
 
     }
 
+    @Test
+    @Transactional
     public void testUpdateOrder(){
         Contact contact = new Contact();
         contact.setSurname("Иванов");
         contact.setName("Иван");
         contact.setPatronymic("Иванович");
-
         User user = new User();
         user.setContact(contact);
         user.setLogin("test1");
         user.setPassword("test1");
         user.setRole(RoleEnum.SERVICE_DELIVERY_MANAGER);
-
         Order order = new Order();
         order.setReceiveManager(user);
         order.setHandlerManager(user);
@@ -101,15 +107,11 @@ public class OrderTest {
         order.setCustomer(contact);
         order.setRecipient(contact);
         order.setOrderDescription("test1");
-
         contactDAO.createContact(contact);
         userDAO.createUser(user);
         orderDAO.createOrder(order);
-
         order.setSum(2600);
-
         orderDAO.updateOrder(order);
         Assert.assertEquals("Order sum is not equals", order.getSum(), orderDAO.readOrder(order.getId()).getSum());
-
     }
 }

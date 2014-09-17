@@ -13,6 +13,7 @@ import java.util.List;
  */
 
 @Repository
+@Transactional
 public class OrderDAOImpl implements OrderDAO {
 
     @Autowired
@@ -29,93 +30,46 @@ public class OrderDAOImpl implements OrderDAO {
     public Integer createOrder(Order order) {
         Integer id = null;
         Session session = null;
-        Transaction transaction = null;
         if (order == null) {
             throw new NullPointerException("order is null");
         }
-        try {
-            session = sessionFactory.openSession();
-            transaction = session.beginTransaction();
-            id = (Integer) session.save(order);
-            transaction.commit();
-        } finally {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
+        session = sessionFactory.getCurrentSession();
+        id = (Integer) session.save(order);
         return id;
     }
 
+    @Override
     public Order readOrder(int id) {
-        Order order = null;
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
-            order = (Order) session.get(Order.class, id);
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Order order = (Order) session.get(Order.class, id);
         return order;
     }
 
+    @Override
     public void updateOrder(Order order) {
         Session session = null;
-        Transaction transaction = null;
         if (order == null) {
             throw new NullPointerException("order is null");
         }
-        try {
-            session = sessionFactory.openSession();
-            transaction = session.beginTransaction();
-            session.update(order);
-            transaction.commit();
-        } finally {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
+        session = sessionFactory.getCurrentSession();
+        session.update(order);
     }
 
     @Override
     public List<Order> readAllOrders() {
-        Session session = null;
-        List<Order> result = null;
-        try {
-            session = sessionFactory.openSession();
-            Criteria criteria = session.createCriteria(Order.class);
-            result = criteria.list();
-        }
-        finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Order.class);
+        List<Order> result = criteria.list();
         return result;
     }
 
     @Override
     public List<Order> readAllOrder(Contact contact) {
         List<Order> result = null;
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
-            Query query = session.createQuery("from Order where customer = :customer");
-            query.setParameter("customer", contact);
-            result = query.list();
-        }
-        finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from Order where customer = :customer");
+        query.setParameter("customer", contact);
+        result = query.list();
         return result;
     }
 }

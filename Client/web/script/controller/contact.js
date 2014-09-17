@@ -27,7 +27,7 @@ app.controller("contactCreateController", function ($scope, $http, $location) {
 });
 
 app.controller("contactListController", function ($scope, $rootScope, $http, $location) {
-    $scope.contactsToDelete = [];
+    $scope.checkContacts = [];
     if ($rootScope.isSearchContact){
         $scope.contacts = $rootScope.data;
         $rootScope.isSearchContact = false;
@@ -45,19 +45,74 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
         });
     }
 
+
     $scope.deleteContact = {};
-    $scope.deleteContact.doClick = function(){
-        var contactDelete = $http({
+    $scope.deleteContact.doClick = function() {
+        if ($scope.checkContacts.length != 0) {
+            var contactDelete = $http({
+                method: "post",
+                url: "/OrderFlowers/contactDelete",
+                data: {
+                    checkId: $scope.checkContacts
+                }
+            });
+            contactDelete.success(function (data) {
+                if (data == 'false') {
+                    alert("Вы пытаетесь удалить контакт, который связан с пользователем");
+                }
+                var userList = $http({
+                    method: "get",
+                    url: "/OrderFlowers/contactList"
+                });
+                userList.success(function (data) {
+                    $scope.contacts = data;
+                    $location.path('/contactList');
+                    $location.replace();
+                    $scope.checkContacts = [];
+                });
+                userList.error(function (data) {
+                    $scope.authorization.info = "error";
+                });
+            });
+            contactDelete.error(function (data) {
+                $scope.authorization.info = "error";
+            });
+        }
+    }
+
+    $scope.showPopupSendEmail = {};
+    $scope.showPopupSendEmail.doClick = function() {
+        if ($scope.checkContacts.length != 0) {
+            $('#' + 'modal-message').modal('show');
+            var showEmail = $http({
+                method: "get",
+                url: "/OrderFlowers/showEmail",
+                params: {
+                    checkId: $scope.checkContacts
+                }
+            });
+            showEmail.success(function (data) {
+                $scope.emails = data;
+            });
+            showEmail.error(function (data) {
+                $scope.authorization.info = "error";
+            });
+        }
+    }
+
+    $scope.sendEmail = {};
+    $scope.sendEmail.doClick = function(){
+        var emailSend = $http({
             method: "post",
-            url: "/OrderFlowers/contactDelete",
+            url: "/OrderFlowers/sendEmail",
             data: {
-                deleteId: $scope.contactsToDelete
+                emails: $scope.emails,
+                text: $scope.email.text,
+                topic: $scope.email.topic
             }
         });
-        contactDelete.success(function (data) {
-            if(data == 'false'){
-                alert("Вы пытаетесь удалить контакт, который связан с пользователем");
-            }
+        emailSend.success(function (data) {
+            $('#' + 'modal-message').modal('hide');
             var userList = $http({
                 method: "get",
                 url: "/OrderFlowers/contactList"
@@ -66,13 +121,13 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
                 $scope.contacts = data;
                 $location.path('/contactList');
                 $location.replace();
-                $scope.contactsToDelete = [];
+                $scope.checkContacts = [];
             });
             userList.error(function (data) {
                 $scope.authorization.info = "error";
             });
         });
-        contactDelete.error(function (data) {
+        emailSend.error(function (data) {
             $scope.authorization.info = "error";
         });
     }

@@ -1,35 +1,21 @@
 package com.itechart.courses.dto;
 
-import org.springframework.stereotype.Component;
-
 import java.sql.Date;
 import java.util.List;
 
-@Component
 public class ContactDTO {
 
     private Integer id;
-
     private String surname;
-
     private String name;
-
     private String patronymic;
-
     private Date dateOfBirth;
-
     private String email;
-
     private String city;
-
     private String street;
-
     private Integer home;
-
     private Integer flat;
-
     private Boolean isDelete;
-
     private List<PhoneDTO> phones;
 
     public Integer getId() {
