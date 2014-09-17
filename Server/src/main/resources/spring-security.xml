@@ -17,8 +17,7 @@
                 always-use-default-target="true"/>
 
         <logout invalidate-session="true"
-                logout-success-url="/#/login?logout"
-                logout-url="/logout"/>
+                logout-success-url="/#/login?logout"/>
 
     </http>
 
