@@ -1,6 +1,24 @@
 app.controller("contactCreateController", function ($scope, $http, $location) {
     $scope.save = {};
     $scope.save.doClick = function(){
+        var phones = new Array();
+        for(var i = 0; i < document.getElementsByName("country-code-td").length; i++){
+            var phoneType;
+            if(document.getElementsByName("phone-type-td")[i].textContent == 'Домашний'){
+                phoneType = 'HOME';
+            }
+            if(document.getElementsByName("phone-type-td")[i].textContent == 'Мобильный'){
+                phoneType = 'MOBILE';
+            }
+            var phone = {id: document.getElementsByName("phone.id")[i].value,
+                countryCode: document.getElementsByName("country-code-td")[i].textContent,
+                operatorCode: document.getElementsByName("operator-code-td")[i].textContent,
+                phoneNumber: document.getElementsByName("phone-number-td")[i].textContent,
+                phoneType: phoneType,
+                comment: document.getElementsByName("phone-comment-td")[i].textContent,
+                command: document.getElementsByName("command")[i].value}
+            phones.push(phone);
+        }
         response = $http({
             method: "post",
             url: "/OrderFlowers/saveContactCreate",
@@ -13,7 +31,8 @@ app.controller("contactCreateController", function ($scope, $http, $location) {
                 city: $scope.contact.city,
                 street: $scope.contact.street,
                 home: $scope.contact.home,
-                flat: $scope.contact.flat
+                flat: $scope.contact.flat,
+                phones: phones
             }
         });
         response.success(function (data) {
@@ -180,6 +199,25 @@ app.controller("contactCorrectController", function ($scope, $http, $routeParams
     });
     $scope.save = {};
     $scope.save.doClick = function(){
+        var phones = new Array();
+        for(var i = 0; i < document.getElementsByName("country-code-td").length; i++){
+            var phoneType;
+            if(document.getElementsByName("phone-type-td")[i].textContent == 'Домашний'){
+                phoneType = 'HOME';
+            }
+            if(document.getElementsByName("phone-type-td")[i].textContent == 'Мобильный'){
+                phoneType = 'MOBILE';
+            }
+            var phone = {id: document.getElementsByName("phone.id")[i].value,
+                        countryCode: document.getElementsByName("country-code-td")[i].textContent,
+                        operatorCode: document.getElementsByName("operator-code-td")[i].textContent,
+                        phoneNumber: document.getElementsByName("phone-number-td")[i].textContent,
+                        phoneType: phoneType,
+                        comment: document.getElementsByName("phone-comment-td")[i].textContent,
+                        command: document.getElementsByName("command")[i].value}
+            phones.push(phone);
+        }
+
         response = $http({
             method: "post",
             url: "/OrderFlowers/saveContactCorrect",
@@ -193,7 +231,8 @@ app.controller("contactCorrectController", function ($scope, $http, $routeParams
                 city: $scope.contact.city,
                 street: $scope.contact.street,
                 home: $scope.contact.home,
-                flat: $scope.contact.flat
+                flat: $scope.contact.flat,
+                phones: phones
             }
         });
         response.success(function (data) {
@@ -283,7 +322,7 @@ var phoneTypeMap = {
 var phoneValidationPattern = {
     COUNTRY_CODE: /^[0-9]{3}$/,
     OPERATOR_CODE: /^[0-9]{2}$/,
-    PHONE_NUMBER: /^[0-9]{3}-[0-9]{2}-[0-9]{2}$/
+    PHONE_NUMBER: /^[0-9]{7}$/
 }
 
 
@@ -342,6 +381,13 @@ function addPhone(){
         input.type = 'hidden';
         input.name = 'command'
         input.value = commands.ADD;
+        temp.appendChild(input);
+        row.appendChild(temp);
+
+        input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'phone.id'
+        input.value = "";
         temp.appendChild(input);
         row.appendChild(temp);
 

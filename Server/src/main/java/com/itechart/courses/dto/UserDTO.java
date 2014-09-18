@@ -5,6 +5,7 @@ import com.itechart.courses.enums.RoleEnum;
 public class UserDTO {
 
     private RoleEnum role;
+    private String roleRussian;
     private String login;
     private String password;
     private int id;
@@ -75,5 +76,13 @@ public class UserDTO {
 
     public void setIdContact(int idContact) {
         this.idContact = idContact;
+    }
+
+    public String getRoleRussian() {
+        return roleRussian;
+    }
+
+    public void setRoleRussian(String roleRussian) {
+        this.roleRussian = roleRussian;
     }
 }

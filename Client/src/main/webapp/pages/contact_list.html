@@ -18,7 +18,12 @@
             <td><input type="checkbox" checklist-model="checkContacts" checklist-value="contact.id"/></td>
             <td>{{contact.surname}} {{contact.name}} {{contact.patronymic}}</td>
             <td>{{contact.dateOfBirth}}</td>
-            <td>г.{{contact.city}} ул.{{contact.street}} д.{{contact.home}} кв.{{contact.flat}}</td>
+            <td>
+                <span ng-if="contact.city != null">г.{{contact.city}} </span>
+                <span ng-if="contact.street != null">ул.{{contact.street}} </span>
+                <span ng-if="contact.home != null">д.{{contact.home}}  </span>
+                <span ng-if="contact.flat != null">кв.{{contact.flat}}</span>
+            </td>
             <td>
                 <div class="btn-group btn-group-sm">
                     <button class="btn btn-success"><a href="#contactCorrect/{{contact.id}}">Редактировать</a></button>

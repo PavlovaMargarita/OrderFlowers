@@ -1,13 +1,18 @@
 package com.itechart.courses.service.contact;
 
 import com.itechart.courses.dao.contact.ContactDAO;
+import com.itechart.courses.dao.order.OrderDAO;
+import com.itechart.courses.dao.phone.PhoneDAO;
 import com.itechart.courses.dao.user.UserDAO;
 import com.itechart.courses.dto.ContactDTO;
 import com.itechart.courses.dto.ContactSearchDTO;
+import com.itechart.courses.dto.OrderDTO;
 import com.itechart.courses.dto.PhoneDTO;
 import com.itechart.courses.entity.Contact;
+import com.itechart.courses.entity.Order;
 import com.itechart.courses.entity.Phone;
 import com.itechart.courses.entity.User;
+import com.itechart.courses.enums.PhoneTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +28,12 @@ public class ContactServiceImpl implements ContactService {
     @Autowired(required = true)
     UserDAO userDAO;
 
+    @Autowired(required = true)
+    PhoneDAO phoneDAO;
+
+    @Autowired(required = true)
+    OrderDAO orderDAO;
+
     @Override
     public ContactDTO readContact(int id) {
         ContactDTO contactDTO = null;
@@ -35,12 +46,32 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public void createContact(ContactDTO contactDTO) {
-        contactDAO.createContact(contactDTOToContact(contactDTO));
+        Contact contact = contactDTOToContact(contactDTO);
+        int idContact = contactDAO.createContact(contact);
+        contact = contactDAO.readContact(idContact);
+        updatePhone(contact, contactDTO.getPhones());
     }
 
     @Override
     public void updateContact(ContactDTO contactDTO) {
-        contactDAO.updateContact(contactDTOToContact(contactDTO));
+        Contact contact = contactDTOToContact(contactDTO);
+        contactDAO.updateContact(contact);
+        updatePhone(contact, contactDTO.getPhones());
+    }
+
+    private void updatePhone(Contact contact, List<PhoneDTO> phones){
+        for(PhoneDTO phoneDTO: phones){
+            Phone phone = phoneDTOToPhone(contact, phoneDTO);
+            if(phoneDTO.getCommand().equals("add")){
+                phoneDAO.createPhone(phone);
+            }
+            if(phoneDTO.getCommand().equals("update")){
+                phoneDAO.updatePhone(phone);
+            }
+            if(phoneDTO.getCommand().equals("delete")){
+                phoneDAO.deletePhone(phone.getId());
+            }
+        }
     }
 
     @Override
@@ -106,23 +137,19 @@ public class ContactServiceImpl implements ContactService {
         contactDTO.setStreet(contact.getStreet());
         contactDTO.setHome(contact.getHome());
         contactDTO.setFlat(contact.getFlat());
-//        List phoneDTOList = new ArrayList();
-//        for(Phone phone: contact.getPhones()){
-//            phoneDTOList.add(phoneToPhoneDTO(phone));
-//        }
-//        contactDTO.setPhones(phoneDTOList);
+        List phoneDTOList = new ArrayList();
+        List<Phone> phoneList = phoneDAO.readAllPhones(contact);
+        for(Phone phone: phoneList){
+            phoneDTOList.add(phoneToPhoneDTO(phone));
+        }
+        contactDTO.setPhones(phoneDTOList);
+        List orderDTOList = new ArrayList();
+        List<Order> orderList = orderDAO.readAllOrder(contact);
+        for(Order order: orderList){
+            orderDTOList.add(orderTOOrderDTO(order));
+        }
+        contactDTO.setOrders(orderDTOList);
         return contactDTO;
-    }
-
-    private PhoneDTO phoneToPhoneDTO(Phone phone) {
-        PhoneDTO phoneDTO = new PhoneDTO();
-        phoneDTO.setId(phone.getId());
-        phoneDTO.setCountryCode(phone.getCountryCode());
-        phoneDTO.setOperatorCode(phone.getOperatorCode());
-        phoneDTO.setPhoneNumber(phone.getPhoneNumber());
-        phoneDTO.setPhoneType(phone.getPhoneType());
-        phoneDTO.setComment(phone.getComment());
-        return phoneDTO;
     }
 
     private Contact contactDTOToContact(ContactDTO contactDTO) {
@@ -138,5 +165,46 @@ public class ContactServiceImpl implements ContactService {
         contact.setHome(contactDTO.getHome());
         contact.setFlat(contactDTO.getFlat());
         return contact;
+    }
+
+    private PhoneDTO phoneToPhoneDTO(Phone phone) {
+        PhoneDTO phoneDTO = new PhoneDTO();
+        phoneDTO.setId(phone.getId());
+        phoneDTO.setCountryCode(phone.getCountryCode());
+        phoneDTO.setOperatorCode(phone.getOperatorCode());
+        phoneDTO.setPhoneNumber(phone.getPhoneNumber());
+        if(phone.getPhoneType().equals(PhoneTypeEnum.HOME)) {
+            phoneDTO.setPhoneType("Домашний");
+        }
+        if(phone.getPhoneType().equals(PhoneTypeEnum.MOBILE)) {
+            phoneDTO.setPhoneType("Мобильный");
+        }
+        phoneDTO.setComment(phone.getComment());
+        return phoneDTO;
+    }
+
+    private Phone phoneDTOToPhone(Contact contact, PhoneDTO phoneDTO){
+        Phone phone = new Phone();
+        phone.setId(phoneDTO.getId());
+        phone.setCountryCode(phoneDTO.getCountryCode());
+        phone.setOperatorCode(phoneDTO.getOperatorCode());
+        phone.setPhoneNumber(phoneDTO.getPhoneNumber());
+        if(phoneDTO.getPhoneType().equals(PhoneTypeEnum.HOME.toString())) {
+            phone.setPhoneType(PhoneTypeEnum.HOME);
+        }
+        if(phoneDTO.getPhoneType().equals(PhoneTypeEnum.MOBILE.toString())) {
+            phone.setPhoneType(PhoneTypeEnum.MOBILE);
+        }
+        phone.setComment(phoneDTO.getComment());
+        phone.setOwner(contact);
+        return phone;
+    }
+
+    private OrderDTO orderTOOrderDTO(Order order){
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setDate(order.getDate());
+        orderDTO.setOrderDescription(order.getOrderDescription());
+        orderDTO.setSum(order.getSum());
+        return orderDTO;
     }
 }

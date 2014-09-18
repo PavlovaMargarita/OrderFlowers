@@ -5,6 +5,7 @@ import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.authorization.AuthorizationService;
 import com.itechart.courses.service.contact.ContactService;
 import com.itechart.courses.service.email.EmailService;
+import com.itechart.courses.service.role.RoleService;
 import com.itechart.courses.service.user.UserService;
 import org.json.JSONException;
 import org.slf4j.Logger;
@@ -36,6 +37,9 @@ public class BasicController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private RoleService roleService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/userInfo")
     @ResponseBody
@@ -90,12 +94,7 @@ public class BasicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/roleEnum")
     public @ResponseBody List getRoleEnum(){
-        List roleEnum = new ArrayList();
-        for(int i = 0; i < RoleEnum.values().length; i++) {
-            roleEnum.add(RoleEnum.values()[i]);
-        }
-
-        return roleEnum;
+        return roleService.getRoles();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/contactListForUser")
@@ -148,4 +147,8 @@ public class BasicController {
         emailService.sendEmail(emailDTO);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/getLogin")
+    public @ResponseBody List getLogin() throws IOException{
+        return userService.readLogin();
+    }
 }

@@ -84,16 +84,17 @@
             </tr>
             </thead>
 
-            <tr>
+            <tr data-ng-repeat="phone in contact.phones">
                 <td name="command-and-checkbox-td">
                     <input type="checkbox" name="delete-contact-checkbox"/>
                     <input type="hidden" name="command"/>
+                    <input type="hidden" name="phone.id" value={{phone.id}} />
                 </td>
-                <td name="country-code-td">375</td>
-                <td name="operator-code-td">29</td>
-                <td name="phone-number-td">295-68-59</td>
-                <td name="phone-type-td">Мобильный</td>
-                <td name="phone-comment-td">Здесь находится комментарий</td>
+                <td name="country-code-td">{{phone.countryCode}}</td>
+                <td name="operator-code-td">{{phone.operatorCode}}</td>
+                <td name="phone-number-td">{{phone.phoneNumber}}</td>
+                <td name="phone-type-td">{{phone.phoneType}}</td>
+                <td name="phone-comment-td">{{phone.comment}}</td>
                 <td><img src="../images/edit-button.png" onclick="showEditPhonePopUp(this)"></td>
             </tr>
         </table>
@@ -111,10 +112,10 @@
             </tr>
             </thead>
 
-            <tr>
-                <td>21.08.2014</td>
-                <td>Здесь находится информация о заказе</td>
-                <td>1000$</td>
+            <tr data-ng-repeat="order in contact.orders">
+                <td>{{order.date}}</td>
+                <td>{{order.orderDescription}}</td>
+                <td>{{order.sum}}</td>
             </tr>
         </table>
     </div>
