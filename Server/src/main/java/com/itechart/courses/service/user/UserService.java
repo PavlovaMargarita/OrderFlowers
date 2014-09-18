@@ -23,4 +23,7 @@ public interface UserService {
 
     @Secured(Roles.ADMIN)
     public List readUser();
+
+    @Secured(Roles.ADMIN)
+    public List readLogin();
 }

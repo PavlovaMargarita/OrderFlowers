@@ -1,3 +1,5 @@
+var loginList;
+var oldLogin;
 app.controller("userListController", function ($scope, $http, $location) {
     $scope.usersToDelete = [];
     var response = $http({
@@ -67,6 +69,26 @@ app.controller("userCreateController", function ($scope, $http, $location) {
         $scope.authorization.info = "error";
     });
 
+    var login = $http({
+        method: "post",
+        url: "/OrderFlowers/getLogin"
+    });
+    login.success(function (data) {
+        loginList = data;
+    });
+    login.error(function (data) {
+        $scope.authorization.info = "error";
+    });
+
+    $scope.isCorrectLogin = {};
+    $scope.isCorrectLogin.onkeyup = function(){
+        if(loginList.indexOf($scope.user.login) == -1 || $scope.user.login == oldLogin){
+            document.getElementById('login').style.color = "black";
+        } else{
+            document.getElementById('login').style.color = "#ff0000";
+        }
+    }
+
     $scope.save = {};
     $scope.save.doClick = function(){
         var user = $http({
@@ -110,6 +132,7 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
     });
     user.success(function (data) {
         $scope.user = data;
+        oldLogin = data.login;
     });
     user.error(function (data) {
         $scope.authorization.info = "error";
@@ -141,14 +164,34 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
         $scope.roles = data;
         data.forEach(selectRole);
         function selectRole(element, index){
-            if(element == $scope.user.role){
-                $scope.user.role = $scope.roles[index];
+            if(element.role == $scope.user.role){
+                $scope.user.role = $scope.roles[index].role;
             }
         }
     });
     roleEnum.error(function (data) {
         $scope.authorization.info = "error";
     });
+
+    var login = $http({
+        method: "post",
+        url: "/OrderFlowers/getLogin"
+    });
+    login.success(function (data) {
+        loginList = data;
+    });
+    login.error(function (data) {
+        $scope.authorization.info = "error";
+    });
+
+    $scope.isCorrectLogin = {};
+    $scope.isCorrectLogin.onkeyup = function(){
+        if(loginList.indexOf($scope.user.login) == -1 || $scope.user.login == oldLogin){
+            document.getElementById('login').style.color = "black";
+        } else{
+            document.getElementById('login').style.color = "#ff0000";
+        }
+    }
 
     $scope.save = {};
     $scope.save.doClick = function(){

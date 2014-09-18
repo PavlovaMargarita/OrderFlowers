@@ -3,6 +3,7 @@ package com.itechart.courses.entity;
 import com.itechart.courses.enums.OrderStatusEnum;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,9 @@ public class Order {
 
     @Column(nullable = false)
     private Integer sum;
+
+    @Column(nullable = false)
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "order_handler_manager_id", nullable = false)
@@ -73,6 +77,14 @@ public class Order {
 
     public void setSum(Integer sum) {
         this.sum = sum;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public List<OrderHistory> getOrderHistory() {

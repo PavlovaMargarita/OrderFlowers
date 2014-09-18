@@ -1,7 +1,5 @@
 package com.itechart.courses.dto;
 
-import com.itechart.courses.enums.PhoneTypeEnum;
-
 /**
  * Created by Margarita on 07.09.2014.
  */
@@ -11,8 +9,9 @@ public class PhoneDTO {
     private Short countryCode;
     private Short operatorCode;
     private Integer phoneNumber;
-    private PhoneTypeEnum phoneType;
+    private String phoneType;
     private String comment;
+    private String command;
 
     public Integer getId() {
         return id;
@@ -46,11 +45,11 @@ public class PhoneDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public PhoneTypeEnum getPhoneType() {
+    public String getPhoneType() {
         return phoneType;
     }
 
-    public void setPhoneType(PhoneTypeEnum phoneType) {
+    public void setPhoneType(String phoneType) {
         this.phoneType = phoneType;
     }
 
@@ -60,5 +59,13 @@ public class PhoneDTO {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
     }
 }
