@@ -9,6 +9,9 @@ app.run(function($rootScope, $cookieStore){
 
     $rootScope.hasAuthority = function(roles){
         var user = $cookieStore.get("userInfo");
+        if (typeof(user) == "undefined"){
+            return false;
+        }
         var userRole = user.role;
         return (roles.indexOf(userRole) > -1);
     }
