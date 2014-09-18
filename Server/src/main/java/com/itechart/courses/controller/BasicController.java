@@ -2,14 +2,14 @@ package com.itechart.courses.controller;
 
 import com.itechart.courses.dto.*;
 import com.itechart.courses.enums.RoleEnum;
-import com.itechart.courses.enums.Roles;
 import com.itechart.courses.service.authorization.AuthorizationService;
 import com.itechart.courses.service.contact.ContactService;
 import com.itechart.courses.service.email.EmailService;
 import com.itechart.courses.service.user.UserService;
 import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -22,6 +22,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/OrderFlowers")
 public class BasicController {
+
+    private static final Logger logger = LoggerFactory.getLogger(BasicController.class);
 
     @Autowired
     private AuthorizationService authorization;
