@@ -78,37 +78,6 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public List<Order> readAllOrder(RoleEnum role) {
-        String stringQuery = null;
-        switch (role){
-
-            case ROLE_RECEIVING_ORDERS_MANAGER:
-                stringQuery = "from Order order where order.receiveManager.role = :role";
-                break;
-            case ROLE_PROCESSING_ORDERS_SPECIALIST:
-                stringQuery = "from Order order where order.handlerManager.role = :role";
-                break;
-            case ROLE_SERVICE_DELIVERY_MANAGER:
-                stringQuery = "from Order order where order.deliveryManager.role = :role";
-                break;
-            case ROLE_SUPERVISOR:
-                stringQuery = "from Order order";
-                break;
-            case ROLE_ADMIN:
-                stringQuery = "from Order order";
-                break;
-        }
-
-        Query query = sessionFactory.getCurrentSession().createQuery(stringQuery);
-        if (query.getNamedParameters().length != 0){
-            query.setString("role", role.toString());
-        }
-        List<Order> result = query.list();
-        return query.list();
-    }
-
-
-    @Override
     public List<Order> searchOrder(OrderSearchDTO parameters) {
         StringBuilder builder = new StringBuilder();
         String customerSurname = parameters.getCustomerSurname();

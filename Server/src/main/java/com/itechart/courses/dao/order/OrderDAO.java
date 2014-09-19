@@ -16,6 +16,5 @@ public interface OrderDAO {
     public void updateOrder(Order order);
     public List readAllOrders();
     public List readAllOrder(Contact contact);
-    public List<Order> readAllOrder(RoleEnum role);
     public List<Order> searchOrder(OrderSearchDTO parameters);
 }
