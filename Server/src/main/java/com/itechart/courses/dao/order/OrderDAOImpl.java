@@ -9,6 +9,8 @@ import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import sun.launcher.resources.launcher_it;
+
 import javax.transaction.Transactional;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -128,32 +130,9 @@ public class OrderDAOImpl implements OrderDAO {
             }
             builder.append("order.recipient.surname = :recipientSurname");
         }
+        builder.insert(0, "from Order order where ");
 
-        /*if (lowerOrderDate != null && upperOrderDate != null) {
-            builder.append("history.changeDate between :lowerOrderDate AND :upperOrderDate");
-        } else if (lowerOrderDate != null) {
-            builder.append("history.changeDate >= :lowerOrderDate");
-        } else if (upperOrderDate != null) {
-            builder.append("history.changeDate <= :upperOrderDate");
-        }
-
-        if (customerSurname != null){
-            if (builder.length() != 0){
-                builder.append(" and ");
-            }
-            builder.append("history.order.customer.surname = :customerSurname");
-        }
-        if (recipientSurname != null){
-            if (builder.length() != 0){
-                builder.append(" and ");
-            }
-            builder.append("history.order.recipient.surname = :recipientSurname");
-        }
-
-        builder.append(" and history.status = :orderStatus");
-        builder.insert(0, "select history.order from OrderHistory history where ");*/
         Query query = sessionFactory.getCurrentSession().createQuery(builder.toString());
-
         if (customerSurname != null){
             query.setString("customerSurname", customerSurname);
         }
@@ -166,7 +145,6 @@ public class OrderDAOImpl implements OrderDAO {
         if (upperOrderDate != null){
             query.setDate("upperOrderDate", upperOrderDate);
         }
-        //query.setString("orderStatus", OrderStatusEnum.NEW.toString());
         return query.list();
     }
 }
