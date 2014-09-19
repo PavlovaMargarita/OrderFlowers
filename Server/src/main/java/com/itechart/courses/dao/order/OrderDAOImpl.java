@@ -6,10 +6,12 @@ import com.itechart.courses.entity.Order;
 import com.itechart.courses.enums.OrderStatusEnum;
 import com.itechart.courses.enums.RoleEnum;
 import org.hibernate.*;
+import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,6 +80,27 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
+    public List<Order> readAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < orderStatusEnums.size(); i++){
+            if (builder.length() != 0){
+                builder.append(" or ");
+            }
+            builder.append("order.status = :" + orderStatusEnums.get(i).toString());
+        }
+        builder.insert(0, "from Order order where order.deliveryManager.id = :id or order.receiveManager.id = :id " +
+                "or order.handlerManager.id = :id and ");
+
+        Query query = sessionFactory.getCurrentSession().createQuery(builder.toString());
+        query.setInteger("id", userId);
+        for (int i = 0; i < orderStatusEnums.size(); i++){
+            OrderStatusEnum temp = orderStatusEnums.get(i);
+            query.setString(temp.toString(), temp.toString());
+        }
+        return query.list();
+    }
+
+    @Override
     public List<Order> searchOrder(OrderSearchDTO parameters) {
         StringBuilder builder = new StringBuilder();
         String customerSurname = parameters.getCustomerSurname();
@@ -86,6 +109,27 @@ public class OrderDAOImpl implements OrderDAO {
         Date upperOrderDate = parameters.getUpperOrderDate();
 
         if (lowerOrderDate != null && upperOrderDate != null) {
+            builder.append("order.date between :lowerOrderDate AND :upperOrderDate");
+        } else if (lowerOrderDate != null) {
+            builder.append("order.date >= :lowerOrderDate");
+        } else if (upperOrderDate != null) {
+            builder.append("order.date <= :upperOrderDate");
+        }
+
+        if (customerSurname != null){
+            if (builder.length() != 0){
+                builder.append(" and ");
+            }
+            builder.append("order.customer.surname = :customerSurname");
+        }
+        if (recipientSurname != null){
+            if (builder.length() != 0){
+                builder.append(" and ");
+            }
+            builder.append("order.recipient.surname = :recipientSurname");
+        }
+
+        /*if (lowerOrderDate != null && upperOrderDate != null) {
             builder.append("history.changeDate between :lowerOrderDate AND :upperOrderDate");
         } else if (lowerOrderDate != null) {
             builder.append("history.changeDate >= :lowerOrderDate");
@@ -107,7 +151,7 @@ public class OrderDAOImpl implements OrderDAO {
         }
 
         builder.append(" and history.status = :orderStatus");
-        builder.insert(0, "select history.order from OrderHistory history where ");
+        builder.insert(0, "select history.order from OrderHistory history where ");*/
         Query query = sessionFactory.getCurrentSession().createQuery(builder.toString());
 
         if (customerSurname != null){
@@ -122,7 +166,7 @@ public class OrderDAOImpl implements OrderDAO {
         if (upperOrderDate != null){
             query.setDate("upperOrderDate", upperOrderDate);
         }
-        query.setString("orderStatus", OrderStatusEnum.NEW.toString());
+        //query.setString("orderStatus", OrderStatusEnum.NEW.toString());
         return query.list();
     }
 }
