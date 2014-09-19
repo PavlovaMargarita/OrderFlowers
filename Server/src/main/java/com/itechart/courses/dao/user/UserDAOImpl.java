@@ -52,20 +52,11 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User readUser(String login) {
         User user = null;
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
-            Query query = session.createQuery("from User where login = :login");
-            query.setString("login", login);
-            List<User> temp = query.list();
-            if (temp.size() != 0){
-                user = temp.get(0);
-            }
-        }
-        finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
+        Query query = sessionFactory.getCurrentSession().createQuery("from User where login = :login");
+        query.setString("login", login);
+        List<User> temp = query.list();
+        if (temp.size() != 0){
+            user = temp.get(0);
         }
         return user;
     }
