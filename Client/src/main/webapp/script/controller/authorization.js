@@ -31,12 +31,12 @@ app.controller("authorizationController", function ($scope, $http, $location, $r
         var response = $http({
             method: "get",
             url: "/OrderFlowers/userInfo"})
-        .success(function (data) {
-            $cookieStore.put("userInfo", data);
-            $scope.successRedirect(data);})
-        .error(function (data) {
-            alert("ALERT");
-        });
+            .success(function (data) {
+                $cookieStore.put("userInfo", data);
+                $scope.successRedirect(data);})
+            .error(function (data) {
+                alert("ALERT");
+            });
     }
 
     $scope.successRedirect = function(data){

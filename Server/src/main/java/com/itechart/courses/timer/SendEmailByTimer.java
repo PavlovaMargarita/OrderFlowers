@@ -10,10 +10,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.Date;
 import java.util.List;
 
-
-/**
- * Created by Александр on 15.09.2014.
- */
 public class SendEmailByTimer{
 
     @Autowired

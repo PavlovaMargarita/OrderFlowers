@@ -1,8 +1,5 @@
 package com.itechart.courses.dto;
 
-/**
- * Created by Margarita on 07.09.2014.
- */
 public class PhoneDTO {
 
     private Integer id;

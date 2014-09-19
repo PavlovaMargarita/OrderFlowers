@@ -7,11 +7,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Margarita on 18.09.2014.
- */
 @Service
 public class RoleServiceImpl implements RoleService {
+
     @Override
     public List getRoles() {
         List roleEnum = new ArrayList();

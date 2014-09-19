@@ -2,9 +2,6 @@ package com.itechart.courses.dto;
 
 import java.sql.Date;
 
-/**
- * Created by User on 10.09.14.
- */
 public class ContactSearchDTO {
 
     private String surname;

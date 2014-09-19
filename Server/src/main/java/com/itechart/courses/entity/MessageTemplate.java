@@ -2,9 +2,6 @@ package com.itechart.courses.entity;
 
 import javax.persistence.*;
 
-/**
- * Created by User on 15.09.14.
- */
 @Entity
 @Table(name = "message_template")
 public class MessageTemplate {
@@ -12,6 +9,9 @@ public class MessageTemplate {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    @Column(nullable = false)
+    private String name;
 
     @Column(nullable = false)
     private String template;
@@ -22,6 +22,14 @@ public class MessageTemplate {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getTemplate() {

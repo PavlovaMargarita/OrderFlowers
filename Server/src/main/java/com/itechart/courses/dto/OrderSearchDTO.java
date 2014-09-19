@@ -2,10 +2,8 @@ package com.itechart.courses.dto;
 
 import java.sql.Date;
 
-/**
- * Created by User on 18.09.14.
- */
 public class OrderSearchDTO {
+
     private String customerSurname;
     private String recipientSurname;
     private Date lowerOrderDate;
