@@ -4,14 +4,11 @@ import com.itechart.courses.dto.OrderSearchDTO;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
 import com.itechart.courses.enums.OrderStatusEnum;
-import com.itechart.courses.enums.RoleEnum;
 import org.hibernate.*;
-import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

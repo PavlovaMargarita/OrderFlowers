@@ -1,7 +1,6 @@
 package com.itechart.courses.controller;
 
 import com.itechart.courses.dto.*;
-import com.itechart.courses.entity.MessageTemplate;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.authorization.AuthorizationService;
 import com.itechart.courses.service.contact.ContactService;

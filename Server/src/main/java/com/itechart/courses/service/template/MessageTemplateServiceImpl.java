@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Александр on 18.09.2014.
- */
 @Service
 public class MessageTemplateServiceImpl implements MessageTemplateService {
 

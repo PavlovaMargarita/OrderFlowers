@@ -10,10 +10,6 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.util.List;
 
-/**
- * Created by Александр on 14.08.2014.
- */
-
 @Repository
 @Transactional
 public class OrderHistoryDAOImpl implements OrderHistoryDAO {

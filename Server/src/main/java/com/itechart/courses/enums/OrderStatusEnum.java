@@ -1,8 +1,5 @@
 package com.itechart.courses.enums;
 
-/**
- * Created by Александр on 14.08.2014.
- */
 public enum OrderStatusEnum {
     NEW, ADOPTED,
     IN_PROCESSING,

@@ -2,9 +2,6 @@ package com.itechart.courses.entity;
 
 import javax.persistence.*;
 
-/**
- * Created by User on 15.09.14.
- */
 @Entity
 @Table(name = "message_template")
 public class MessageTemplate {

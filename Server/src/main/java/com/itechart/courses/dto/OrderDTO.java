@@ -2,9 +2,6 @@ package com.itechart.courses.dto;
 
 import java.sql.Date;
 
-/**
- * Created by Margarita on 18.09.2014.
- */
 public class OrderDTO {
 
     private String orderDescription;

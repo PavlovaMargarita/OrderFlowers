@@ -1,8 +1,5 @@
 package com.itechart.courses.enums;
 
-/**
- * Created by Admin on 17.09.2014.
- */
 public class Roles {
 
     public static final String RECEIVING_ORDERS_MANAGER = "ROLE_RECEIVING_ORDERS_MANAGER";

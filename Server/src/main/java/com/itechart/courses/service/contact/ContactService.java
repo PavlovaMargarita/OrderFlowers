@@ -4,7 +4,6 @@ import com.itechart.courses.dto.ContactDTO;
 import com.itechart.courses.dto.ContactSearchDTO;
 import com.itechart.courses.enums.Roles;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 

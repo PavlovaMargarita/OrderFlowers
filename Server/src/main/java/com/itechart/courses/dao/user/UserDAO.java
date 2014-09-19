@@ -4,9 +4,6 @@ import com.itechart.courses.entity.User;
 
 import java.util.List;
 
-/**
- * Created by Margarita on 14.08.2014.
- */
 public interface UserDAO {
     public Integer createUser(User user);  //return id(Integer) new user
     public void deleteUser(int id);

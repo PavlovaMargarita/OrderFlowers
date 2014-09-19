@@ -1,8 +1,5 @@
 package com.itechart.courses.dto;
 
-/**
- * Created by Александр on 18.09.2014.
- */
 public class MessageTemplateDTO {
 
     private int id;
