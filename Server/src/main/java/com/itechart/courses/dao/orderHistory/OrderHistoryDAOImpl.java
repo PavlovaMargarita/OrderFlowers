@@ -21,14 +21,6 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
     @Override
     public Integer createOrderHistory(OrderHistory orderHistory) {
         Integer id = null;

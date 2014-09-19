@@ -1,11 +1,13 @@
 package com.itechart.courses.controller;
 
 import com.itechart.courses.dto.*;
+import com.itechart.courses.entity.MessageTemplate;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.authorization.AuthorizationService;
 import com.itechart.courses.service.contact.ContactService;
 import com.itechart.courses.service.email.EmailService;
 import com.itechart.courses.service.role.RoleService;
+import com.itechart.courses.service.template.MessageTemplateService;
 import com.itechart.courses.service.user.UserService;
 import org.json.JSONException;
 import org.slf4j.Logger;
@@ -40,6 +42,9 @@ public class BasicController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private MessageTemplateService messageTemplateService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/userInfo")
     @ResponseBody
@@ -140,6 +145,11 @@ public class BasicController {
                 listEmail.add(contact.getEmail());
         }
         return listEmail;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/showTemplate")
+    public @ResponseBody List<MessageTemplateDTO> showTemplate() throws IOException{
+        return messageTemplateService.showTemplate();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/sendEmail")

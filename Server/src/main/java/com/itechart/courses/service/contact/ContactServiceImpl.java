@@ -23,10 +23,10 @@ import java.util.List;
 public class ContactServiceImpl implements ContactService {
 
     @Autowired(required = true)
-    ContactDAO contactDAO;
+    private ContactDAO contactDAO;
 
     @Autowired(required = true)
-    UserDAO userDAO;
+    private UserDAO userDAO;
 
     @Autowired(required = true)
     PhoneDAO phoneDAO;
@@ -124,8 +124,7 @@ public class ContactServiceImpl implements ContactService {
         return contactDTOList;
     }
 
-
-    public ContactDTO contactToContactDTO(Contact contact) {
+    private ContactDTO contactToContactDTO(Contact contact) {
         ContactDTO contactDTO = new ContactDTO();
         contactDTO.setId(contact.getId());
         contactDTO.setSurname(contact.getSurname());

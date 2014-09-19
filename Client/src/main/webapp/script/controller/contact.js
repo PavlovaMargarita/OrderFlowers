@@ -64,7 +64,6 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
         });
     }
 
-
     $scope.deleteContact = {};
     $scope.deleteContact.doClick = function() {
         if ($scope.checkContacts.length != 0) {
@@ -103,6 +102,16 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
     $scope.showPopupSendEmail.doClick = function() {
         if ($scope.checkContacts.length != 0) {
             $('#' + 'modal-message').modal('show');
+            var showTemplate = $http({
+                method: "get",
+                url: "/OrderFlowers/showTemplate"
+            });
+            showTemplate.success(function(data) {
+                $scope.templates = data;
+            });
+            showTemplate.error(function (data) {
+                $scope.authorization.info = "error";
+            });
             var showEmail = $http({
                 method: "get",
                 url: "/OrderFlowers/showEmail",
