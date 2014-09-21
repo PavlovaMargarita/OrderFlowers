@@ -7,6 +7,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -218,7 +219,9 @@ public class ContactDAOImpl implements ContactDAO {
     public int getContactCount() {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Contact.class);
-        int totalCount = ((Number) criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+        criteria.setProjection(Projections.rowCount());
+        criteria.add(Restrictions.eq("isDelete", false));
+        int totalCount = ((Number) criteria.uniqueResult()).intValue();
         return totalCount;
     }
 

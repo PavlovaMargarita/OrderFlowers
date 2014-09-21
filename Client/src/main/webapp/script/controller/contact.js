@@ -45,7 +45,7 @@ app.controller("contactCreateController", function ($scope, $http, $location) {
     }
 });
 
-app.controller("contactListController", function ($scope, $rootScope, $http, $location, PagerService) {
+app.controller("contactListController", function ($scope, $rootScope, $http, $location, $route, PagerService) {
     $scope.checkContacts = [];
     $scope.contacts = [];
     $scope.range = [];
@@ -121,19 +121,20 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
                 if (data == 'false') {
                     alert("Вы пытаетесь удалить контакт, который связан с пользователем");
                 }
-                var userList = $http({
-                    method: "get",
-                    url: "/OrderFlowers/contactList"
-                });
-                userList.success(function (data) {
-                    $scope.contacts = data;
-                    $location.path('/contactList');
-                    $location.replace();
-                    $scope.checkContacts = [];
-                });
-                userList.error(function (data) {
-                    $scope.authorization.info = "error";
-                });
+                $route.reload();
+//                var userList = $http({
+//                    method: "get",
+//                    url: "/OrderFlowers/contactList"
+//                });
+//                userList.success(function (data) {
+//                    $scope.contacts = data;
+//                    $location.path('/contactList');
+//                    $location.replace();
+//                    $scope.checkContacts = [];
+//                });
+//                userList.error(function (data) {
+//                    $scope.authorization.info = "error";
+//                });
             });
             contactDelete.error(function (data) {
                 $scope.authorization.info = "error";
