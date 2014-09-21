@@ -31,7 +31,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = orderDAO.readAllOrders();
         List<TableOrderDTO> ordersDTO = new ArrayList<TableOrderDTO>();
         for (Order order : orders){
-            ordersDTO.add(orderToOrderDTO(order));
+            ordersDTO.add(orderToTableOrderDTO(order));
         }
         return ordersDTO;
     }
@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = orderDAO.readAllOrders(userId, orderStatusEnums);
         List<TableOrderDTO> ordersDTO = new ArrayList<TableOrderDTO>();
         for (Order order : orders){
-            ordersDTO.add(orderToOrderDTO(order));
+            ordersDTO.add(orderToTableOrderDTO(order));
         }
         return ordersDTO;
     }
@@ -51,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO getOrder(int orderId) {
         Order order = orderDAO.readOrder(orderId);
         List<OrderStatusEnum> possibleStatues = getResolvedOrderStatus(order.getStatus());
-        return orderToTableOrderDTO(order, possibleStatues);
+        return orderToOrderDTO(order, possibleStatues);
     }
 
 
@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
         return sequenceOrderStatus.getValues(currentStatus);
     }
 
-    private TableOrderDTO orderToOrderDTO(Order order){
+    private TableOrderDTO orderToTableOrderDTO(Order order){
         TableOrderDTO tableOrderDTO = new TableOrderDTO();
         tableOrderDTO.setId(order.getId());
         tableOrderDTO.setDate(order.getDate());
@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
         return tableOrderDTO;
     }
 
-    private OrderDTO orderToTableOrderDTO(Order order, List<OrderStatusEnum> possibleStatuses){
+    private OrderDTO orderToOrderDTO(Order order, List<OrderStatusEnum> possibleStatuses){
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setOrderDescription(order.getOrderDescription());
         orderDTO.setCurrentState(order.getStatus().toRussianStatus());
