@@ -8,6 +8,8 @@ public class TableOrderDTO {
     private String orderDescription;
     private Integer sum;
     private Date date;
+    private ContactDTO customer;
+    private ContactDTO recipient;
 
     public int getId() {
         return id;
@@ -39,5 +41,21 @@ public class TableOrderDTO {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public ContactDTO getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(ContactDTO customer) {
+        this.customer = customer;
+    }
+
+    public ContactDTO getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(ContactDTO recipient) {
+        this.recipient = recipient;
     }
 }

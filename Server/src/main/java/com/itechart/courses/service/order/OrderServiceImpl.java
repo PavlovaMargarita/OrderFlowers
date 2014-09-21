@@ -1,9 +1,9 @@
 package com.itechart.courses.service.order;
 
 import com.itechart.courses.dao.order.OrderDAO;
+import com.itechart.courses.dto.ContactDTO;
 import com.itechart.courses.dto.OrderDTO;
 import com.itechart.courses.dto.OrderSearchDTO;
-import com.itechart.courses.dto.PersonDTO;
 import com.itechart.courses.dto.TableOrderDTO;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
@@ -85,6 +85,8 @@ public class OrderServiceImpl implements OrderService {
         tableOrderDTO.setDate(order.getDate());
         tableOrderDTO.setOrderDescription(order.getOrderDescription());
         tableOrderDTO.setSum(order.getSum());
+        tableOrderDTO.setCustomer(contactToContactDTO(order.getCustomer()));
+        tableOrderDTO.setRecipient(contactToContactDTO(order.getRecipient()));
         return tableOrderDTO;
     }
 
@@ -103,5 +105,12 @@ public class OrderServiceImpl implements OrderService {
         orderDTO.setReceiveManager(UserServiceImpl.userToPersonDTO(order.getReceiveManager()));
         orderDTO.setDeliveryManager(UserServiceImpl.userToPersonDTO(order.getDeliveryManager()));
         return orderDTO;
+    }
+
+    private ContactDTO contactToContactDTO(Contact contact) {
+        ContactDTO contactDTO = new ContactDTO();
+        contactDTO.setSurname(contact.getSurname());
+        contactDTO.setName(contact.getName());
+        return contactDTO;
     }
 }
