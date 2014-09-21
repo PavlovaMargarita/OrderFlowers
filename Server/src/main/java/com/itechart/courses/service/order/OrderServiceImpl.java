@@ -1,11 +1,15 @@
 package com.itechart.courses.service.order;
 
 import com.itechart.courses.dao.order.OrderDAO;
+import com.itechart.courses.dto.OrderDTO;
 import com.itechart.courses.dto.OrderSearchDTO;
+import com.itechart.courses.dto.PersonDTO;
 import com.itechart.courses.dto.TableOrderDTO;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
 import com.itechart.courses.enums.OrderStatusEnum;
+import com.itechart.courses.service.contact.ContactServiceImpl;
+import com.itechart.courses.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,10 +60,23 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
+    @Override
+    public List<String> getResolvedOrderStatus(OrderStatusEnum currentStatus){
+        List<OrderStatusEnum> statusEnums = sequenceOrderStatus.getValues(currentStatus);
+        List<String> result = null;
+        if (statusEnums != null){
+            result = new ArrayList<String>(statusEnums.size());
+            for (OrderStatusEnum statusEnum : statusEnums){
+                result.add(statusEnum.toRussianStatus());
+            }
+        }
+        return result;
+    }
 
-    //Разруливание возможных статусов заказа
-    private List<OrderStatusEnum> getResolvedOrderStatus(OrderStatusEnum currentStatus) {
-        return sequenceOrderStatus.getValues(currentStatus);
+    @Override
+    public OrderDTO readOrder(int id) {
+        Order order = orderDAO.readOrder(id);
+        return orderToOrderDTO(order);
     }
 
     private TableOrderDTO orderToTableOrderDTO(Order order){
@@ -69,5 +86,22 @@ public class OrderServiceImpl implements OrderService {
         tableOrderDTO.setOrderDescription(order.getOrderDescription());
         tableOrderDTO.setSum(order.getSum());
         return tableOrderDTO;
+    }
+
+    private OrderDTO orderToOrderDTO(Order order){
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setId(order.getId());
+        orderDTO.setOrderDescription(order.getOrderDescription());
+        orderDTO.setSum(order.getSum());
+        orderDTO.setCurrentState(order.getStatus());
+        orderDTO.setRussianCurrentState(order.getStatus().toRussianStatus());
+
+        orderDTO.setCustomer(ContactServiceImpl.contactToPersonDTO(order.getCustomer()));
+        orderDTO.setRecipient(ContactServiceImpl.contactToPersonDTO(order.getRecipient()));
+
+        orderDTO.setHandlerManager(UserServiceImpl.userToPersonDTO(order.getHandlerManager()));
+        orderDTO.setReceiveManager(UserServiceImpl.userToPersonDTO(order.getReceiveManager()));
+        orderDTO.setDeliveryManager(UserServiceImpl.userToPersonDTO(order.getDeliveryManager()));
+        return orderDTO;
     }
 }

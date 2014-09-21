@@ -4,10 +4,7 @@ import com.itechart.courses.dao.contact.ContactDAO;
 import com.itechart.courses.dao.order.OrderDAO;
 import com.itechart.courses.dao.phone.PhoneDAO;
 import com.itechart.courses.dao.user.UserDAO;
-import com.itechart.courses.dto.ContactDTO;
-import com.itechart.courses.dto.ContactSearchDTO;
-import com.itechart.courses.dto.TableOrderDTO;
-import com.itechart.courses.dto.PhoneDTO;
+import com.itechart.courses.dto.*;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
 import com.itechart.courses.entity.Phone;
@@ -124,6 +121,15 @@ public class ContactServiceImpl implements ContactService {
         return contactDTOList;
     }
 
+    public static PersonDTO contactToPersonDTO(Contact contact){
+        PersonDTO personDTO = new PersonDTO();
+        personDTO.setId(contact.getId());
+        personDTO.setSurname(contact.getSurname());
+        personDTO.setName(contact.getName());
+        personDTO.setPatronymic(contact.getPatronymic());
+        return personDTO;
+    }
+
     private ContactDTO contactToContactDTO(Contact contact) {
         ContactDTO contactDTO = new ContactDTO();
         contactDTO.setId(contact.getId());
@@ -165,6 +171,7 @@ public class ContactServiceImpl implements ContactService {
         contact.setFlat(contactDTO.getFlat());
         return contact;
     }
+
 
     private PhoneDTO phoneToPhoneDTO(Phone phone) {
         PhoneDTO phoneDTO = new PhoneDTO();

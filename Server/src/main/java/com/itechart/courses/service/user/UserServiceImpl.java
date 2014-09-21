@@ -2,6 +2,7 @@ package com.itechart.courses.service.user;
 
 import com.itechart.courses.dao.contact.ContactDAO;
 import com.itechart.courses.dao.user.UserDAO;
+import com.itechart.courses.dto.PersonDTO;
 import com.itechart.courses.dto.UserDTO;
 import com.itechart.courses.entity.User;
 import com.itechart.courses.enums.RoleEnum;
@@ -102,10 +103,20 @@ public class UserServiceImpl implements UserService {
         }
         return userDTO;
     }
+
     public void userDTOToUser(UserDTO userDTO, User user){
         user.setLogin(userDTO.getLogin());
         user.setPassword(userDTO.getPassword());
         user.setRole(userDTO.getRole());
         user.setContact(contactDAO.readContact(userDTO.getIdContact()));
+    }
+
+    public static PersonDTO userToPersonDTO(User user){
+        PersonDTO personDTO = new PersonDTO();
+        personDTO.setId(user.getId());
+        personDTO.setSurname(user.getContact().getSurname());
+        personDTO.setName(user.getContact().getName());
+        personDTO.setPatronymic(user.getContact().getPatronymic());
+        return personDTO;
     }
 }

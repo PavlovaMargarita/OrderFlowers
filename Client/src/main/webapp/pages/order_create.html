@@ -1,11 +1,11 @@
 <div class="order">
     <div class="box">
-        <h3>Текущее состояние заказа: {{order.currentState}}</h3>
+        <h3>Текущее состояние заказа: <b style="color: red">{{order.russianCurrentState}}</b></h3>
         <hr>
-        <div class="input-group">
+        <div class="input-group" ng-show="possibleStatesVisible">
             <span class="input-group-addon">Изменить состояние</span>
             <select class="form-control" id="order-status">
-                <option data-ng-repeat="state in order.possibleStates">{{state}}</option>
+                <option data-ng-repeat="state in possibleStates">{{state}}</option>
             </select>
         </div>
     </div>
@@ -38,9 +38,7 @@
         <hr>
         <div class="input-group">
             <span class="input-group-addon">Принял заказ</span>
-            <select class="form-control" id="reception-order-manager">
-                <!--подгрузка менеджеров по приему заказа-->
-            </select>
+            <input class="form-control" id="handler-manager" readonly value="{{order.receiveManager.surname}} {{order.receiveManager.name}} {{order.receiveManager.patronymic}}">
         </div>
 
         <div class="input-group">

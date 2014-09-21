@@ -38,6 +38,21 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $http) 
     });
     order.success(function (data) {
         $scope.order = data;
+
+        var possibleOrderStates = $http ({
+            method: "get",
+            url: "/OrderFlowers/getResolvedOrderState",
+            params: {
+                currentState: $scope.order.currentState
+            }
+        });
+        possibleOrderStates.success(function (data) {
+            $scope.possibleStatesVisible = true;
+            if (data == ""){
+                $scope.possibleStatesVisible = false;
+            }
+            $scope.possibleStates = data;
+        });
     });
 
 });

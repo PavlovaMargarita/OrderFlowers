@@ -1,5 +1,6 @@
 package com.itechart.courses.service.user;
 
+import com.itechart.courses.dto.PersonDTO;
 import com.itechart.courses.dto.UserDTO;
 import com.itechart.courses.enums.Roles;
 import org.springframework.security.access.annotation.Secured;

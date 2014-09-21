@@ -203,4 +203,14 @@ public class BasicController {
     public @ResponseBody List<TableOrderDTO> searchOrder(@RequestBody OrderSearchDTO parameters){
         return orderService.searchOrders(parameters);
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getResolvedOrderState")
+    public @ResponseBody List<String> getResolvedOrderStatus(@RequestParam("currentState") OrderStatusEnum currentState){
+        return orderService.getResolvedOrderStatus(currentState);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/showOrder")
+    public @ResponseBody OrderDTO getOrder(@RequestParam("id") String id){
+        return orderService.readOrder(Integer.parseInt(id));
+    }
 }

@@ -1,14 +1,14 @@
 package com.itechart.courses.enums;
 
 public enum OrderStatusEnum {
-    NEW ("Новый"),
-    ADOPTED ("Принят"),
-    IN_PROCESSING ("В обработке"),
-    READY_FOR_SHIPPING ("Готов к доставке"),
-    SHIPPING ("Доставка"),
-    CAN_NOT_BE_MADE ("Не может быть выполнен"),
-    CANCELED ("Отменен"),
-    CLOSED ("Закрыт");
+    NEW ("новый"),
+    ADOPTED ("принят"),
+    IN_PROCESSING ("в обработке"),
+    READY_FOR_SHIPPING ("готов к доставке"),
+    SHIPPING ("доставка"),
+    CAN_NOT_BE_MADE ("не может быть выполнен"),
+    CANCELED ("отменен"),
+    CLOSED ("закрыт");
 
     OrderStatusEnum(String russianStatus){
         this.russianStatus = russianStatus;
