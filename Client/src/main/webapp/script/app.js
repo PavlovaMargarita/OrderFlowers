@@ -40,6 +40,8 @@ app.config(function($routeProvider){
             controller: 'contactCorrectController'
         } )
 
+
+
         .when('/orderList', {
             templateUrl: 'pages/order_list.html',
             controller: 'orderListController'
@@ -48,10 +50,16 @@ app.config(function($routeProvider){
             templateUrl: 'pages/order_create.html',
             controller: 'orderCreateController'
         } )
+        .when('/orderCorrect/:id', {
+            templateUrl: 'pages/order_create.html',
+            controller: 'orderCorrectController'
+        })
         .when('/orderSearch', {
             templateUrl: 'pages/order_search.html',
             controller: 'orderSearchController'
         } )
+
+
 
         .when('/userList', {
             templateUrl: 'pages/user_list.html',

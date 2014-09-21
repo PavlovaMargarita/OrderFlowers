@@ -170,23 +170,7 @@ public class BasicController {
     }
 
 
-
-
-    //ПРОВЕРИТЬ РАБОТАЕТ ИЛИ НЕТ
-    @RequestMapping (method = RequestMethod.GET, value = "/getResolvedOrderStatus")
-    public @ResponseBody List ResolvedOrderStatus(@RequestBody OrderStatusEnum currentStatus){
-        List<OrderStatusEnum> statusEnums = orderService.getResolvedOrderStatus(currentStatus);
-        List<String> result = null;
-        if (statusEnums != null){
-            result = new ArrayList<String>(statusEnums.size());
-            for (OrderStatusEnum statusEnum : statusEnums){
-                result.add(statusEnum.toRussianStatus());
-            }
-        }
-        return result;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/getOrderList")
+    @RequestMapping(method = RequestMethod.GET, value = "/orderList")
     public @ResponseBody List<OrderDTO> getOrderList(Authentication authentication){
         LoginDTO dto = currentUserInfo(authentication);
         com.itechart.courses.entity.User user = null;
@@ -217,4 +201,10 @@ public class BasicController {
         }
         return orders;
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/showOrder")
+    public @ResponseBody TableOrderDTO getOrderList(@RequestParam("id") String id){
+        return orderService.getOrder(Integer.parseInt(id));
+    }
+
 }
