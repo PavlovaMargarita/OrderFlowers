@@ -198,11 +198,4 @@ public class BasicController {
         }
         return orders;
     }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/showOrder")
-    public @ResponseBody
-    OrderDTO getOrderList(@RequestParam("id") String id){
-        return orderService.getOrder(Integer.parseInt(id));
-    }
-
 }

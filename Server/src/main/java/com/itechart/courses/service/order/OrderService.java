@@ -1,6 +1,5 @@
 package com.itechart.courses.service.order;
 
-import com.itechart.courses.dto.OrderDTO;
 import com.itechart.courses.dto.TableOrderDTO;
 import com.itechart.courses.enums.OrderStatusEnum;
 
@@ -12,5 +11,4 @@ import java.util.List;
 public interface OrderService {
     public List<TableOrderDTO> getAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums);
     public List<TableOrderDTO> getAllOrders();
-    public OrderDTO getOrder(int orderId);
 }
