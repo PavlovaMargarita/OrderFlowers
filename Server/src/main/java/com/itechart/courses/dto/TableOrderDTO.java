@@ -1,43 +1,20 @@
 package com.itechart.courses.dto;
 
-import java.util.List;
+import java.sql.Date;
 
-/**
- * Created by Alex on 21.09.14.
- */
 public class TableOrderDTO {
-    private String currentState;
-    private List<String> possibleStates;
-    private String customer;
+
+    private int id;
     private String orderDescription;
-    private int sum;
-    private String handlerManager;
-    private String receiveManager;
-    private String deliveryManager;
-    private String recipient;
+    private Integer sum;
+    private Date date;
 
-    public String getCurrentState() {
-        return currentState;
+    public int getId() {
+        return id;
     }
 
-    public void setCurrentState(String currentState) {
-        this.currentState = currentState;
-    }
-
-    public List<String> getPossibleStates() {
-        return possibleStates;
-    }
-
-    public void setPossibleStates(List<String> possibleStates) {
-        this.possibleStates = possibleStates;
-    }
-
-    public String getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(String customer) {
-        this.customer = customer;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getOrderDescription() {
@@ -48,43 +25,19 @@ public class TableOrderDTO {
         this.orderDescription = orderDescription;
     }
 
-    public int getSum() {
+    public Integer getSum() {
         return sum;
     }
 
-    public void setSum(int sum) {
+    public void setSum(Integer sum) {
         this.sum = sum;
     }
 
-    public String getHandlerManager() {
-        return handlerManager;
+    public Date getDate() {
+        return date;
     }
 
-    public void setHandlerManager(String handlerManager) {
-        this.handlerManager = handlerManager;
-    }
-
-    public String getReceiveManager() {
-        return receiveManager;
-    }
-
-    public void setReceiveManager(String receiveManager) {
-        this.receiveManager = receiveManager;
-    }
-
-    public String getDeliveryManager() {
-        return deliveryManager;
-    }
-
-    public void setDeliveryManager(String deliveryManager) {
-        this.deliveryManager = deliveryManager;
-    }
-
-    public String getRecipient() {
-        return recipient;
-    }
-
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

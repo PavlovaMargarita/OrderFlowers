@@ -17,7 +17,7 @@ public class ContactDTO {
     private Integer flat;
     private Boolean isDelete;
     private List<PhoneDTO> phones;
-    private List<OrderDTO> orders;
+    private List<TableOrderDTO> orders;
 
     public Integer getId() {
         return id;
@@ -115,11 +115,11 @@ public class ContactDTO {
         this.phones = phones;
     }
 
-    public List<OrderDTO> getOrders() {
+    public List<TableOrderDTO> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<OrderDTO> orders) {
+    public void setOrders(List<TableOrderDTO> orders) {
         this.orders = orders;
     }
 }

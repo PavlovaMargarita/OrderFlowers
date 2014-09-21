@@ -27,9 +27,9 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public List<OrderDTO> getAllOrders() {
+    public List<TableOrderDTO> getAllOrders() {
         List<Order> orders = orderDAO.readAllOrders();
-        List<OrderDTO> ordersDTO = new ArrayList<OrderDTO>();
+        List<TableOrderDTO> ordersDTO = new ArrayList<TableOrderDTO>();
         for (Order order : orders){
             ordersDTO.add(orderToOrderDTO(order));
         }
@@ -37,9 +37,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDTO> getAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums) {
+    public List<TableOrderDTO> getAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums) {
         List<Order> orders = orderDAO.readAllOrders(userId, orderStatusEnums);
-        List<OrderDTO> ordersDTO = new ArrayList<OrderDTO>();
+        List<TableOrderDTO> ordersDTO = new ArrayList<TableOrderDTO>();
         for (Order order : orders){
             ordersDTO.add(orderToOrderDTO(order));
         }
@@ -48,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public TableOrderDTO getOrder(int orderId) {
+    public OrderDTO getOrder(int orderId) {
         Order order = orderDAO.readOrder(orderId);
         List<OrderStatusEnum> possibleStatues = getResolvedOrderStatus(order.getStatus());
         return orderToTableOrderDTO(order, possibleStatues);
@@ -60,17 +60,17 @@ public class OrderServiceImpl implements OrderService {
         return sequenceOrderStatus.getValues(currentStatus);
     }
 
-    private OrderDTO orderToOrderDTO(Order order){
-        OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setId(order.getId());
-        orderDTO.setDate(order.getDate());
-        orderDTO.setOrderDescription(order.getOrderDescription());
-        orderDTO.setSum(order.getSum());
-        return orderDTO;
+    private TableOrderDTO orderToOrderDTO(Order order){
+        TableOrderDTO tableOrderDTO = new TableOrderDTO();
+        tableOrderDTO.setId(order.getId());
+        tableOrderDTO.setDate(order.getDate());
+        tableOrderDTO.setOrderDescription(order.getOrderDescription());
+        tableOrderDTO.setSum(order.getSum());
+        return tableOrderDTO;
     }
 
-    private TableOrderDTO orderToTableOrderDTO(Order order, List<OrderStatusEnum> possibleStatuses){
-        TableOrderDTO orderDTO = new TableOrderDTO();
+    private OrderDTO orderToTableOrderDTO(Order order, List<OrderStatusEnum> possibleStatuses){
+        OrderDTO orderDTO = new OrderDTO();
         orderDTO.setOrderDescription(order.getOrderDescription());
         orderDTO.setCurrentState(order.getStatus().toRussianStatus());
         orderDTO.setSum(order.getSum());

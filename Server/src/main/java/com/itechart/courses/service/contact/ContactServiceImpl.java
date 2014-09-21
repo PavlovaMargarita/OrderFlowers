@@ -6,7 +6,7 @@ import com.itechart.courses.dao.phone.PhoneDAO;
 import com.itechart.courses.dao.user.UserDAO;
 import com.itechart.courses.dto.ContactDTO;
 import com.itechart.courses.dto.ContactSearchDTO;
-import com.itechart.courses.dto.OrderDTO;
+import com.itechart.courses.dto.TableOrderDTO;
 import com.itechart.courses.dto.PhoneDTO;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
@@ -199,11 +199,11 @@ public class ContactServiceImpl implements ContactService {
         return phone;
     }
 
-    private OrderDTO orderTOOrderDTO(Order order){
-        OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setDate(order.getDate());
-        orderDTO.setOrderDescription(order.getOrderDescription());
-        orderDTO.setSum(order.getSum());
-        return orderDTO;
+    private TableOrderDTO orderTOOrderDTO(Order order){
+        TableOrderDTO tableOrderDTO = new TableOrderDTO();
+        tableOrderDTO.setDate(order.getDate());
+        tableOrderDTO.setOrderDescription(order.getOrderDescription());
+        tableOrderDTO.setSum(order.getSum());
+        return tableOrderDTO;
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
  * Created by User on 20.09.14.
  */
 public interface OrderService {
-    public List<OrderDTO> getAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums);
-    public List<OrderDTO> getAllOrders();
-    public TableOrderDTO getOrder(int orderId);
+    public List<TableOrderDTO> getAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums);
+    public List<TableOrderDTO> getAllOrders();
+    public OrderDTO getOrder(int orderId);
 }

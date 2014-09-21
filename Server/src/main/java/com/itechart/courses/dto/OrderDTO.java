@@ -1,20 +1,43 @@
 package com.itechart.courses.dto;
 
-import java.sql.Date;
+import java.util.List;
 
+/**
+ * Created by Alex on 21.09.14.
+ */
 public class OrderDTO {
-
-    private int id;
+    private String currentState;
+    private List<String> possibleStates;
+    private String customer;
     private String orderDescription;
-    private Integer sum;
-    private Date date;
+    private int sum;
+    private String handlerManager;
+    private String receiveManager;
+    private String deliveryManager;
+    private String recipient;
 
-    public int getId() {
-        return id;
+    public String getCurrentState() {
+        return currentState;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCurrentState(String currentState) {
+        this.currentState = currentState;
+    }
+
+    public List<String> getPossibleStates() {
+        return possibleStates;
+    }
+
+    public void setPossibleStates(List<String> possibleStates) {
+        this.possibleStates = possibleStates;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
     }
 
     public String getOrderDescription() {
@@ -25,19 +48,43 @@ public class OrderDTO {
         this.orderDescription = orderDescription;
     }
 
-    public Integer getSum() {
+    public int getSum() {
         return sum;
     }
 
-    public void setSum(Integer sum) {
+    public void setSum(int sum) {
         this.sum = sum;
     }
 
-    public Date getDate() {
-        return date;
+    public String getHandlerManager() {
+        return handlerManager;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setHandlerManager(String handlerManager) {
+        this.handlerManager = handlerManager;
+    }
+
+    public String getReceiveManager() {
+        return receiveManager;
+    }
+
+    public void setReceiveManager(String receiveManager) {
+        this.receiveManager = receiveManager;
+    }
+
+    public String getDeliveryManager() {
+        return deliveryManager;
+    }
+
+    public void setDeliveryManager(String deliveryManager) {
+        this.deliveryManager = deliveryManager;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 }

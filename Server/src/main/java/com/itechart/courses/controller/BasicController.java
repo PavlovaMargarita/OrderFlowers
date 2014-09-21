@@ -1,7 +1,6 @@
 package com.itechart.courses.controller;
 
 import com.itechart.courses.dto.*;
-import com.itechart.courses.entity.Order;
 import com.itechart.courses.enums.OrderStatusEnum;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.authorization.AuthorizationService;
@@ -17,12 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -171,11 +168,11 @@ public class BasicController {
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/orderList")
-    public @ResponseBody List<OrderDTO> getOrderList(Authentication authentication){
+    public @ResponseBody List<TableOrderDTO> getOrderList(Authentication authentication){
         LoginDTO dto = currentUserInfo(authentication);
         com.itechart.courses.entity.User user = null;
         List<OrderStatusEnum> statusEnums = null;
-        List<OrderDTO> orders = null;
+        List<TableOrderDTO> orders = null;
 
         switch (dto.getRole()){
             case ROLE_PROCESSING_ORDERS_SPECIALIST:
@@ -203,7 +200,8 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/showOrder")
-    public @ResponseBody TableOrderDTO getOrderList(@RequestParam("id") String id){
+    public @ResponseBody
+    OrderDTO getOrderList(@RequestParam("id") String id){
         return orderService.getOrder(Integer.parseInt(id));
     }
 
