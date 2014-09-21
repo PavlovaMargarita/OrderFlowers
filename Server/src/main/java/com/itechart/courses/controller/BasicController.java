@@ -200,7 +200,7 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/orderSearch")
-    public @ResponseBody List<TableOrderDTO> getOrderList(@RequestBody OrderSearchDTO parameters){
+    public @ResponseBody List<TableOrderDTO> searchOrder(@RequestBody OrderSearchDTO parameters){
         return orderService.searchOrders(parameters);
     }
 }
