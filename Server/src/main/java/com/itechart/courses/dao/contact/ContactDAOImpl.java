@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -227,6 +228,51 @@ public class ContactDAOImpl implements ContactDAO {
 
     @Override
     public int getContactCount(ContactSearchDTO parameters) {
-        return 0;
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Contact.class);
+        criteria.setProjection(Projections.rowCount());
+
+        String surname = parameters.getSurname();
+        String name = parameters.getName();
+        String patronymic = parameters.getPatronymic();
+        Date lowerDateOfBirth = parameters.getLowerDateOfBirth();
+        Date upperDateOfBirth = parameters.getUpperDateOfBirth();
+        String city = parameters.getCity();
+        String street = parameters.getStreet();
+        Integer home = parameters.getHome();
+        Integer flat = parameters.getFlat();
+
+        if(surname != null){
+            criteria.add(Restrictions.eq("surname", surname));
+        }
+        if(name != null){
+            criteria.add(Restrictions.eq("name", name));
+        }
+        if(patronymic != null){
+            criteria.add(Restrictions.eq("patronymic", patronymic));
+        }
+        if(lowerDateOfBirth != null && upperDateOfBirth != null){
+            criteria.add(Restrictions.between("dateOfBirth", lowerDateOfBirth, upperDateOfBirth));
+        } else if(lowerDateOfBirth != null){
+            criteria.add(Restrictions.ge("dateOfBirth", lowerDateOfBirth));
+        } else if(upperDateOfBirth != null){
+            criteria.add(Restrictions.le("dateOfBirth", upperDateOfBirth));
+        }
+        if(city != null){
+            criteria.add(Restrictions.eq("city", city));
+        }
+        if(street != null){
+            criteria.add(Restrictions.eq("street", street));
+        }
+        if(home != null){
+            criteria.add(Restrictions.eq("home", home));
+        }
+        if(flat != null){
+            criteria.add(Restrictions.eq("flat", flat));
+        }
+        criteria.add(Restrictions.eq("isDelete", false));
+        int totalCount = ((Number) criteria.uniqueResult()).intValue();
+
+        return totalCount;
     }
 }
