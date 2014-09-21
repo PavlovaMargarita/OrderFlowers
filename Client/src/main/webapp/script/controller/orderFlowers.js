@@ -1,18 +1,25 @@
-app.controller("orderListController", function ($scope, $rootScope, $http, $location) {
+app.controller("orderListController", function ($scope, $rootScope, $http) {
     //получаем список заказов при загузке страницы order_list.html
-    var response = $http({
-        method: "get",
-        url: "/OrderFlowers/orderList"
-    });
-    response.success(function (data) {
-        $scope.orders = data;
-    });
+    if (!$rootScope.isSearchOrder){
+        var response = $http({
+            method: "get",
+            url: "/OrderFlowers/orderList"
+        });
+        response.success(function (data) {
+            $scope.orders = data;
+        });
+    }
+    else {
+        $scope.orders = $rootScope.data;
+        $rootScope.isSearchOrder = false;
+    }
 });
 
 
 
 
 app.controller("orderCreateController", function ($scope, $http) {
+
 
 
 });
@@ -38,6 +45,24 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $http) 
 
 
 
-app.controller("orderSearchController", function ($scope, $http) {
-    $scope.message = "orderSearchController";
+app.controller("orderSearchController", function ($scope, $rootScope, $location, $http) {
+    $scope.search = {};
+    $scope.search.doClick = function (){
+        var response = $http({
+            method: "post",
+            url: "/OrderFlowers/orderSearch",
+            data: {
+                customerSurname: $scope.order.customerSurname,
+                recipientSurname: $scope.order.recipientSurname,
+                lowerOrderDate: $scope.order.lowerOrderDate,
+                upperOrderDate: $scope.order.upperOrderDate
+            }
+        });
+        response.success(function (data){
+            $rootScope.isSearchOrder = true;
+            $rootScope.data = data;
+            $location.path('/orderList');
+            $location.replace();
+        });
+    }
 });

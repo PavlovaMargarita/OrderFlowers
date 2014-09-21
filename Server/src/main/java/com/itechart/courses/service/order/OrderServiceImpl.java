@@ -1,6 +1,7 @@
 package com.itechart.courses.service.order;
 
 import com.itechart.courses.dao.order.OrderDAO;
+import com.itechart.courses.dto.OrderSearchDTO;
 import com.itechart.courses.dto.TableOrderDTO;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
@@ -24,7 +25,6 @@ public class OrderServiceImpl implements OrderService {
     private OrderDAO orderDAO;
 
 
-
     @Override
     public List<TableOrderDTO> getAllOrders() {
         List<Order> orders = orderDAO.readAllOrders();
@@ -45,6 +45,19 @@ public class OrderServiceImpl implements OrderService {
         return ordersDTO;
     }
 
+    @Override
+    public List<TableOrderDTO> searchOrders(OrderSearchDTO parameters) {
+        List<Order> orders = orderDAO.searchOrder(parameters);
+        List<TableOrderDTO> result = new ArrayList<TableOrderDTO>();
+        for (Order order : orders){
+            result.add(orderToTableOrderDTO(order));
+        }
+        return result;
+    }
+
+
+
+    //Разруливание возможных статусов заказа
     private List<OrderStatusEnum> getResolvedOrderStatus(OrderStatusEnum currentStatus) {
         return sequenceOrderStatus.getValues(currentStatus);
     }
