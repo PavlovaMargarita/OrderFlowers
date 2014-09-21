@@ -4,9 +4,18 @@ import java.sql.Date;
 
 public class OrderDTO {
 
+    private int id;
     private String orderDescription;
     private Integer sum;
     private Date date;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getOrderDescription() {
         return orderDescription;

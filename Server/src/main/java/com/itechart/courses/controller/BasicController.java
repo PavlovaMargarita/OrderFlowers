@@ -1,10 +1,13 @@
 package com.itechart.courses.controller;
 
 import com.itechart.courses.dto.*;
+import com.itechart.courses.entity.Order;
+import com.itechart.courses.enums.OrderStatusEnum;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.authorization.AuthorizationService;
 import com.itechart.courses.service.contact.ContactService;
 import com.itechart.courses.service.email.EmailService;
+import com.itechart.courses.service.order.OrderService;
 import com.itechart.courses.service.role.RoleService;
 import com.itechart.courses.service.template.MessageTemplateService;
 import com.itechart.courses.service.user.UserService;
@@ -14,10 +17,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +46,9 @@ public class BasicController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private MessageTemplateService messageTemplateService;
@@ -159,5 +167,54 @@ public class BasicController {
     @RequestMapping(method = RequestMethod.POST, value = "/getLogin")
     public @ResponseBody List getLogin() throws IOException{
         return userService.readLogin();
+    }
+
+
+
+
+    //ПРОВЕРИТЬ РАБОТАЕТ ИЛИ НЕТ
+    @RequestMapping (method = RequestMethod.GET, value = "/getResolvedOrderStatus")
+    public @ResponseBody List ResolvedOrderStatus(@RequestBody OrderStatusEnum currentStatus){
+        List<OrderStatusEnum> statusEnums = orderService.getResolvedOrderStatus(currentStatus);
+        List<String> result = null;
+        if (statusEnums != null){
+            result = new ArrayList<String>(statusEnums.size());
+            for (OrderStatusEnum statusEnum : statusEnums){
+                result.add(statusEnum.toRussianStatus());
+            }
+        }
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getOrderList")
+    public @ResponseBody List<OrderDTO> getOrderList(Authentication authentication){
+        LoginDTO dto = currentUserInfo(authentication);
+        com.itechart.courses.entity.User user = null;
+        List<OrderStatusEnum> statusEnums = null;
+        List<OrderDTO> orders = null;
+
+        switch (dto.getRole()){
+            case ROLE_PROCESSING_ORDERS_SPECIALIST:
+                user = userService.readUser(dto.getLogin());
+                statusEnums = new ArrayList<OrderStatusEnum>(2);
+                statusEnums.add(OrderStatusEnum.ADOPTED);
+                statusEnums.add(OrderStatusEnum.IN_PROCESSING);
+                orders = orderService.getAllOrders(user.getId(), statusEnums);
+                break;
+            case ROLE_SERVICE_DELIVERY_MANAGER:
+                user = userService.readUser(dto.getLogin());
+                statusEnums = new ArrayList<OrderStatusEnum>(2);
+                statusEnums.add(OrderStatusEnum.READY_FOR_SHIPPING);
+                statusEnums.add(OrderStatusEnum.SHIPPING);
+                orders = orderService.getAllOrders(user.getId(), statusEnums);
+                break;
+            case ROLE_SUPERVISOR:
+                orders = orderService.getAllOrders();
+                break;
+            case ROLE_ADMIN:
+                orders = orderService.getAllOrders();
+                break;
+        }
+        return orders;
     }
 }

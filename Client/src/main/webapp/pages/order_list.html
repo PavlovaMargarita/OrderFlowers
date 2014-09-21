@@ -11,27 +11,17 @@
             <tr class="warning">
                 <th>&nbsp;</th>
                 <th>Дата заказа</th>
-                <th>Фамилия заказчика</th>
-                <th>Фамилия получателя</th>
-                <th>Редактировать</th>
+                <th>Сумма</th>
+                <th>Описание заказа</th>
+            </tr>
+
+            <tr data-ng-repeat="order in orders">
+                <td><input type="checkbox" checklist-model="checkOrders" checklist-value="order.id"/></td>
+                <td>{{order.date}}</td>
+                <td>{{order.sum}}</td>
+                <td>{{order.orderDescription}}</td>
             </tr>
         </thead>
-
-        <tr>
-            <td><input type="checkbox"/></td>
-            <td>2014-08-02</td>
-            <td>Петров</td>
-            <td>Сидоров</td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td><input type="checkbox"/></td>
-            <td>2014-08-02</td>
-            <td>Сидоров</td>
-            <td>Пирожков</td>
-            <td></td>
-        </tr>
     </table>
 
     <!--постраничная навигация-->

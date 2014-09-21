@@ -61,6 +61,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User readUser(String login) {
+        return userDAO.readUser(login);
+    }
+
+    @Override
     public List readLogin() {
         List<User> userList = userDAO.readAllUsers();
         List login = new ArrayList();
