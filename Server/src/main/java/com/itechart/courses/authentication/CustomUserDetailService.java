@@ -1,6 +1,8 @@
 package com.itechart.courses.authentication;
 
 import com.itechart.courses.dao.user.UserDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +22,8 @@ import java.util.Set;
  */
 public class CustomUserDetailService implements UserDetailsService {
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailService.class);
+
     @Autowired(required = true)
     private UserDAO userDAO;
 
@@ -28,6 +32,7 @@ public class CustomUserDetailService implements UserDetailsService {
         com.itechart.courses.entity.User user = userDAO.readUser(login);
         if(user != null) {
             List<GrantedAuthority> authorities = buildUserAuthority(user);
+            logger.info("User with login" + user.getLogin() + " is logged");
             return buildUserForAuthentication(user, authorities);
         }else {
             throw new UsernameNotFoundException("Can't locate user '" + login + "'");

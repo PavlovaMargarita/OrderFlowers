@@ -68,36 +68,43 @@ public class BasicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/contactList")
     public @ResponseBody List<ContactDTO> getContactList(){
+        logger.info("User viewed all contacts");
         return contactService.readContact();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/contactSearch")
     public @ResponseBody List<ContactDTO> contactSearch(@RequestBody ContactSearchDTO contactSearchDTO){
+        logger.info("User searched contacts");
         return contactService.searchContact(contactSearchDTO);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/contactCorrect")
     public @ResponseBody ContactDTO getContact(@RequestParam("id") String id ){
+        logger.info("User viewed the contact");
         return contactService.readContact(Integer.parseInt(id));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/saveContactCorrect")
     public @ResponseBody void saveContactCorrect(@RequestBody ContactDTO contactDTO) throws IOException{
+        logger.info("User updated the contact");
         contactService.updateContact(contactDTO);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/saveContactCreate")
     public @ResponseBody void saveContactCreate(@RequestBody ContactDTO contactDTO) throws IOException{
+        logger.info("User created new contact");
         contactService.createContact(contactDTO);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/userList")
     public @ResponseBody List<UserDTO> getUserList(){
+        logger.info("User viewed all users");
         return userService.readUser();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/userCorrect")
     public @ResponseBody UserDTO getUser(@RequestParam("id") String id ){
+        logger.info("User viewed the user");
         return userService.readUser(Integer.parseInt(id));
     }
 
@@ -108,21 +115,25 @@ public class BasicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/contactListForUser")
     public @ResponseBody List<ContactDTO> getContactListForUser(@RequestParam("id") String idUser ){
+        logger.info("User viewed all contacts");
         return contactService.readContactForUser(Integer.parseInt(idUser));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/saveUserCorrect")
     public @ResponseBody void saveUserCorrect(@RequestBody UserDTO userDTO) throws IOException{
+        logger.info("User updated the user");
         userService.updateUser(userDTO);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/saveUserCreate")
     public @ResponseBody void saveUserCreate(@RequestBody UserDTO userDTO) throws IOException{
+        logger.info("User created new user");
         userService.createUser(userDTO);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/userDelete")
     public @ResponseBody void userDelete(@RequestBody CheckDTO userId) throws IOException{
+        logger.info("User deleted users");
         for(int i: userId.getCheckId()){
             userService.deleteUser(i);
         }
@@ -131,6 +142,7 @@ public class BasicController {
     @RequestMapping(method = RequestMethod.POST, value = "/contactDelete")
     public @ResponseBody boolean contactDelete(@RequestBody CheckDTO contactId) throws IOException{
         boolean delete = true;
+        logger.info("User deleted contacts");
         for(int i: contactId.getCheckId()){
             if(!contactService.deleteContact(i)){
                 delete = false;
@@ -158,6 +170,7 @@ public class BasicController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/sendEmail")
     public @ResponseBody void sendEmail(@RequestBody EmailDTO emailDTO) throws IOException{
+        logger.info("User sent email");
         emailService.sendEmail(emailDTO);
     }
 
@@ -170,10 +183,10 @@ public class BasicController {
     @RequestMapping(method = RequestMethod.GET, value = "/orderList")
     public @ResponseBody List<TableOrderDTO> getOrderList(Authentication authentication){
         LoginDTO dto = currentUserInfo(authentication);
+        logger.info("User has viewed all orders");
         com.itechart.courses.entity.User user = null;
         List<OrderStatusEnum> statusEnums = null;
         List<TableOrderDTO> orders = null;
-
         switch (dto.getRole()){
             case ROLE_PROCESSING_ORDERS_SPECIALIST:
                 user = userService.readUser(dto.getLogin());
@@ -201,6 +214,7 @@ public class BasicController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/orderSearch")
     public @ResponseBody List<TableOrderDTO> searchOrder(@RequestBody OrderSearchDTO parameters){
+        logger.info("User searched orders");
         return orderService.searchOrders(parameters);
     }
 
@@ -211,6 +225,7 @@ public class BasicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/showOrder")
     public @ResponseBody OrderDTO getOrder(@RequestParam("id") String id){
+        logger.info("User viewed the order");
         return orderService.readOrder(Integer.parseInt(id));
     }
 }
