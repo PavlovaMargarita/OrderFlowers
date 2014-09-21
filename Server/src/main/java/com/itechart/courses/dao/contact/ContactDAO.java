@@ -11,7 +11,8 @@ public interface ContactDAO {
     public void deleteContact(int id); //if the contact is deleted, the method returns true, otherwise false
     public Contact readContact(int id); //if the contact is not found, returns null
     public void updateContact(Contact contact);
-    public List<Contact> readAllContacts(int first, int count); //if contacts not found, return null;
+    public List<Contact> readAllContacts(); //if contacts not found, return null;
+    public List<Contact> readContacts(int first, int count);
     public List<Contact> searchContact(ContactSearchDTO parameters);
     public List<Contact> searchContactByDateOfBirth(int month, int day);
     public int getContactCount();

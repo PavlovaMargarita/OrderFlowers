@@ -19,6 +19,36 @@ app.run(function($rootScope, $cookieStore){
     }
 });
 
+app.service('PagerService', function() {
+    this.totalPageNumber = function(pageRecords, totalRecords) {
+        return Math.floor((totalRecords + pageRecords - 1) / pageRecords);
+    }
+
+    this.buildRange = function(totalPageNumber) {
+        var pages = [];
+        for(var i = 1;i <= totalPageNumber; i++) {
+            pages.push(i);
+        }
+        return pages;
+    }
+
+    this.isPrevDisabled = function(currentPage){
+        return currentPage === 1 ? "disabled" : "";
+    }
+
+    this.isNextDisabled = function(currentPage, totalPageCountt){
+        return currentPage === totalPageCountt ? "disabled" : "";
+    }
+
+    this.isFirstDisabled = function(currentPage){
+        return currentPage === 1 ? "disabled" : "";
+    }
+
+    this.isLastDisabled = function(currentPage, totalPageCount){
+        return currentPage === totalPageCount ? "disabled" : "";
+    }
+});
+
 app.config(function($routeProvider){
     $routeProvider
         .when('/login', {

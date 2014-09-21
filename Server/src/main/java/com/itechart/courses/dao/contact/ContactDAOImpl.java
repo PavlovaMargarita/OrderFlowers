@@ -55,7 +55,18 @@ public class ContactDAOImpl implements ContactDAO {
 
     @Override
     @SuppressWarnings("JpaQlInspection")
-    public List<Contact> readAllContacts(int first, int count) {
+    public List<Contact> readAllContacts() {
+        List<Contact> result = null;
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from Contact where isDelete = :isDelete");
+        query.setBoolean("isDelete", false);
+        result = query.list();
+        return result;
+    }
+
+    @Override
+    @SuppressWarnings("JpaQlInspection")
+    public List<Contact> readContacts(int first, int count) {
         List<Contact> result = null;
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("from Contact where isDelete = :isDelete");
@@ -207,7 +218,7 @@ public class ContactDAOImpl implements ContactDAO {
     public int getContactCount() {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Contact.class);
-        int totalCount = (Integer) criteria.setProjection(Projections.rowCount()).uniqueResult();
+        int totalCount = ((Number) criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
         return totalCount;
     }
 

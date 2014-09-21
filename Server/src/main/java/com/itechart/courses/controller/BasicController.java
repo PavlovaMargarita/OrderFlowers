@@ -68,8 +68,8 @@ public class BasicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/contactList")
     public @ResponseBody PageableContactDTO getContactList(@RequestParam("currentPage") int currentPage, @RequestParam("pageRecords") int pageRecords){
-
-        return contactService.readContact(currentPage-1, pageRecords);
+        int firstRecordNumber = firstRecordNumber(currentPage, pageRecords);
+        return contactService.readContact(firstRecordNumber, pageRecords);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/contactSearch")
@@ -201,6 +201,7 @@ public class BasicController {
     }
 
     private int firstRecordNumber(int currentPage, int count){
-        return 0;
+        int firstRecordNumber = (currentPage - 1) * count;
+        return firstRecordNumber >= 0 ? firstRecordNumber : 0;
     }
 }
