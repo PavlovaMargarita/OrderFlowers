@@ -54,7 +54,8 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
     else {
         var response = $http({
             method: "get",
-            url: "/OrderFlowers/contactList"
+            url: "/OrderFlowers/contactList",
+            params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
         });
         response.success(function (data) {
             $scope.contacts = data;

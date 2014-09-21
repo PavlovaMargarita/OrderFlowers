@@ -4,10 +4,7 @@ import com.itechart.courses.dao.contact.ContactDAO;
 import com.itechart.courses.dao.order.OrderDAO;
 import com.itechart.courses.dao.phone.PhoneDAO;
 import com.itechart.courses.dao.user.UserDAO;
-import com.itechart.courses.dto.ContactDTO;
-import com.itechart.courses.dto.ContactSearchDTO;
-import com.itechart.courses.dto.TableOrderDTO;
-import com.itechart.courses.dto.PhoneDTO;
+import com.itechart.courses.dto.*;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
 import com.itechart.courses.entity.Phone;
@@ -89,13 +86,15 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public List readContact() {
+    public PageableContactDTO readContact(int first, int count) {
         List contactDTOList = new ArrayList<ContactDTO>();
         List<Contact> contactList = contactDAO.readAllContacts();
+        int totalCount = contactDAO.getContactCount();
         for (Contact contact : contactList) {
             contactDTOList.add(contactToContactDTO(contact));
         }
-        return contactDTOList;
+        PageableContactDTO result = new PageableContactDTO(contactDTOList, totalCount);
+        return result;
     }
 
     @Override
