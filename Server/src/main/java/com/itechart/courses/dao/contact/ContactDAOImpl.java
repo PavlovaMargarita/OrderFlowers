@@ -242,15 +242,9 @@ public class ContactDAOImpl implements ContactDAO {
         Integer home = parameters.getHome();
         Integer flat = parameters.getFlat();
 
-        if(surname != null){
-            criteria.add(Restrictions.eq("surname", surname));
-        }
-        if(name != null){
-            criteria.add(Restrictions.eq("name", name));
-        }
-        if(patronymic != null){
-            criteria.add(Restrictions.eq("patronymic", patronymic));
-        }
+        addRestrictionIfNotNull(criteria, "surname", surname);
+        addRestrictionIfNotNull(criteria, "name", name);
+        addRestrictionIfNotNull(criteria, "patronymic", patronymic);
         if(lowerDateOfBirth != null && upperDateOfBirth != null){
             criteria.add(Restrictions.between("dateOfBirth", lowerDateOfBirth, upperDateOfBirth));
         } else if(lowerDateOfBirth != null){
@@ -258,21 +252,19 @@ public class ContactDAOImpl implements ContactDAO {
         } else if(upperDateOfBirth != null){
             criteria.add(Restrictions.le("dateOfBirth", upperDateOfBirth));
         }
-        if(city != null){
-            criteria.add(Restrictions.eq("city", city));
-        }
-        if(street != null){
-            criteria.add(Restrictions.eq("street", street));
-        }
-        if(home != null){
-            criteria.add(Restrictions.eq("home", home));
-        }
-        if(flat != null){
-            criteria.add(Restrictions.eq("flat", flat));
-        }
+        addRestrictionIfNotNull(criteria, "city", city);
+        addRestrictionIfNotNull(criteria, "street", street);
+        addRestrictionIfNotNull(criteria, "home", home);
+        addRestrictionIfNotNull(criteria, "flat", flat);
         criteria.add(Restrictions.eq("isDelete", false));
         int totalCount = ((Number) criteria.uniqueResult()).intValue();
 
         return totalCount;
+    }
+
+    private void addRestrictionIfNotNull(Criteria criteria, String propertyName, Object value) {
+        if (value != null) {
+            criteria.add(Restrictions.eq(propertyName, value));
+        }
     }
 }
