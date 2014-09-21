@@ -2,6 +2,7 @@ package com.itechart.courses.service.contact;
 
 import com.itechart.courses.dto.ContactDTO;
 import com.itechart.courses.dto.ContactSearchDTO;
+import com.itechart.courses.dto.PageableContactDTO;
 import com.itechart.courses.enums.Roles;
 import org.springframework.security.access.annotation.Secured;
 
@@ -21,7 +22,7 @@ public interface ContactService {
     public boolean deleteContact(int id);
 
     @Secured({Roles.SUPERVISOR, Roles.RECEIVING_ORDERS_MANAGER, Roles.ADMIN})
-    public List readContact();
+    public PageableContactDTO readContact(int first, int count);
 
     @Secured({Roles.SUPERVISOR, Roles.RECEIVING_ORDERS_MANAGER, Roles.ADMIN})
     public List searchContact(ContactSearchDTO parameters);

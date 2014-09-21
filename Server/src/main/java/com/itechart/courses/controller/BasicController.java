@@ -67,9 +67,11 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/contactList")
-    public @ResponseBody List<ContactDTO> getContactList(){
+    public @ResponseBody PageableContactDTO getContactList(@RequestParam("currentPage") int currentPage, @RequestParam("pageRecords") int pageRecords){
         logger.info("User viewed all contacts");
-        return contactService.readContact();
+        int firstRecordNumber = firstRecordNumber(currentPage, pageRecords);
+        return contactService.readContact(firstRecordNumber, pageRecords);
+
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/contactSearch")
@@ -224,8 +226,12 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/showOrder")
-    public @ResponseBody OrderDTO getOrder(@RequestParam("id") String id){
+    public @ResponseBody OrderDTO getOrder(@RequestParam("id") String id) {
         logger.info("User viewed the order");
         return orderService.readOrder(Integer.parseInt(id));
+    }
+    private int firstRecordNumber(int currentPage, int count){
+        int firstRecordNumber = (currentPage - 1) * count;
+        return firstRecordNumber >= 0 ? firstRecordNumber : 0;
     }
 }

@@ -2,6 +2,8 @@ var app = angular.module("OrderFlowers", ['ngRoute', 'checklist-model', 'ngCooki
 
 app.run(function($rootScope, $cookieStore){
 
+    $rootScope.recordsOnPage = 5;
+
     $rootScope.isAuth = function(){
         var user = $cookieStore.get("userInfo");
         return !(angular.isUndefined && user == null);
@@ -14,6 +16,36 @@ app.run(function($rootScope, $cookieStore){
         }
         var userRole = user.role;
         return (roles.indexOf(userRole) > -1);
+    }
+});
+
+app.service('PagerService', function() {
+    this.totalPageNumber = function(pageRecords, totalRecords) {
+        return Math.floor((totalRecords + pageRecords - 1) / pageRecords);
+    }
+
+    this.buildRange = function(totalPageNumber) {
+        var pages = [];
+        for(var i = 1;i <= totalPageNumber; i++) {
+            pages.push(i);
+        }
+        return pages;
+    }
+
+    this.isPrevDisabled = function(currentPage){
+        return currentPage === 1 ? "disabled" : "";
+    }
+
+    this.isNextDisabled = function(currentPage, totalPageCountt){
+        return currentPage === totalPageCountt ? "disabled" : "";
+    }
+
+    this.isFirstDisabled = function(currentPage){
+        return currentPage === 1 ? "disabled" : "";
+    }
+
+    this.isLastDisabled = function(currentPage, totalPageCount){
+        return currentPage === totalPageCount ? "disabled" : "";
     }
 });
 
