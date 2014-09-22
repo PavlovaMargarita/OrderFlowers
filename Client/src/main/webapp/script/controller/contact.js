@@ -221,11 +221,12 @@ app.controller("contactSearchController", function ($scope, $http, $location, $r
                 street: $scope.contact.street,
                 home: $scope.contact.home,
                 flat: $scope.contact.flat
-            }
+            },
+            params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
         });
         contactSearch.success(function (data) {
             $rootScope.isSearchContact = true;
-            $rootScope.data = data;
+            $rootScope.data = data.pageableContacts;
             $location.path('/contactList');
             $location.replace();
         });
@@ -289,18 +290,20 @@ app.controller("contactCorrectController", function ($scope, $http, $routeParams
             }
         });
         response.success(function (data) {
-            var contactList = $http({
-                method: "get",
-                url: "/OrderFlowers/contactList"
-            });
-            contactList.success(function (data) {
-                $scope.contacts = data;
-                $location.path('/contactList');
-                $location.replace();
-            });
-            contactList.error(function (data) {
-                $scope.authorization.info = "error";
-            });
+            $location.path('/contactList');
+            $location.replace();
+//            var contactList = $http({
+//                method: "get",
+//                url: "/OrderFlowers/contactList"
+//            });
+//            contactList.success(function (data) {
+//                $scope.contacts = data;
+//                $location.path('/contactList');
+//                $location.replace();
+//            });
+//            contactList.error(function (data) {
+//                $scope.authorization.info = "error";
+//            });
         });
         response.error(function (data) {
             $scope.authorization.info = "error";

@@ -100,13 +100,15 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public List searchContact(ContactSearchDTO parameters) {
+    public PageableContactDTO searchContact(ContactSearchDTO parameters, int first, int count) {
         List contactDTOList = new ArrayList<ContactDTO>();
-        List<Contact> contactList = contactDAO.searchContact(parameters);
+        List<Contact> contactList = contactDAO.searchContact(parameters, first, count);
+        int totalCount = contactDAO.getContactCount(parameters);
         for (Contact contact : contactList){
             contactDTOList.add(contactToContactDTO(contact));
         }
-        return contactDTOList;
+        PageableContactDTO searchResult = new PageableContactDTO(contactDTOList, totalCount);
+        return searchResult;
     }
 
     @Override

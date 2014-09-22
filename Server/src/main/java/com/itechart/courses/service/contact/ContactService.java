@@ -25,7 +25,7 @@ public interface ContactService {
     public PageableContactDTO readContact(int first, int count);
 
     @Secured({Roles.SUPERVISOR, Roles.RECEIVING_ORDERS_MANAGER, Roles.ADMIN})
-    public List searchContact(ContactSearchDTO parameters);
+    public PageableContactDTO searchContact(ContactSearchDTO parameters, int first, int count);
 
     @Secured({Roles.SUPERVISOR, Roles.RECEIVING_ORDERS_MANAGER, Roles.ADMIN})
     public List readContactForUser(int idUser);

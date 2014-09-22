@@ -75,9 +75,13 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/contactSearch")
-    public @ResponseBody List<ContactDTO> contactSearch(@RequestBody ContactSearchDTO contactSearchDTO){
+    public @ResponseBody PageableContactDTO contactSearch(@RequestBody ContactSearchDTO contactSearchDTO,
+                                                          @RequestParam("currentPage") int currentPage,
+                                                          @RequestParam("pageRecords") int pageRecords){
         logger.info("User searched contacts");
-        return contactService.searchContact(contactSearchDTO);
+        int firstRecordNumber = firstRecordNumber(currentPage, pageRecords);
+        PageableContactDTO searchResult = contactService.searchContact(contactSearchDTO, firstRecordNumber, pageRecords);
+        return searchResult;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/contactCorrect")

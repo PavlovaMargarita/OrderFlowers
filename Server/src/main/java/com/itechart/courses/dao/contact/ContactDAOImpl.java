@@ -101,7 +101,7 @@ public class ContactDAOImpl implements ContactDAO {
 
 
     @Override
-    public List<Contact> searchContact(ContactSearchDTO parameters) {
+    public List<Contact> searchContact(ContactSearchDTO parameters, int first, int count) {
         if (parameters == null) {
             throw new NullPointerException("parameters is null");
         }
@@ -211,6 +211,8 @@ public class ContactDAOImpl implements ContactDAO {
         if (flat != null) {
             query.setInteger("flat", flat);
         }
+        query.setFirstResult(first);
+        query.setMaxResults(count);
         contacts = (List<Contact>) query.list();
         return contacts;
     }
