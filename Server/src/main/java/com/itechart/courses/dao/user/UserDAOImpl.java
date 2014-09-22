@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
+//@Transactional
 public class UserDAOImpl implements UserDAO {
 
     @Autowired

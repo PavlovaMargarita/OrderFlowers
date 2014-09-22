@@ -17,7 +17,6 @@ import java.sql.Date;
 import java.util.List;
 
 @Repository
-@Transactional
 public class ContactDAOImpl implements ContactDAO {
 
     @Autowired

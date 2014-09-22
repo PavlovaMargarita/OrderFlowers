@@ -13,6 +13,7 @@ import com.itechart.courses.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
  * Created by Alex on 20.09.14.
  */
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
 
     @Autowired (required = true)

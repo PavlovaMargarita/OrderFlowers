@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
+//@Transactional
 public class PhoneDAOImpl implements PhoneDAO {
 
     @Autowired
