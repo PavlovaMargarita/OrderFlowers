@@ -8,7 +8,8 @@
             <tr class="warning">
                 <th>&nbsp;</th>
                 <th>Дата заказа</th>
-                <th>Сумма</th>
+                <th>Заказчик</th>
+                <th>Получатель</th>
                 <th>Описание заказа</th>
                 <th>Редактировать</th>
             </tr>
@@ -16,7 +17,8 @@
             <tr data-ng-repeat="order in orders">
                 <td><input type="checkbox" checklist-model="checkOrders" checklist-value="order.id"/></td>
                 <td>{{order.date}}</td>
-                <td>{{order.sum}}</td>
+                <td>{{order.customer.surname}} {{order.customer.name}}</td>
+                <td>{{order.recipient.surname}} {{order.recipient.name}}</td>
                 <td>{{order.orderDescription}}</td>
                 <td><a href="#orderCorrect/{{order.id}}"><img src="../images/edit-button.png"/></a></td>
             </tr>

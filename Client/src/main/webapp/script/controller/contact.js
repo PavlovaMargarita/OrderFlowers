@@ -1,13 +1,16 @@
-app.controller("contactCreateController", function ($scope, $http, $location) {
+app.controller("contactCreateController", function ($scope, $http, $location, Validation) {
+    $scope.contact = {};
+    $scope.contact.surname = '';
+    $scope.contact.name='';
     $scope.save = {};
-    $scope.save.doClick = function(){
+    $scope.save.doClick = function () {
         var phones = new Array();
-        for(var i = 0; i < document.getElementsByName("country-code-td").length; i++){
+        for (var i = 0; i < document.getElementsByName("country-code-td").length; i++) {
             var phoneType;
-            if(document.getElementsByName("phone-type-td")[i].textContent == 'Домашний'){
+            if (document.getElementsByName("phone-type-td")[i].textContent == 'Домашний') {
                 phoneType = 'HOME';
             }
-            if(document.getElementsByName("phone-type-td")[i].textContent == 'Мобильный'){
+            if (document.getElementsByName("phone-type-td")[i].textContent == 'Мобильный') {
                 phoneType = 'MOBILE';
             }
             var phone = {id: document.getElementsByName("phone.id")[i].value,
@@ -19,53 +22,99 @@ app.controller("contactCreateController", function ($scope, $http, $location) {
                 command: document.getElementsByName("command")[i].value}
             phones.push(phone);
         }
-        response = $http({
-            method: "post",
-            url: "/OrderFlowers/saveContactCreate",
-            data: {
-                surname: $scope.contact.surname,
-                name: $scope.contact.name,
-                patronymic: $scope.contact.patronymic,
-                dateOfBirth: $scope.contact.dateOfBirth,
-                email: $scope.contact.email,
-                city: $scope.contact.city,
-                street: $scope.contact.street,
-                home: $scope.contact.home,
-                flat: $scope.contact.flat,
-                phones: phones
-            }
-        });
-        response.success(function (data) {
-            $location.path('/contactList');
-            $location.replace();
-        });
-        response.error(function (data) {
-            $scope.authorization.info = "error";
-        });
+
+        if(validationContact($scope.contact, Validation)) {
+            var response = $http({
+                method: "post",
+                url: "/OrderFlowers/saveContactCreate",
+                data: {
+                    surname: $scope.contact.surname,
+                    name: $scope.contact.name,
+                    patronymic: $scope.contact.patronymic,
+                    dateOfBirth: $scope.contact.dateOfBirth,
+                    email: $scope.contact.email,
+                    city: $scope.contact.city,
+                    street: $scope.contact.street,
+                    home: $scope.contact.home,
+                    flat: $scope.contact.flat,
+                    phones: phones
+                }
+            });
+            response.success(function () {
+                $location.path('/contactList');
+                $location.replace();
+            });
+            response.error(function (data) {
+                $scope.authorization.info = "error";
+            });
+        }
     }
 });
 
-app.controller("contactListController", function ($scope, $rootScope, $http, $location) {
+app.controller("contactListController", function ($scope, $rootScope, $http, $location, $route, PagerService) {
     $scope.checkContacts = [];
-    if ($rootScope.isSearchContact){
+    $scope.contacts = [];
+    $scope.range = [];
+    $scope.currentPage = 1;
+    $scope.totalPages = 1;
+    $scope.totalRecords = 0;
+
+    if ($rootScope.isSearchContact) {
         $scope.contacts = $rootScope.data;
         $rootScope.isSearchContact = false;
     }
     else {
         var response = $http({
             method: "get",
-            url: "/OrderFlowers/contactList"
+            url: "/OrderFlowers/contactList",
+            params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
         });
         response.success(function (data) {
-            $scope.contacts = data;
+            $scope.contacts = data.pageableContacts;
+            $scope.totalRecords = data.totalCount;
+            $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
+            $scope.range = PagerService.buildRange($scope.totalPages);
         });
         response.error(function (data) {
             $scope.authorization.info = "error";
         });
     }
 
+    $scope.getRecords = {};
+    $scope.getRecords.doClick = function (pageNumber) {
+        var response = $http({
+            method: "get",
+            url: "/OrderFlowers/contactList",
+            params: {currentPage: pageNumber, pageRecords: $rootScope.recordsOnPage}
+        });
+        response.success(function (data) {
+            $scope.contacts = data.pageableContacts;
+            $scope.currentPage = pageNumber;
+            $scope.totalRecords = data.totalCount;
+            $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
+            $scope.range = PagerService.buildRange($scope.totalPages);
+
+        });
+    }
+
+    $scope.isPrevDisabled = function () {
+        return PagerService.isPrevDisabled($scope.currentPage);
+    }
+
+    $scope.isNextDisabled = function () {
+        return PagerService.isNextDisabled($scope.currentPage, $scope.totalPages);
+    }
+
+    $scope.isFirstDisabled = function () {
+        return PagerService.isFirstDisabled($scope.currentPage);
+    }
+
+    $scope.isLastDisabled = function () {
+        return PagerService.isLastDisabled($scope.currentPage, $scope.totalPages);
+    }
+
     $scope.deleteContact = {};
-    $scope.deleteContact.doClick = function() {
+    $scope.deleteContact.doClick = function () {
         if ($scope.checkContacts.length != 0) {
             var contactDelete = $http({
                 method: "post",
@@ -78,19 +127,20 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
                 if (data == 'false') {
                     alert("Вы пытаетесь удалить контакт, который связан с пользователем");
                 }
-                var userList = $http({
-                    method: "get",
-                    url: "/OrderFlowers/contactList"
-                });
-                userList.success(function (data) {
-                    $scope.contacts = data;
-                    $location.path('/contactList');
-                    $location.replace();
-                    $scope.checkContacts = [];
-                });
-                userList.error(function (data) {
-                    $scope.authorization.info = "error";
-                });
+                $route.reload();
+//                var userList = $http({
+//                    method: "get",
+//                    url: "/OrderFlowers/contactList"
+//                });
+//                userList.success(function (data) {
+//                    $scope.contacts = data;
+//                    $location.path('/contactList');
+//                    $location.replace();
+//                    $scope.checkContacts = [];
+//                });
+//                userList.error(function (data) {
+//                    $scope.authorization.info = "error";
+//                });
             });
             contactDelete.error(function (data) {
                 $scope.authorization.info = "error";
@@ -99,14 +149,14 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
     }
 
     $scope.showPopupSendEmail = {};
-    $scope.showPopupSendEmail.doClick = function() {
+    $scope.showPopupSendEmail.doClick = function () {
         if ($scope.checkContacts.length != 0) {
             $('#' + 'modal-message').modal('show');
             var showTemplate = $http({
                 method: "get",
                 url: "/OrderFlowers/showTemplate"
             });
-            showTemplate.success(function(data) {
+            showTemplate.success(function (data) {
                 $scope.templates = data;
             });
             showTemplate.error(function (data) {
@@ -129,7 +179,7 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
     }
 
     $scope.sendEmail = {};
-    $scope.sendEmail.doClick = function(){
+    $scope.sendEmail.doClick = function () {
         var emailSend = $http({
             method: "post",
             url: "/OrderFlowers/sendEmail",
@@ -163,7 +213,7 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
 
 app.controller("contactSearchController", function ($scope, $http, $location, $rootScope) {
     $scope.save = {};
-    $scope.save.doClick = function(){
+    $scope.save.doClick = function () {
         var contactSearch = $http({
             method: "post",
             url: "/OrderFlowers/contactSearch",
@@ -191,7 +241,7 @@ app.controller("contactSearchController", function ($scope, $http, $location, $r
     }
 });
 
-app.controller("contactCorrectController", function ($scope, $http, $routeParams, $location) {
+app.controller("contactCorrectController", function ($scope, $http, $routeParams, $location, Validation) {
     var id = $routeParams.id;
     var response = $http({
         method: "get",
@@ -207,63 +257,117 @@ app.controller("contactCorrectController", function ($scope, $http, $routeParams
         $scope.authorization.info = "error";
     });
     $scope.save = {};
-    $scope.save.doClick = function(){
+    $scope.save.doClick = function () {
         var phones = new Array();
-        for(var i = 0; i < document.getElementsByName("country-code-td").length; i++){
+        for (var i = 0; i < document.getElementsByName("country-code-td").length; i++) {
             var phoneType;
-            if(document.getElementsByName("phone-type-td")[i].textContent == 'Домашний'){
+            if (document.getElementsByName("phone-type-td")[i].textContent == 'Домашний') {
                 phoneType = 'HOME';
             }
-            if(document.getElementsByName("phone-type-td")[i].textContent == 'Мобильный'){
+            if (document.getElementsByName("phone-type-td")[i].textContent == 'Мобильный') {
                 phoneType = 'MOBILE';
             }
             var phone = {id: document.getElementsByName("phone.id")[i].value,
-                        countryCode: document.getElementsByName("country-code-td")[i].textContent,
-                        operatorCode: document.getElementsByName("operator-code-td")[i].textContent,
-                        phoneNumber: document.getElementsByName("phone-number-td")[i].textContent,
-                        phoneType: phoneType,
-                        comment: document.getElementsByName("phone-comment-td")[i].textContent,
-                        command: document.getElementsByName("command")[i].value}
+                countryCode: document.getElementsByName("country-code-td")[i].textContent,
+                operatorCode: document.getElementsByName("operator-code-td")[i].textContent,
+                phoneNumber: document.getElementsByName("phone-number-td")[i].textContent,
+                phoneType: phoneType,
+                comment: document.getElementsByName("phone-comment-td")[i].textContent,
+                command: document.getElementsByName("command")[i].value}
             phones.push(phone);
         }
-
-        response = $http({
-            method: "post",
-            url: "/OrderFlowers/saveContactCorrect",
-            data: {
-                id: $scope.contact.id,
-                surname: $scope.contact.surname,
-                name: $scope.contact.name,
-                patronymic: $scope.contact.patronymic,
-                dateOfBirth: $scope.contact.dateOfBirth,
-                email: $scope.contact.email,
-                city: $scope.contact.city,
-                street: $scope.contact.street,
-                home: $scope.contact.home,
-                flat: $scope.contact.flat,
-                phones: phones
-            }
-        });
-        response.success(function (data) {
-            var contactList = $http({
-                method: "get",
-                url: "/OrderFlowers/contactList"
+        if (validationContact($scope.contact, Validation)) {
+            response = $http({
+                method: "post",
+                url: "/OrderFlowers/saveContactCorrect",
+                data: {
+                    id: $scope.contact.id,
+                    surname: $scope.contact.surname,
+                    name: $scope.contact.name,
+                    patronymic: $scope.contact.patronymic,
+                    dateOfBirth: $scope.contact.dateOfBirth,
+                    email: $scope.contact.email,
+                    city: $scope.contact.city,
+                    street: $scope.contact.street,
+                    home: $scope.contact.home,
+                    flat: $scope.contact.flat,
+                    phones: phones
+                }
             });
-            contactList.success(function (data) {
-                $scope.contacts = data;
-                $location.path('/contactList');
-                $location.replace();
+            response.success(function (data) {
+                var contactList = $http({
+                    method: "get",
+                    url: "/OrderFlowers/contactList"
+                });
+                contactList.success(function (data) {
+                    $scope.contacts = data;
+                    $location.path('/contactList');
+                    $location.replace();
+                });
+                contactList.error(function (data) {
+                    $scope.authorization.info = "error";
+                });
             });
-            contactList.error(function (data) {
+            response.error(function (data) {
                 $scope.authorization.info = "error";
             });
-        });
-        response.error(function (data) {
-            $scope.authorization.info = "error";
-        });
+        }
     }
 });
 
+function validationContact(value, Validation){
+    var errorClass = " has-error";
+    var validate = true;
+    if (!Validation.validationName(value.surname) || value.surname == '') {
+        document.getElementById('div-surname').className += errorClass;
+        validate = false;
+    } else{
+        document.getElementById('div-surname').className -= errorClass;
+    }
+    if (!Validation.validationName(value.name) || value.name == '') {
+        document.getElementById('div-name').className += errorClass;
+        validate = false;
+    } else{
+        document.getElementById('div-name').className -= errorClass;
+    }
+    if (!Validation.validationPatronymic(value.patronymic)) {
+        document.getElementById('div-patronymic').className += errorClass;
+        validate = false;
+    } else{
+        document.getElementById('div-patronymic').className -= errorClass;
+    }
+    if(!Validation.validationEmail(value.email)){
+        document.getElementById('div-email').className += errorClass;
+        validate = false;
+    } else{
+        document.getElementById('div-email').className -= errorClass;
+    }
+    if(!Validation.validationCity(value.city)){
+        document.getElementById('div-city').className += errorClass;
+        validate = false;
+    } else{
+        document.getElementById('div-city').className -= errorClass;
+    }
+    if(!Validation.validationStreet(value.street)){
+        document.getElementById('div-street').className += errorClass;
+        validate = false;
+    } else{
+        document.getElementById('div-street').className -= errorClass;
+    }
+    if(!Validation.validationInt(value.home)){
+        document.getElementById('div-home').className += errorClass;
+        validate = false;
+    } else{
+        document.getElementById('div-home').className -= errorClass;
+    }
+    if(!Validation.validationInt(value.flat)){
+        document.getElementById('div-flat').className += errorClass;
+        validate = false;
+    } else{
+        document.getElementById('div-flat').className -= errorClass;
+    }
+    return validate;
+}
 /*==================================================================
  КЛИЕНТСКАЯ ЛОГИКА СТРАНИЦЫ contact.html
  ====================================================================*/
@@ -307,20 +411,20 @@ var phoneTypeMap = {
     HOME: "Домашний",
     MOBILE: "Мобильный",
 
-    getKeyByValue: function(key){
+    getKeyByValue: function (key) {
         var result = null;
-        if (key == this.HOME){
+        if (key == this.HOME) {
             result = "HOME";
         }
-        else if (key == this.MOBILE){
+        else if (key == this.MOBILE) {
             result = "MOBILE";
         }
         return result;
     },
 
-    isValidKey: function(key){
+    isValidKey: function (key) {
         var result = false;
-        if (key == "HOME" || key == "MOBILE"){
+        if (key == "HOME" || key == "MOBILE") {
             result = true;
         }
         return result;
@@ -335,7 +439,7 @@ var phoneValidationPattern = {
 }
 
 
-function showCreatePhonePopUp(){
+function showCreatePhonePopUp() {
     document.getElementById(id.MODAL_PHONE_TITLE_ID).innerHTML = "Создать телефонный номер";
     document.getElementById(id.MODAL_PHONE_BUTTON_SAVE).innerHTML = "Добавить";
     document.getElementById(id.COUNTRY_CODE_ID).value = "";
@@ -361,7 +465,7 @@ function showEditPhonePopUp(td) {
     $('#' + id.MODAL_PHONE_ID).modal('show');
 }
 
-function addPhone(){
+function addPhone() {
     var countryCodeField = document.getElementById(id.COUNTRY_CODE_ID);
     var operatorCodeField = document.getElementById(id.OPERATOR_CODE_ID);
     var phoneNumberField = document.getElementById(id.PHONE_NUMBER_ID);
@@ -376,7 +480,7 @@ function addPhone(){
     var temp = null;
     var input = null;
 
-    if (phoneValidation(countryCodeField, operatorCodeField, phoneNumberField, phoneTypeField)){
+    if (phoneValidation(countryCodeField, operatorCodeField, phoneNumberField, phoneTypeField)) {
         row = document.createElement('tr');
 
         temp = document.createElement('td');
@@ -437,7 +541,7 @@ function addPhone(){
     }
 }
 
-function editPhone(){
+function editPhone() {
     var countryCodeField = document.getElementById(id.COUNTRY_CODE_ID);
     var operatorCodeField = document.getElementById(id.OPERATOR_CODE_ID);
     var phoneNumberField = document.getElementById(id.PHONE_NUMBER_ID);
@@ -450,7 +554,7 @@ function editPhone(){
     operatorCodeField.value = operatorCodeField.value.trim();
     phoneNumberField.value = phoneNumberField.value.trim();
 
-    if (phoneValidation(countryCodeField, operatorCodeField, phoneNumberField, phoneTypeField)){
+    if (phoneValidation(countryCodeField, operatorCodeField, phoneNumberField, phoneTypeField)) {
         cells = document.getElementById('phone-table').rows[phoneRowIndex].getElementsByTagName('td');
         cells[id.COUNTRY_CODE_TD_ID].innerHTML = countryCodeField.value;
         cells[id.OPERATOR_CODE_TD_ID].innerHTML = operatorCodeField.value;
@@ -458,26 +562,26 @@ function editPhone(){
         cells[id.PHONE_TYPE_TD_ID].innerHTML = phoneTypeMap[phoneTypeField.value];
         cells[id.PHONE_COMMENT_TD_ID].innerHTML = phoneComment;
         command = cells[id.COMMAND_AND_CHECKBOX_TD_ID].getElementsByTagName('input')['command'];
-        if (command.value != commands.ADD){
+        if (command.value != commands.ADD) {
             command.value = commands.UPDATE;
         }
         $('#' + id.MODAL_PHONE_ID).modal('hide');
     }
 }
 
-function deletePhones(){
+function deletePhones() {
     var rows = document.getElementById(id.PHONE_TABLE_ID).rows;
     var isChecked = false;
     var inputs = null;
-    for (var i = 1; i < rows.length; i++){
+    for (var i = 1; i < rows.length; i++) {
         inputs = rows[i].getElementsByTagName("td")[id.COMMAND_AND_CHECKBOX_TD_ID].getElementsByTagName("input");
-        if (inputs[id.DELETE_CONTACT_CHECKBOX_ID].checked){
-            if (!isChecked){
+        if (inputs[id.DELETE_CONTACT_CHECKBOX_ID].checked) {
+            if (!isChecked) {
                 isChecked = true;
             }
             rows[i].style.display = "none";
             inputs[id.DELETE_CONTACT_CHECKBOX_ID].checked = false;
-            if (inputs[id.COMMAND_ID].value != commands.ADD){
+            if (inputs[id.COMMAND_ID].value != commands.ADD) {
                 inputs[id.COMMAND_ID].value = commands.DELETE;
             }
             else {
@@ -486,16 +590,16 @@ function deletePhones(){
         }
     }
 
-    if (!isChecked){
+    if (!isChecked) {
         alert("Не выбраны контакты для удаления");
     }
 }
 
-function phoneValidation(countryCodeField, operatorCodeField, phoneNumberField, phoneTypeField){
+function phoneValidation(countryCodeField, operatorCodeField, phoneNumberField, phoneTypeField) {
     var errorClass = " has-error";
     var isGood = true;
 
-    if (!phoneValidationPattern.COUNTRY_CODE.test(countryCodeField.value)){
+    if (!phoneValidationPattern.COUNTRY_CODE.test(countryCodeField.value)) {
         isGood = false;
         countryCodeField.parentNode.className += errorClass;
     }
@@ -503,7 +607,7 @@ function phoneValidation(countryCodeField, operatorCodeField, phoneNumberField, 
         countryCodeField.parentNode.className -= errorClass;
     }
 
-    if (!phoneValidationPattern.OPERATOR_CODE.test(operatorCodeField.value)){
+    if (!phoneValidationPattern.OPERATOR_CODE.test(operatorCodeField.value)) {
         isGood = false;
         operatorCodeField.parentNode.className += errorClass;
     }
@@ -511,7 +615,7 @@ function phoneValidation(countryCodeField, operatorCodeField, phoneNumberField, 
         operatorCodeField.parentNode.className -= errorClass;
     }
 
-    if (!phoneValidationPattern.PHONE_NUMBER.test(phoneNumberField.value)){
+    if (!phoneValidationPattern.PHONE_NUMBER.test(phoneNumberField.value)) {
         isGood = false;
         phoneNumberField.parentNode.className += errorClass;
     }
@@ -519,7 +623,7 @@ function phoneValidation(countryCodeField, operatorCodeField, phoneNumberField, 
         phoneNumberField.parentNode.className -= errorClass;
     }
 
-    if (!phoneTypeMap.isValidKey(phoneTypeField.value)){
+    if (!phoneTypeMap.isValidKey(phoneTypeField.value)) {
         isGood = false;
         phoneTypeField.parentNode.className += errorClass;
     }

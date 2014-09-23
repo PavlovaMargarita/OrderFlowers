@@ -86,13 +86,15 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public List readContact() {
+    public PageableContactDTO readContact(int first, int count) {
         List contactDTOList = new ArrayList<ContactDTO>();
-        List<Contact> contactList = contactDAO.readAllContacts();
+        List<Contact> contactList = contactDAO.readContacts(first, count);
+        int totalCount = contactDAO.getContactCount();
         for (Contact contact : contactList) {
             contactDTOList.add(contactToContactDTO(contact));
         }
-        return contactDTOList;
+        PageableContactDTO result = new PageableContactDTO(contactDTOList, totalCount);
+        return result;
     }
 
     @Override

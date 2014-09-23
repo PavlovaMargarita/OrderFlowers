@@ -2,9 +2,12 @@ package com.itechart.courses.dao.contact;
 
 import com.itechart.courses.dto.ContactSearchDTO;
 import com.itechart.courses.entity.Contact;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -63,6 +66,19 @@ public class ContactDAOImpl implements ContactDAO {
     }
 
     @Override
+    @SuppressWarnings("JpaQlInspection")
+    public List<Contact> readContacts(int first, int count) {
+        List<Contact> result = null;
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from Contact where isDelete = :isDelete");
+        query.setFirstResult(first);
+        query.setMaxResults(count);
+        query.setBoolean("isDelete", false);
+        result = query.list();
+        return result;
+    }
+
+    @Override
     public void updateContact(Contact contact) {
         Session session = null;
         if (contact == null) {
@@ -82,6 +98,7 @@ public class ContactDAOImpl implements ContactDAO {
         contacts = query.list();
         return contacts;
     }
+
 
     @Override
     public List<Contact> searchContact(ContactSearchDTO parameters) {
@@ -196,5 +213,20 @@ public class ContactDAOImpl implements ContactDAO {
         }
         contacts = (List<Contact>) query.list();
         return contacts;
+    }
+
+    @Override
+    public int getContactCount() {
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Contact.class);
+        criteria.setProjection(Projections.rowCount());
+        criteria.add(Restrictions.eq("isDelete", false));
+        int totalCount = ((Number) criteria.uniqueResult()).intValue();
+        return totalCount;
+    }
+
+    @Override
+    public int getContactCount(ContactSearchDTO parameters) {
+        return 0;
     }
 }
