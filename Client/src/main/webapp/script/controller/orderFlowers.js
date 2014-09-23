@@ -45,7 +45,7 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $rootSc
         });
         possibleOrderStates.success(function (data) {
             $scope.possibleStatesHide = false;
-            $scope.disabledManagersFields = true;
+            $scope.disabledOnTheRole= true;
 
             if (data == ""){
                 $scope.possibleStatesHide = true;
@@ -53,7 +53,7 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $rootSc
             $scope.possibleStates = data;
 
             if ($rootScope.hasAuthority(['ROLE_SUPERVISOR','ROLE_RECEIVING_ORDERS_MANAGER'])){
-                $scope.disabledManagersFields = false;
+                $scope.disabledOnTheRole = false;
                 var getManagers = $http ({
                     method: "get",
                     url: "/OrderFlowers/getUsersByRole",
@@ -115,6 +115,3 @@ app.controller("orderSearchController", function ($scope, $rootScope, $location,
         });
     }
 });
-
-
-

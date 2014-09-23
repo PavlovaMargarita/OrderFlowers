@@ -18,14 +18,14 @@
 
         <div class="input-group">
             <span class="input-group-addon">Заказчик</span>
-            <input class="form-control" id="customer-id"/>
-            <input type="hidden" id="customer-hidden-id">
+            <input class="form-control" id="customer-id" value="{{order.customer.surname}} {{order.customer.name}} {{order.customer.patronymic}}" ng-disabled="disabledOnTheRole"/>
+            <input type="hidden" id="customer-hidden-id" ng-model="order.customerID" value="{{order.customer.id}}">
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">Получатель</span>
-            <input class="form-control" id="recipient-id"/>
-            <input type="hidden" id="recipient-hidden-id">
+            <input class="form-control" id="recipient-id" value="{{order.recipient.surname}} {{order.recipient.name}} {{order.recipient.patronymic}}" ng-disabled="disabledOnTheRole"/>
+            <input type="hidden" id="recipient-hidden-id" ng-model="order.recipientID" value="{{order.recipient.id}}">
         </div>
 
         <div class="input-group">
@@ -45,14 +45,14 @@
         <div class="input-group">
             <span class="input-group-addon">Обрабатывает заказ</span>
             <select class="form-control" id="handler-manager" data-ng-model="handlerManager.id"
-                ng-options="c.id as c.surname + ' ' + c.name for c in handlerManagers" ng-readonly="readOnly" ng-disabled="disabledManagersFields">
+                ng-options="c.id as c.surname + ' ' + c.name for c in handlerManagers" ng-disabled="disabledOnTheRole">
             </select>
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">Доставляет</span>
             <select class="form-control" id="delivery-manager" data-ng-model="deliveryManager.id"
-                ng-options="c.id as c.surname + ' ' + c.name for c in deliveryManagers" ng-disabled="disabledManagersFields">
+                ng-options="c.id as c.surname + ' ' + c.name for c in deliveryManagers" ng-disabled="disabledOnTheRole">
             </select>
         </div>
     </div>
