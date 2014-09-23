@@ -233,6 +233,8 @@ public class BasicController {
         logger.info("User viewed the order");
         return orderService.readOrder(Integer.parseInt(id));
     }
+
+
     private int firstRecordNumber(int currentPage, int count){
         int firstRecordNumber = (currentPage - 1) * count;
         return firstRecordNumber >= 0 ? firstRecordNumber : 0;
@@ -245,5 +247,17 @@ public class BasicController {
             map.put(temp, userService.getUsersByRole(RoleEnum.valueOf(temp)));
         }
         return map;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getPerson")
+    public @ResponseBody List<PersonDTO> getPerson(@RequestParam("term") String term) {
+        List<PersonDTO> l = new ArrayList<PersonDTO>();
+        PersonDTO p = new PersonDTO();
+        p.setId(1);
+        p.setName("Sasha");
+        p.setSurname("Morozov");
+        p.setPatronymic("Sergeevich");
+        l.add(p);
+        return l;
     }
 }

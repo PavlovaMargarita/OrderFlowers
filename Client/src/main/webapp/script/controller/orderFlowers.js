@@ -17,10 +17,7 @@ app.controller("orderListController", function ($scope, $rootScope, $http) {
 
 
 
-
 app.controller("orderCreateController", function ($scope, $http) {
-
-
 
 });
 
@@ -94,7 +91,6 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $rootSc
     });
 
 });
-
 
 
 
