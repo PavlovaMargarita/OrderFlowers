@@ -1,10 +1,12 @@
 package com.itechart.courses.controller;
 
 import com.itechart.courses.dto.*;
+import com.itechart.courses.entity.Contact;
 import com.itechart.courses.enums.OrderStatusEnum;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.authorization.AuthorizationService;
 import com.itechart.courses.service.contact.ContactService;
+import com.itechart.courses.service.contact.ContactServiceImpl;
 import com.itechart.courses.service.email.EmailService;
 import com.itechart.courses.service.order.OrderService;
 import com.itechart.courses.service.role.RoleService;
@@ -78,7 +80,7 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/contactSearch")
-    public @ResponseBody List<ContactDTO> contactSearch(@RequestBody ContactSearchDTO contactSearchDTO){
+    public @ResponseBody List<PersonDTO> contactSearch(@RequestBody ContactSearchDTO contactSearchDTO){
         logger.info("User searched contacts");
         return contactService.searchContact(contactSearchDTO);
     }
@@ -254,13 +256,16 @@ public class BasicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/getPerson")
     public @ResponseBody List<PersonDTO> getPerson(@RequestParam("term") String term) {
-        List<PersonDTO> l = new ArrayList<PersonDTO>();
-        PersonDTO p = new PersonDTO();
-        p.setId(1);
-        p.setName("Sasha");
-        p.setSurname("Morozov");
-        p.setPatronymic("Sergeevich");
-        l.add(p);
-        return l;
+        /*ContactSearchDTO contactSearchDTO = new ContactSearchDTO();
+        contactSearchDTO.setSurname(term);
+        List<Contact> contacts = contactService.searchContact(contactSearchDTO);
+        List<PersonDTO> persons = null;
+        if (contacts != null){
+            persons = new ArrayList<PersonDTO>(contacts.size());
+            for (Contact contact : contacts){
+                persons.add(ContactServiceImpl.contactToPersonDTO(contact));
+            }
+        }*/
+        return null;
     }
 }

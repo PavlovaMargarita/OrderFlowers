@@ -97,14 +97,15 @@ public class ContactServiceImpl implements ContactService {
         return result;
     }
 
+
     @Override
-    public List searchContact(ContactSearchDTO parameters) {
-        List contactDTOList = new ArrayList<ContactDTO>();
+    public List<PersonDTO> searchContact(ContactSearchDTO parameters) {
+        List personDTOList = new ArrayList<ContactDTO>();
         List<Contact> contactList = contactDAO.searchContact(parameters);
         for (Contact contact : contactList){
-            contactDTOList.add(contactToContactDTO(contact));
+            personDTOList.add(contactToPersonDTO(contact));
         }
-        return contactDTOList;
+        return personDTOList;
     }
 
     @Override
@@ -129,6 +130,10 @@ public class ContactServiceImpl implements ContactService {
         personDTO.setSurname(contact.getSurname());
         personDTO.setName(contact.getName());
         personDTO.setPatronymic(contact.getPatronymic());
+        personDTO.setCity(contact.getCity());
+        personDTO.setStreet(contact.getStreet());
+        personDTO.setHome(contact.getHome());
+        personDTO.setFlat(contact.getFlat());
         return personDTO;
     }
 

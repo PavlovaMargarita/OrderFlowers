@@ -132,6 +132,10 @@ public class UserServiceImpl implements UserService {
         personDTO.setSurname(user.getContact().getSurname());
         personDTO.setName(user.getContact().getName());
         personDTO.setPatronymic(user.getContact().getPatronymic());
+        personDTO.setCity(user.getContact().getCity());
+        personDTO.setStreet(user.getContact().getStreet());
+        personDTO.setHome(user.getContact().getHome());
+        personDTO.setFlat(user.getContact().getFlat());
         return personDTO;
     }
 }
