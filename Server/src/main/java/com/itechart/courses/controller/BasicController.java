@@ -256,16 +256,8 @@ public class BasicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/getPerson")
     public @ResponseBody List<PersonDTO> getPerson(@RequestParam("term") String term) {
-        /*ContactSearchDTO contactSearchDTO = new ContactSearchDTO();
+        ContactSearchDTO contactSearchDTO = new ContactSearchDTO();
         contactSearchDTO.setSurname(term);
-        List<Contact> contacts = contactService.searchContact(contactSearchDTO);
-        List<PersonDTO> persons = null;
-        if (contacts != null){
-            persons = new ArrayList<PersonDTO>(contacts.size());
-            for (Contact contact : contacts){
-                persons.add(ContactServiceImpl.contactToPersonDTO(contact));
-            }
-        }*/
-        return null;
+        return contactService.searchContact(contactSearchDTO);
     }
 }
