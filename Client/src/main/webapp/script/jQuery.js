@@ -15,6 +15,9 @@ $(function() {
                 }
             });
         },
-        minLength: 2
+        minLength: 2,
+        select: function( event, ui ) {
+            $( "#customer-hidden-id" ).val( ui.item.id);
+        }
     });
 });
