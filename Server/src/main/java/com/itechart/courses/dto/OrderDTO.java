@@ -9,8 +9,10 @@ public class OrderDTO {
     private int id;
     private OrderStatusEnum currentState;
     private String russianCurrentState;
+    private String statusComment;
     private String orderDescription;
     private int sum;
+
 
     private PersonDTO receiveManager;
     private PersonDTO handlerManager;
@@ -41,6 +43,14 @@ public class OrderDTO {
 
     public void setRussianCurrentState(String russianCurrentState) {
         this.russianCurrentState = russianCurrentState;
+    }
+
+    public String getStatusComment() {
+        return statusComment;
+    }
+
+    public void setStatusComment(String statusComment) {
+        this.statusComment = statusComment;
     }
 
     public String getOrderDescription() {

@@ -5,7 +5,7 @@
         <h3>Текущее состояние заказа: <b style="color: red">{{order.russianCurrentState}}</b></h3>
         <div class="input-group" ng-hide="possibleStatesHide">
             <span class="input-group-addon">Изменить состояние</span>
-            <select class="form-control" id="new-order-status" ng-model="order.newOrderState" onchange="showModalNewOrderStatus()">
+            <select class="form-control" id="new-order-status" ng-model="order.newState" onchange="showModalNewOrderStatus()">
                 <option value="">выберите новое состояние заказа</option>
                 <option data-ng-repeat="(key, value) in possibleStates" value="{{key}}">{{value}}</option>
             </select>
@@ -30,7 +30,7 @@
 
         <div class="input-group">
             <span class="input-group-addon">Сумма</span>
-            <input class="form-control" id="sum" value="{{order.sum}}"/>
+            <input class="form-control" id="sum" ng-model="order.sum" value="{{order.sum}}"/>
         </div>
     </div>
 
@@ -60,30 +60,30 @@
     <div class="box">
         <h3>Описание</h3>
         <hr>
-        <textarea class="form-control" id="order-comment" rows="10" placeholder="Введите описание заказа" >{{order.orderDescription}}</textarea>
+        <textarea class="form-control" id="order-comment" rows="10" placeholder="Введите описание заказа" ng-model="order.orderDescription">{{order.orderDescription}}</textarea>
     </div>
 
     <button class="btn btn-primary" id="order-button">Сохранить</button>
 
     <!--Модальное окно изменения статуса заказа-->
-    <div class="modal fade" id="modal-order-status" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade bs-example-modal-sm" id="modal-order-status" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Закрыть</span></button>
-                    <h4 class="modal-title" id="modal-order-title">Изменение статуса заказа</h4>
+                    <h4 class="modal-title">Изменение статуса заказа</h4>
                 </div>
 
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Комментарий</label>
-                        <textarea class="form-control"></textarea>
+                        <textarea class="form-control" rows="6" id="status-comment" ng-model="order.statusComment"></textarea>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-info">Изменить</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="hideModalNewOrderStatus()">Закрыть</button>
+                    <button type="button" class="btn btn-info" onclick="saveModalOrderStatus()">Изменить</button>
                 </div>
             </div>
         </div>

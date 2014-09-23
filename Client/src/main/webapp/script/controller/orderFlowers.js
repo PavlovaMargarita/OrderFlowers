@@ -119,6 +119,17 @@ app.controller("orderSearchController", function ($scope, $rootScope, $location,
 
 function showModalNewOrderStatus(){
     if (document.getElementById('new-order-status').value != ""){
+        document.getElementById('status-comment').value = "";
         $('#modal-order-status').modal('show');
     }
+}
+
+
+function hideModalNewOrderStatus(){
+    document.getElementById('status-comment').value = "";
+    $('#modal-order-status').modal('hide');
+}
+
+function saveModalOrderStatus(){
+    $('#modal-order-status').modal('hide');
 }

@@ -60,6 +60,10 @@ body {
     margin-bottom: 10pt;
 }
 
+.modal {
+    text-align: left;
+}
+
 .modal-header {
     color: white;
     -moz-border-radius-topleft: 6px;
