@@ -249,6 +249,9 @@ public class BasicController {
         return map;
     }
 
+
+
+
     @RequestMapping(method = RequestMethod.GET, value = "/getPerson")
     public @ResponseBody List<PersonDTO> getPerson(@RequestParam("term") String term) {
         List<PersonDTO> l = new ArrayList<PersonDTO>();

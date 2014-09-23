@@ -17,4 +17,6 @@ public interface OrderService {
     public List<TableOrderDTO> searchOrders(OrderSearchDTO parameters);
     public Map<OrderStatusEnum, String> getResolvedOrderStatus(OrderStatusEnum currentStatus);
     public OrderDTO readOrder(int id);
+
+
 }
