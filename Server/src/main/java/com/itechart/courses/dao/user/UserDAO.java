@@ -1,6 +1,7 @@
 package com.itechart.courses.dao.user;
 
 import com.itechart.courses.entity.User;
+import com.itechart.courses.enums.RoleEnum;
 
 import java.util.List;
 
@@ -12,4 +13,5 @@ public interface UserDAO {
     public User readUser(String login);
     public void updateUser(User user);
     public List<User> readAllUsers(); //if users not found, return null;
+    public List<User> readAllUsers(RoleEnum role);
 }

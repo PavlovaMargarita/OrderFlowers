@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/OrderFlowers")
@@ -205,12 +207,21 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getResolvedOrderState")
-    public @ResponseBody List<String> getResolvedOrderStatus(@RequestParam("currentState") OrderStatusEnum currentState){
+    public @ResponseBody Map<OrderStatusEnum, String> getResolvedOrderStatus(@RequestParam("currentState") OrderStatusEnum currentState){
         return orderService.getResolvedOrderStatus(currentState);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/showOrder")
     public @ResponseBody OrderDTO getOrder(@RequestParam("id") String id){
         return orderService.readOrder(Integer.parseInt(id));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getUsersByRole")
+    public @ResponseBody HashMap<String, List<PersonDTO>> getUsersByRole(@RequestParam("role")  List<String> role){
+        HashMap<String, List<PersonDTO>> map = new HashMap<String, List<PersonDTO>>(role.size());
+        for (String temp : role){
+            map.put(temp, userService.getUsersByRole(RoleEnum.valueOf(temp)));
+        }
+        return map;
     }
 }

@@ -1,6 +1,7 @@
 package com.itechart.courses.dao.user;
 
 import com.itechart.courses.entity.User;
+import com.itechart.courses.enums.RoleEnum;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -101,5 +102,12 @@ public class UserDAOImpl implements UserDAO {
         }
         session = sessionFactory.getCurrentSession();
         session.update(user);
+    }
+
+    @Override
+    public List<User> readAllUsers(RoleEnum role) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from User where role = :role");
+        query.setString("role", role.toString());
+        return query.list();
     }
 }

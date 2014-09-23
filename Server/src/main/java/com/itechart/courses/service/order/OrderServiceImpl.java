@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Alex on 20.09.14.
@@ -61,13 +63,13 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public List<String> getResolvedOrderStatus(OrderStatusEnum currentStatus){
+    public Map<OrderStatusEnum, String> getResolvedOrderStatus(OrderStatusEnum currentStatus){
         List<OrderStatusEnum> statusEnums = sequenceOrderStatus.getValues(currentStatus);
-        List<String> result = null;
+        Map<OrderStatusEnum, String> result = null;
         if (statusEnums != null){
-            result = new ArrayList<String>(statusEnums.size());
+            result = new HashMap<OrderStatusEnum, String>(statusEnums.size());
             for (OrderStatusEnum statusEnum : statusEnums){
-                result.add(statusEnum.toRussianStatus());
+                result.put(statusEnum, statusEnum.toRussianStatus());
             }
         }
         return result;

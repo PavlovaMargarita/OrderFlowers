@@ -27,7 +27,7 @@ app.controller("orderCreateController", function ($scope, $http) {
 
 
 
-app.controller("orderCorrectController", function ($scope, $routeParams, $http) {
+app.controller("orderCorrectController", function ($scope, $routeParams, $rootScope, $cookieStore, $http) {
     var id = $routeParams.id;
     var order = $http ({
         method: "get",
@@ -47,11 +47,49 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $http) 
             }
         });
         possibleOrderStates.success(function (data) {
-            $scope.possibleStatesVisible = true;
+            $scope.possibleStatesHide = false;
+            $scope.disabledManagersFields = true;
+
             if (data == ""){
-                $scope.possibleStatesVisible = false;
+                $scope.possibleStatesHide = true;
             }
             $scope.possibleStates = data;
+
+            if ($rootScope.hasAuthority(['ROLE_SUPERVISOR','ROLE_RECEIVING_ORDERS_MANAGER'])){
+                $scope.disabledManagersFields = false;
+                var getManagers = $http ({
+                    method: "get",
+                    url: "/OrderFlowers/getUsersByRole",
+                    params: {
+                        role: ['ROLE_PROCESSING_ORDERS_SPECIALIST', 'ROLE_SERVICE_DELIVERY_MANAGER']
+                    }
+                })
+                getManagers.success(function (data) {
+                    $scope.handlerManagers = data['ROLE_PROCESSING_ORDERS_SPECIALIST'];
+                    $scope.deliveryManagers = data['ROLE_SERVICE_DELIVERY_MANAGER'];
+
+                    $scope.handlerManagers.forEach(selectHandlerManager);
+                    function selectHandlerManager(element, index){
+                        if(element.id == $scope.order.handlerManager.id){
+                            $scope.handlerManager = $scope.handlerManagers[index];
+                        }
+                    }
+
+                    $scope.deliveryManagers.forEach(selectDeliveryManager);
+                    function selectDeliveryManager(element, index){
+                        if(element.id == $scope.order.deliveryManager.id){
+                            $scope.deliveryManager = $scope.deliveryManagers[index];
+                        }
+                    }
+                });
+
+            }
+            else {
+                $scope.deliveryManagers = [$scope.order.deliveryManager];
+                $scope.deliveryManager = $scope.order.deliveryManager;
+                $scope.handlerManagers = [$scope.order.handlerManager];
+                $scope.handlerManager = $scope.order.handlerManager;
+            }
         });
     });
 
