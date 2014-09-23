@@ -19,6 +19,7 @@ app.controller("orderListController", function ($scope, $rootScope, $http) {
 
 app.controller("orderCreateController", function ($scope, $http) {
 
+
 });
 
 
@@ -89,7 +90,6 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $rootSc
             }
         });
     });
-
 });
 
 
@@ -115,3 +115,10 @@ app.controller("orderSearchController", function ($scope, $rootScope, $location,
         });
     }
 });
+
+
+function showModalNewOrderStatus(){
+    if (document.getElementById('new-order-status').value != ""){
+        $('#modal-order-status').modal('show');
+    }
+}

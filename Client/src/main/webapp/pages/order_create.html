@@ -1,11 +1,11 @@
 <script type="text/javascript" src="script/jQuery.js"></script>
-<div class="order ui-widget">
+<div class="order">
 
     <div class="box">
         <h3>Текущее состояние заказа: <b style="color: red">{{order.russianCurrentState}}</b></h3>
         <div class="input-group" ng-hide="possibleStatesHide">
             <span class="input-group-addon">Изменить состояние</span>
-            <select class="form-control" id="new-order-status">
+            <select class="form-control" id="new-order-status" ng-model="order.newOrderState" onchange="showModalNewOrderStatus()">
                 <option value="">выберите новое состояние заказа</option>
                 <option data-ng-repeat="(key, value) in possibleStates" value="{{key}}">{{value}}</option>
             </select>
@@ -71,7 +71,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Закрыть</span></button>
-                    <h4 class="modal-title" id="modal-phone-title">Изменение статуса заказа</h4>
+                    <h4 class="modal-title" id="modal-order-title">Изменение статуса заказа</h4>
                 </div>
 
                 <div class="modal-body">
