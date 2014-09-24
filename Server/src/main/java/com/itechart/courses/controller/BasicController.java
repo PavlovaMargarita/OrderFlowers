@@ -192,7 +192,7 @@ public class BasicController {
     @RequestMapping(method = RequestMethod.GET, value = "/orderList")
     public @ResponseBody List<TableOrderDTO> getOrderList(Authentication authentication){
         LoginDTO dto = currentUserInfo(authentication);
-        logger.info("User has viewed all orders");
+        logger.info("User viewed all orders");
         com.itechart.courses.entity.User user = null;
         List<OrderStatusEnum> statusEnums = null;
         List<TableOrderDTO> orders = null;
@@ -263,6 +263,7 @@ public class BasicController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/correctOrder")
     public @ResponseBody void correctOrder(@RequestBody OrderDTO orderDTO, Authentication authentication) throws ParseException {
+        logger.info("User updated the order");
         LoginDTO loginDTO = currentUserInfo(authentication);
         com.itechart.courses.entity.User user = userService.readUser(loginDTO.getLogin());
         orderService.updateOrder(orderDTO, user);
@@ -270,6 +271,7 @@ public class BasicController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/createOrder")
     public @ResponseBody void createOrder(@RequestBody OrderDTO orderDTO, Authentication authentication) throws ParseException {
+        logger.info("User created new order");
         LoginDTO loginDTO = currentUserInfo(authentication);
         com.itechart.courses.entity.User user = userService.readUser(loginDTO.getLogin());
         PersonDTO personDTO = new PersonDTO();
