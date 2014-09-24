@@ -17,7 +17,7 @@ app.controller("orderListController", function ($scope, $rootScope, $http) {
 
 
 
-app.controller("orderCreateController", function ($scope, $http) {
+app.controller("orderCreateController", function ($scope, $http, $location) {
     $scope.order = {};
     $scope.order.russianCurrentState = "новый";
     $scope.order.receiveManager = {};
@@ -66,6 +66,9 @@ app.controller("orderCreateController", function ($scope, $http) {
         correctOrder.success( function (data){
             $location.path('/orderList');
             $location.replace();
+        });
+        correctOrder.error( function(data){
+            alert("Не все поля заполнены");
         });
     };
 });
@@ -170,6 +173,9 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $rootSc
         correctOrder.success( function (data){
             $location.path('/orderList');
             $location.replace();
+        });
+        correctOrder.error( function(data){
+            alert("Не все поля заполнены");
         });
     };
 });

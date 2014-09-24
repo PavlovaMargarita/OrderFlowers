@@ -265,7 +265,7 @@ public class BasicController {
     public @ResponseBody void correctOrder(@RequestBody OrderDTO orderDTO, Authentication authentication) throws ParseException {
         LoginDTO loginDTO = currentUserInfo(authentication);
         com.itechart.courses.entity.User user = userService.readUser(loginDTO.getLogin());
-        orderService.updateOrder(orderDTO, user.getId());
+        orderService.updateOrder(orderDTO, user);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/createOrder")

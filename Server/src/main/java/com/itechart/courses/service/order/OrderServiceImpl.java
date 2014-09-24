@@ -3,15 +3,13 @@ package com.itechart.courses.service.order;
 import com.itechart.courses.dao.order.OrderDAO;
 import com.itechart.courses.dao.order.OrderDAOImpl;
 import com.itechart.courses.dao.orderHistory.OrderHistoryDAO;
-import com.itechart.courses.dto.ContactDTO;
-import com.itechart.courses.dto.OrderDTO;
-import com.itechart.courses.dto.OrderSearchDTO;
-import com.itechart.courses.dto.TableOrderDTO;
+import com.itechart.courses.dto.*;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
 import com.itechart.courses.entity.OrderHistory;
 import com.itechart.courses.entity.User;
 import com.itechart.courses.enums.OrderStatusEnum;
+import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.contact.ContactServiceImpl;
 import com.itechart.courses.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +94,16 @@ public class OrderServiceImpl implements OrderService {
     public void createOrder(OrderDTO orderDTO) throws ParseException {
         Order order = new Order();
         order.setStatus(OrderStatusEnum.NEW);
-        order.setOrderDescription(orderDTO.getOrderDescription());
+        String orderDescription = orderDTO.getOrderDescription();
+        if (orderDescription != null){
+            if ((orderDescription = orderDescription.trim()).isEmpty()){
+                throw new NullPointerException("incorrect orderDescription");
+            }
+        }
+        order.setOrderDescription(orderDescription);
+        if (orderDTO.getSum() == null){
+            throw new NullPointerException("incorrect sum");
+        }
         order.setSum(orderDTO.getSum());
         order.setDate(convertToDate(orderDTO.getDate()));
 
@@ -106,14 +113,19 @@ public class OrderServiceImpl implements OrderService {
         deliveryManager.setId(orderDTO.getDeliveryManager().getId());
         User handlerManager = new User();
         handlerManager.setId(orderDTO.getHandlerManager().getId());
-        order.setDeliveryManager(deliveryManager);
-        order.setHandlerManager(handlerManager);
-        order.setReceiveManager(receiveManager);
-
         Contact recipient = new Contact();
         Contact customer = new Contact();
         recipient.setId(orderDTO.getRecipient().getId());
         customer.setId(orderDTO.getCustomer().getId());
+
+        if (receiveManager.getId() == null || handlerManager.getId() == null || deliveryManager.getId() == null ||
+            recipient.getId() == null || customer.getId() == null){
+            throw new NullPointerException("incorrect argument");
+        }
+
+        order.setDeliveryManager(deliveryManager);
+        order.setHandlerManager(handlerManager);
+        order.setReceiveManager(receiveManager);
         order.setRecipient(recipient);
         order.setCustomer(customer);
         orderDAO.createOrder(order);
@@ -127,23 +139,40 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrder(OrderDTO orderDTO, int changeStatusUserId) throws ParseException {
+    public void updateOrder(OrderDTO orderDTO, User currentUser) throws ParseException {
         Order order = orderDAO.readOrder(orderDTO.getId());
-        Contact customer = new Contact();
-        Contact recipient = new Contact();
-        customer.setId(orderDTO.getCustomer().getId());
-        recipient.setId(orderDTO.getRecipient().getId());
-        order.setCustomer(customer);
-        order.setRecipient(recipient);
 
-        User deliveryManager = new User();
-        User handlerManager = new User();
-        deliveryManager.setId(orderDTO.getDeliveryManager().getId());
-        handlerManager.setId(orderDTO.getHandlerManager().getId());
-        order.setDeliveryManager(deliveryManager);
-        order.setHandlerManager(handlerManager);
+        if (currentUser.getRole() == RoleEnum.ROLE_SUPERVISOR || currentUser.getRole() == RoleEnum.ROLE_RECEIVING_ORDERS_MANAGER){
+            Contact customer = new Contact();
+            Contact recipient = new Contact();
+            customer.setId(orderDTO.getCustomer().getId());
+            recipient.setId(orderDTO.getRecipient().getId());
 
-        order.setOrderDescription(orderDTO.getOrderDescription());
+            User deliveryManager = new User();
+            User handlerManager = new User();
+            deliveryManager.setId(orderDTO.getDeliveryManager().getId());
+            handlerManager.setId(orderDTO.getHandlerManager().getId());
+
+            if (recipient.getId() == null || customer.getId() == null ||
+                deliveryManager.getId() == null || handlerManager.getId() == null){
+                throw new NullPointerException("Incorrect arguments");
+            }
+            order.setCustomer(customer);
+            order.setRecipient(recipient);
+            order.setDeliveryManager(deliveryManager);
+            order.setHandlerManager(handlerManager);
+        }
+
+        String orderDescription = orderDTO.getOrderDescription();
+        if (orderDescription != null){
+            if ((orderDescription = orderDescription.trim()).isEmpty()){
+                throw new NullPointerException("incorrect orderDescription");
+            }
+        }
+        order.setOrderDescription(orderDescription);
+        if (orderDTO.getSum() == null){
+            throw new NullPointerException("incorrect sum");
+        }
         order.setSum(orderDTO.getSum());
         order.setOrderHistory(null);
 
@@ -156,11 +185,17 @@ public class OrderServiceImpl implements OrderService {
             order.setStatus(newOrderStatus);
             OrderHistory orderHistory = new OrderHistory();
             orderHistory.setStatus(newOrderStatus);
-            orderHistory.setComment(orderDTO.getStatusComment());
+            String statusComment = orderDTO.getStatusComment();
+            if (statusComment != null){
+                if ((statusComment = statusComment.trim()).isEmpty()){
+                    statusComment = null;
+                }
+            }
+            orderHistory.setComment(statusComment);
             Order temp = new Order();
             temp.setId(order.getId());
             User user = new User();
-            user.setId(changeStatusUserId);
+            user.setId(currentUser.getId());
             orderHistory.setOrder(temp);
             orderHistory.setUser(user);
             orderHistory.setChangeDate(convertToDate(orderDTO.getDate()));
