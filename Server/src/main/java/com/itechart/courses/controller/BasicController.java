@@ -256,9 +256,12 @@ public class BasicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/getPerson")
     public @ResponseBody List<PersonDTO> getPerson(@RequestParam("term") String term) {
+        List<PersonDTO> listPersonDTO = new ArrayList<PersonDTO>();
         ContactSearchDTO contactSearchDTO = new ContactSearchDTO();
         contactSearchDTO.setSurname(term);
-        return contactService.searchContact(contactSearchDTO);
+        if (!term.trim().isEmpty())
+            listPersonDTO = contactService.searchContact(contactSearchDTO);
+        return listPersonDTO;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/correctOrder")
