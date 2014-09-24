@@ -45,7 +45,7 @@ app.controller("contactCreateController", function ($scope, $http, $location) {
     }
 });
 
-app.controller("contactListController", function ($scope, $rootScope, $http, $location, $route, PagerService) {
+app.controller("contactListController", function ($scope, $rootScope, $http, $location, $route, PagerService, ContactsCommonService) {
     $scope.checkContacts = [];
     $scope.contacts = [];
     $scope.range = [];
@@ -110,97 +110,53 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
     $scope.deleteContact = {};
     $scope.deleteContact.doClick = function() {
         if ($scope.checkContacts.length != 0) {
-            var contactDelete = $http({
-                method: "post",
-                url: "/OrderFlowers/contactDelete",
-                data: {
-                    checkId: $scope.checkContacts
-                }
-            });
-            contactDelete.success(function (data) {
-                if (data == 'false') {
-                    alert("Вы пытаетесь удалить контакт, который связан с пользователем");
-                }
-                $route.reload();
-//                var userList = $http({
-//                    method: "get",
-//                    url: "/OrderFlowers/contactList"
-//                });
-//                userList.success(function (data) {
-//                    $scope.contacts = data;
-//                    $location.path('/contactList');
-//                    $location.replace();
-//                    $scope.checkContacts = [];
-//                });
-//                userList.error(function (data) {
-//                    $scope.authorization.info = "error";
-//                });
-            });
-            contactDelete.error(function (data) {
-                $scope.authorization.info = "error";
-            });
+            ContactsCommonService.deleteContacts($scope.checkContacts);
         }
     }
 
     $scope.showPopupSendEmail = {};
     $scope.showPopupSendEmail.doClick = function() {
         if ($scope.checkContacts.length != 0) {
-            $('#' + 'modal-message').modal('show');
-            var showTemplate = $http({
-                method: "get",
-                url: "/OrderFlowers/showTemplate"
-            });
-            showTemplate.success(function(data) {
+            var templatesPromise = ContactsCommonService.getMailTemplates();
+            templatesPromise.then(function(data){
                 $scope.templates = data;
+            }, function(errorReason){
+                //ERROR !!!
             });
-            showTemplate.error(function (data) {
-                $scope.authorization.info = "error";
-            });
-            var showEmail = $http({
-                method: "get",
-                url: "/OrderFlowers/showEmail",
-                params: {
-                    checkId: $scope.checkContacts
-                }
-            });
-            showEmail.success(function (data) {
+            var emailsPromise = ContactsCommonService.getEmails($scope.checkContacts);
+            emailsPromise.then(function(data){
                 $scope.emails = data;
+            }, function(errorReason){
+                //ERROR !!!
             });
-            showEmail.error(function (data) {
-                $scope.authorization.info = "error";
-            });
+            $('#' + 'modal-message').modal('show');
         }
     }
 
     $scope.sendEmail = {};
     $scope.sendEmail.doClick = function(){
-        var emailSend = $http({
-            method: "post",
-            url: "/OrderFlowers/sendEmail",
-            data: {
-                emails: $scope.emails,
-                text: $scope.email.text,
-                topic: $scope.email.topic
-            }
-        });
-        emailSend.success(function (data) {
+//        var emailSend = $http({
+//            method: "post",
+//            url: "/OrderFlowers/sendEmail",
+//            data: {
+//                emails: $scope.emails,
+//                text: $scope.email.text,
+//                topic: $scope.email.topic
+//            }
+//        });
+//        emailSend.success(function (data) {
+//            $('#' + 'modal-message').modal('hide');
+//            $location.path('/contactList');
+//            $location.replace();
+//        });
+//        emailSend.error(function (data) {
+//            $scope.authorization.info = "error";
+//        });
+        var isSuccessPromise = ContactsCommonService.sendMail($scope.emails, $scope.email.text, $scope.email.topic);
+        isSuccessPromise.then(function(){
             $('#' + 'modal-message').modal('hide');
-            var userList = $http({
-                method: "get",
-                url: "/OrderFlowers/contactList"
-            });
-            userList.success(function (data) {
-                $scope.contacts = data;
-                $location.path('/contactList');
-                $location.replace();
-                $scope.checkContacts = [];
-            });
-            userList.error(function (data) {
-                $scope.authorization.info = "error";
-            });
-        });
-        emailSend.error(function (data) {
-            $scope.authorization.info = "error";
+        }, function(errorReason){
+            // Process error
         });
     }
 });

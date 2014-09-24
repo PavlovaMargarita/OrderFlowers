@@ -49,6 +49,113 @@ app.service('PagerService', function() {
     }
 });
 
+app.service('MailService', function($http, $q){
+
+    this.getMailTemplates = function(){
+        var emails;
+        var deferred = $q.defer();
+        var showTemplate = $http({
+            method: "get",
+            url: "/OrderFlowers/showTemplate"
+        });
+        showTemplate.success(function(data) {
+            deferred.resolve(data);
+        });
+        showTemplate.error(function (reason) {
+            deferred.reject(reason);
+        });
+        return deferred.promise;
+    }
+
+    this.getEmails = function(checkContacts){
+        var deferred = $q.defer();
+        var showEmail = $http({
+            method: "get",
+            url: "/OrderFlowers/showEmail",
+            params: {
+                checkId: checkContacts
+            }
+        });
+        showEmail.success(function (data) {
+            deferred.resolve(data);
+        });
+        showEmail.error(function (data) {
+            deferred.reject(reason);
+        });
+        return deferred.promise;
+    }
+
+    this.sendMail = function(emails, text, topic){
+        var deferred = $q.defer();
+        var emailSend = $http({
+            method: "post",
+            url: "/OrderFlowers/sendEmail",
+            data: {
+                emails: emails,
+                text: text,
+                topic: topic
+            }
+        });
+        emailSend.success(function (data) {
+            deferred.resolve(true);
+        });
+        emailSend.error(function (reason) {
+            deferred.reject(reason);
+        });
+        return deferred.promise;
+    }
+});
+
+app.service('ContactsCommonService', function(PagerService, MailService, $route, $http) {
+
+    this.isPrevDisabled = function(currentPage){
+        return PagerService.isPrevDisabled(currentPage);
+    }
+
+    this.isNextDisabled = function(currentPage, totalPages){
+        return PagerService.isNextDisabled(currentPage, totalPages);
+    }
+
+    this.isFirstDisabled = function(currentPage){
+        return PagerService.isFirstDisabled(currentPage);
+    }
+
+    this.isLastDisabled = function(currentPage, totalPages){
+        return PagerService.isLastDisabled(currentPage, totalPages);
+    }
+
+    this.getMailTemplates = function(){
+        var dataPromise = MailService.getMailTemplates();
+        return dataPromise;
+    }
+
+    this.getEmails = function(checkContacts){
+        var dataPromise = MailService.getEmails(checkContacts);
+        return dataPromise;
+    }
+
+    this.sendMail = function(emails, text, topic){
+        return MailService.sendMail(emails, text, topic);
+
+    }
+
+    this.deleteContacts = function(checkContacts){
+        if (checkContacts.length != 0) {
+            var contactDelete = $http({
+                method: "post",
+                url: "/OrderFlowers/contactDelete",
+                data: {
+                    checkId: checkContacts
+                }
+            });
+            contactDelete.success(function (data) {
+                $route.reload();
+            });
+        }
+    }
+});
+
+
 app.config(function($routeProvider){
     $routeProvider
         .when('/login', {
