@@ -53,26 +53,20 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
     $scope.totalPages = 1;
     $scope.totalRecords = 0;
 
-    if ($rootScope.isSearchContact){
-        $scope.contacts = $rootScope.data;
-        $rootScope.isSearchContact = false;
-    }
-    else {
-        var response = $http({
-            method: "get",
-            url: "/OrderFlowers/contactList",
-            params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
-        });
-        response.success(function (data) {
-            $scope.contacts = data.pageableContacts;
-            $scope.totalRecords = data.totalCount;
-            $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
-            $scope.range = PagerService.buildRange($scope.totalPages);
-        });
-        response.error(function (data) {
-            $scope.authorization.info = "error";
-        });
-    }
+    var response = $http({
+        method: "get",
+        url: "/OrderFlowers/contactList",
+        params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
+    });
+    response.success(function (data) {
+        $scope.contacts = data.pageableContacts;
+        $scope.totalRecords = data.totalCount;
+        $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
+        $scope.range = PagerService.buildRange($scope.totalPages);
+    });
+    response.error(function (data) {
+        $scope.authorization.info = "error";
+    });
 
     $scope.getRecords = {};
     $scope.getRecords.doClick = function(pageNumber){
@@ -110,7 +104,15 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
     $scope.deleteContact = {};
     $scope.deleteContact.doClick = function() {
         if ($scope.checkContacts.length != 0) {
-            ContactsCommonService.deleteContacts($scope.checkContacts);
+            var isSuccessPromise = ContactsCommonService.deleteContacts($scope.checkContacts);
+            isSuccessPromise.then(function(data){
+                if(data == false){
+                    alert("Вы пытаетесь удалить контакт, который связан с пользователем");
+                }
+                $route.reload();
+            }, function(errorReason){
+                //ERROR !!!
+            });
         }
     }
 
@@ -135,23 +137,6 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
 
     $scope.sendEmail = {};
     $scope.sendEmail.doClick = function(){
-//        var emailSend = $http({
-//            method: "post",
-//            url: "/OrderFlowers/sendEmail",
-//            data: {
-//                emails: $scope.emails,
-//                text: $scope.email.text,
-//                topic: $scope.email.topic
-//            }
-//        });
-//        emailSend.success(function (data) {
-//            $('#' + 'modal-message').modal('hide');
-//            $location.path('/contactList');
-//            $location.replace();
-//        });
-//        emailSend.error(function (data) {
-//            $scope.authorization.info = "error";
-//        });
         var isSuccessPromise = ContactsCommonService.sendMail($scope.emails, $scope.email.text, $scope.email.topic);
         isSuccessPromise.then(function(){
             $('#' + 'modal-message').modal('hide');
@@ -164,30 +149,149 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
 app.controller("contactSearchController", function ($scope, $http, $location, $rootScope) {
     $scope.save = {};
     $scope.save.doClick = function(){
-        var contactSearch = $http({
+        var searchRequest = {surname: $scope.contact.surname,
+            name: $scope.contact.name,
+            patronymic: $scope.contact.patronymic,
+            lowerDateOfBirth: $scope.contact.lowerDateOfBirth,
+            upperDateOfBirth: $scope.contact.upperDateOfBirth,
+            city: $scope.contact.city,
+            street: $scope.contact.street,
+            home: $scope.contact.home,
+            flat: $scope.contact.flat};
+        $rootScope.request = searchRequest;
+        $rootScope.isSearchContact = true;
+        $location.path('/contactSearchResult');
+        $location.replace();
+//        var contactSearch = $http({
+//            method: "post",
+//            url: "/OrderFlowers/contactSearch",
+//            data: {
+//                surname: $scope.contact.surname,
+//                name: $scope.contact.name,
+//                patronymic: $scope.contact.patronymic,
+//                lowerDateOfBirth: $scope.contact.lowerDateOfBirth,
+//                upperDateOfBirth: $scope.contact.upperDateOfBirth,
+//                city: $scope.contact.city,
+//                street: $scope.contact.street,
+//                home: $scope.contact.home,
+//                flat: $scope.contact.flat
+//            },
+//            params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
+//        });
+//        contactSearch.success(function (data) {
+//            $rootScope.isSearchContact = true;
+//            $rootScope.data = data.pageableContacts;
+//            $location.path('/contactSearchResult');
+//            $location.replace();
+//        });
+//        contactSearch.error(function (data) {
+//            $scope.authorization.info = "error";
+//        });
+    }
+});
+
+app.controller("contactSearchResultController", function ($scope, $rootScope, $http, $location, $route, PagerService, ContactsCommonService) {
+    $scope.checkContacts = [];
+    $scope.contacts = [];
+    $scope.range = [];
+    $scope.currentPage = 1;
+    $scope.totalPages = 1;
+    $scope.totalRecords = 0;
+
+    if ($rootScope.isSearchContact){
+        var searchRequest = $rootScope.request;
+        var response = $http({
             method: "post",
             url: "/OrderFlowers/contactSearch",
-            data: {
-                surname: $scope.contact.surname,
-                name: $scope.contact.name,
-                patronymic: $scope.contact.patronymic,
-                lowerDateOfBirth: $scope.contact.lowerDateOfBirth,
-                upperDateOfBirth: $scope.contact.upperDateOfBirth,
-                city: $scope.contact.city,
-                street: $scope.contact.street,
-                home: $scope.contact.home,
-                flat: $scope.contact.flat
-            },
+            data: searchRequest,
             params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
         });
-        contactSearch.success(function (data) {
-            $rootScope.isSearchContact = true;
-            $rootScope.data = data.pageableContacts;
-            $location.path('/contactList');
-            $location.replace();
+        response.success(function (data) {
+            $scope.contacts = data.pageableContacts;
+            $scope.totalRecords = data.totalCount;
+            $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
+            $scope.range = PagerService.buildRange($scope.totalPages);
         });
-        contactSearch.error(function (data) {
+        response.error(function (data) {
             $scope.authorization.info = "error";
+        });
+        $rootScope.isSearchContact = false;
+    }
+
+    $scope.getRecords = {};
+    $scope.getRecords.doClick = function(pageNumber){
+        var response = $http({
+            method: "post",
+            url: "/OrderFlowers/contactSearch",
+            data: searchRequest,
+            params: {currentPage: pageNumber, pageRecords: $rootScope.recordsOnPage}
+        });
+        response.success(function(data){
+            $scope.contacts = data.pageableContacts;
+            $scope.currentPage = pageNumber;
+            $scope.totalRecords = data.totalCount;
+            $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
+            $scope.range = PagerService.buildRange($scope.totalPages);
+
+        });
+    }
+
+    $scope.isPrevDisabled = function(){
+        return PagerService.isPrevDisabled($scope.currentPage);
+    }
+
+    $scope.isNextDisabled = function(){
+        return PagerService.isNextDisabled($scope.currentPage, $scope.totalPages);
+    }
+
+    $scope.isFirstDisabled = function(){
+        return PagerService.isFirstDisabled($scope.currentPage);
+    }
+
+    $scope.isLastDisabled = function(){
+        return PagerService.isLastDisabled($scope.currentPage, $scope.totalPages);
+    }
+
+    $scope.deleteContact = {};
+    $scope.deleteContact.doClick = function() {
+        var isSuccessPromise = ContactsCommonService.deleteContacts($scope.checkContacts);
+        isSuccessPromise.then(function(data){
+            if(data == false){
+                alert("Вы пытаетесь удалить контакт, который связан с пользователем");
+            }
+            $rootScope.isSearchContact = true;
+            $route.reload();
+        }, function(errorReason){
+            //ERROR !!!
+        });
+    }
+
+    $scope.showPopupSendEmail = {};
+    $scope.showPopupSendEmail.doClick = function() {
+        if ($scope.checkContacts.length != 0) {
+            var templatesPromise = ContactsCommonService.getMailTemplates();
+            templatesPromise.then(function(data){
+                $scope.templates = data;
+            }, function(errorReason){
+
+            });
+            var emailsPromise = ContactsCommonService.getEmails($scope.checkContacts);
+            emailsPromise.then(function(data){
+                $scope.emails = data;
+            }, function(errorReason){
+                //ERROR !!!
+            });
+            $('#' + 'modal-message').modal('show');
+        }
+    }
+
+    $scope.sendEmail = {};
+    $scope.sendEmail.doClick = function(){
+        var isSuccessPromise = ContactsCommonService.sendMail($scope.emails, $scope.email.text, $scope.email.topic);
+        isSuccessPromise.then(function(){
+            $('#' + 'modal-message').modal('hide');
+        }, function(errorReason){
+            // Process error
         });
     }
 });

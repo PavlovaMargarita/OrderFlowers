@@ -96,7 +96,7 @@ app.service('MailService', function($http, $q){
                 topic: topic
             }
         });
-        emailSend.success(function (data) {
+        emailSend.success(function () {
             deferred.resolve(true);
         });
         emailSend.error(function (reason) {
@@ -106,7 +106,7 @@ app.service('MailService', function($http, $q){
     }
 });
 
-app.service('ContactsCommonService', function(PagerService, MailService, $route, $http) {
+app.service('ContactsCommonService', function(PagerService, MailService, $route, $http, $q) {
 
     this.isPrevDisabled = function(currentPage){
         return PagerService.isPrevDisabled(currentPage);
@@ -141,6 +141,7 @@ app.service('ContactsCommonService', function(PagerService, MailService, $route,
 
     this.deleteContacts = function(checkContacts){
         if (checkContacts.length != 0) {
+            var deferred = $q.defer();
             var contactDelete = $http({
                 method: "post",
                 url: "/OrderFlowers/contactDelete",
@@ -149,8 +150,12 @@ app.service('ContactsCommonService', function(PagerService, MailService, $route,
                 }
             });
             contactDelete.success(function (data) {
-                $route.reload();
+                deferred.resolve(true);
+;            });
+            contactDelete.error(function(reason){
+                deferred.reject(reason);
             });
+            return deferred.promise;
         }
     }
 });
@@ -165,6 +170,10 @@ app.config(function($routeProvider){
         .when('/contactList', {
             templateUrl: 'pages/contact_list.html',
             controller: 'contactListController'
+        } )
+        .when('/contactSearchResult', {
+            templateUrl: 'pages/contact_search_result.html',
+            controller: 'contactSearchResultController'
         } )
         .when('/contactCreate', {
             templateUrl: 'pages/contact_create.html',
