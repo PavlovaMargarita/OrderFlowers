@@ -109,29 +109,44 @@ public class ContactDAOImpl implements ContactDAO {
         List<Contact> contacts = null;
         StringBuilder builder = new StringBuilder();
         String surname = parameters.getSurname();
+        if (surname != null && (surname = surname.trim()).isEmpty()){
+            surname = null;
+        }
         String name = parameters.getName();
+        if (name != null && (name = name.trim()).isEmpty()){
+            name = null;
+        }
         String patronymic = parameters.getPatronymic();
+        if (patronymic != null && (patronymic = patronymic.trim()).isEmpty()){
+            patronymic = null;
+        }
         Date lowerDateOfBirth = parameters.getLowerDateOfBirth();
         Date upperDateOfBirth = parameters.getUpperDateOfBirth();
         String city = parameters.getCity();
+        if (city != null && (city = city.trim()).isEmpty()){
+            city = null;
+        }
         String street = parameters.getStreet();
+        if (street != null && (street = street.trim()).isEmpty()){
+            street = null;
+        }
         Integer home = parameters.getHome();
         Integer flat = parameters.getFlat();
 
         if (surname != null) {
-            builder.append("contact.surname = :surname");
+            builder.append("contact.surname LIKE :surname");
         }
         if (name != null) {
             if (builder.length() != 0) {
                 builder.append(" AND ");
             }
-            builder.append("contact.name = :name");
+            builder.append("contact.name LIKE :name");
         }
         if (patronymic != null) {
             if (builder.length() != 0) {
                 builder.append(" AND ");
             }
-            builder.append("contact.patronymic = :patronymic");
+            builder.append("contact.patronymic LIKE :patronymic");
         }
 
         if (lowerDateOfBirth != null && upperDateOfBirth != null) {
@@ -155,13 +170,13 @@ public class ContactDAOImpl implements ContactDAO {
             if (builder.length() != 0) {
                 builder.append(" AND ");
             }
-            builder.append("contact.city = :city");
+            builder.append("contact.city LIKE :city");
         }
         if (street != null) {
             if (builder.length() != 0) {
                 builder.append(" AND ");
             }
-            builder.append("contact.street = :street");
+            builder.append("contact.street LIKE :street");
         }
         if (home != null) {
             if (builder.length() != 0) {
@@ -181,13 +196,13 @@ public class ContactDAOImpl implements ContactDAO {
         session = sessionFactory.getCurrentSession();
         Query query = session.createQuery(builder.toString());
         if (surname != null) {
-            query.setString("surname", surname);
+            query.setString("surname", "%" + surname + "%");
         }
         if (name != null) {
-            query.setString("name", name);
+            query.setString("name", "%" + name + "%");
         }
         if (patronymic != null) {
-            query.setString("patronymic", patronymic);
+            query.setString("patronymic", "%" + patronymic + "%");
         }
 
         if (lowerDateOfBirth != null && upperDateOfBirth != null) {
@@ -200,10 +215,10 @@ public class ContactDAOImpl implements ContactDAO {
         }
 
         if (city != null) {
-            query.setString("city", city);
+            query.setString("city", "%" + city + "%");
         }
         if (street != null) {
-            query.setString("street", street);
+            query.setString("street", "%" + street + "%");
         }
         if (home != null) {
             query.setInteger("home", home);
