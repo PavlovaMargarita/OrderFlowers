@@ -11,7 +11,8 @@ public class OrderDTO {
     private String russianCurrentState;
     private String statusComment;
     private String orderDescription;
-    private int sum;
+    private Integer sum;
+    private String date;
 
 
     private PersonDTO receiveManager;
@@ -61,12 +62,20 @@ public class OrderDTO {
         this.orderDescription = orderDescription;
     }
 
-    public int getSum() {
+    public Integer getSum() {
         return sum;
     }
 
-    public void setSum(int sum) {
+    public void setSum(Integer sum) {
         this.sum = sum;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public PersonDTO getReceiveManager() {

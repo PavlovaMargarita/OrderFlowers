@@ -6,7 +6,7 @@ import java.sql.Date;
  * Created by User on 21.09.14.
  */
 public class PersonDTO {
-    private int id;
+    private Integer id;
     private String surname;
     private String name;
     private String patronymic;
@@ -17,11 +17,11 @@ public class PersonDTO {
     private Integer home;
     private Integer flat;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

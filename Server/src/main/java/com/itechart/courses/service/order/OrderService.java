@@ -5,6 +5,7 @@ import com.itechart.courses.dto.OrderSearchDTO;
 import com.itechart.courses.dto.TableOrderDTO;
 import com.itechart.courses.enums.OrderStatusEnum;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,8 @@ public interface OrderService {
     public List<TableOrderDTO> searchOrders(OrderSearchDTO parameters);
     public Map<OrderStatusEnum, String> getResolvedOrderStatus(OrderStatusEnum currentStatus);
     public OrderDTO readOrder(int id);
+    public void createOrder(OrderDTO orderDTO) throws ParseException;
+    public void updateOrder(OrderDTO orderDTO, int changeStatusUserId) throws ParseException;
 
 
 }

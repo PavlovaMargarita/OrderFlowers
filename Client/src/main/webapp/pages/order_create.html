@@ -19,18 +19,18 @@
         <div class="input-group">
             <span class="input-group-addon">Заказчик</span>
             <input class="form-control" id="customer-id" value="{{order.customer.surname}} {{order.customer.name}} {{order.customer.patronymic}}" ng-disabled="disabledOnTheRole"/>
-            <input type="hidden" id="customer-hidden-id" ng-model="order.customerID" value="{{order.customer.id}}">
+            <input type="hidden" id="customer-hidden-id" value={{order.customer.id}}>
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">Получатель</span>
             <input class="form-control" id="recipient-id" value="{{order.recipient.surname}} {{order.recipient.name}} {{order.recipient.patronymic}}" ng-disabled="disabledOnTheRole"/>
-            <input type="hidden" id="recipient-hidden-id" ng-model="order.recipientID" value="{{order.recipient.id}}">
+            <input type="hidden" id="recipient-hidden-id" value="{{order.recipient.id}}">
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">Сумма</span>
-            <input class="form-control" id="sum" ng-model="order.sum" value="{{order.sum}}"/>
+            <input class="form-control" id="sum" ng-model="order.sum"/>
         </div>
     </div>
 
@@ -60,10 +60,10 @@
     <div class="box">
         <h3>Описание</h3>
         <hr>
-        <textarea class="form-control" id="order-comment" rows="10" placeholder="Введите описание заказа" ng-model="order.orderDescription">{{order.orderDescription}}</textarea>
+        <textarea class="form-control" id="order-comment" rows="10" placeholder="Введите описание заказа" ng-model="order.orderDescription"></textarea>
     </div>
 
-    <button class="btn btn-primary" id="order-button">Сохранить</button>
+    <button class="btn btn-primary" id="order-button" ng-click="correctOrder.doClick()">Сохранить</button>
 
     <!--Модальное окно изменения статуса заказа-->
     <div class="modal fade bs-example-modal-sm" id="modal-order-status" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">

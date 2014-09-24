@@ -18,10 +18,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -252,12 +254,27 @@ public class BasicController {
     }
 
 
-
-
     @RequestMapping(method = RequestMethod.GET, value = "/getPerson")
     public @ResponseBody List<PersonDTO> getPerson(@RequestParam("term") String term) {
         ContactSearchDTO contactSearchDTO = new ContactSearchDTO();
         contactSearchDTO.setSurname(term);
         return contactService.searchContact(contactSearchDTO);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/correctOrder")
+    public @ResponseBody void correctOrder(@RequestBody OrderDTO orderDTO, Authentication authentication) throws ParseException {
+        LoginDTO loginDTO = currentUserInfo(authentication);
+        com.itechart.courses.entity.User user = userService.readUser(loginDTO.getLogin());
+        orderService.updateOrder(orderDTO, user.getId());
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/createOrder")
+    public @ResponseBody void createOrder(@RequestBody OrderDTO orderDTO, Authentication authentication) throws ParseException {
+        LoginDTO loginDTO = currentUserInfo(authentication);
+        com.itechart.courses.entity.User user = userService.readUser(loginDTO.getLogin());
+        PersonDTO personDTO = new PersonDTO();
+        personDTO.setId(user.getId());
+        orderDTO.setReceiveManager(personDTO);
+        orderService.createOrder(orderDTO);
     }
 }

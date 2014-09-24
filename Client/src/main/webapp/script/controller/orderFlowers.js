@@ -18,14 +18,62 @@ app.controller("orderListController", function ($scope, $rootScope, $http) {
 
 
 app.controller("orderCreateController", function ($scope, $http) {
+    $scope.order = {};
+    $scope.order.russianCurrentState = "новый";
+    $scope.order.receiveManager = {};
+    $scope.order.receiveManager.surname = "текущий менеджер";
+    $scope.possibleStatesHide = true;
 
+    document.getElementById('customer-id').value = "";
+    document.getElementById('recipient-id').value = "";
 
+    var getManagers = $http({
+        method: "get",
+        url: "/OrderFlowers/getUsersByRole",
+        params: {
+            role: ['ROLE_PROCESSING_ORDERS_SPECIALIST', 'ROLE_SERVICE_DELIVERY_MANAGER']
+        }
+    });
+    getManagers.success( function(data){
+        $scope.handlerManagers = data['ROLE_PROCESSING_ORDERS_SPECIALIST'];
+        $scope.deliveryManagers = data['ROLE_SERVICE_DELIVERY_MANAGER'];
+    });
+
+    $scope.correctOrder = {};
+    $scope.correctOrder.doClick = function (){
+        var currentDate = new Date();
+        var correctOrder = $http({
+            method: "post",
+            url: "/OrderFlowers/createOrder",
+            data: {
+                orderDescription: $scope.order.orderDescription,
+                sum: $scope.order.sum,
+                deliveryManager: {
+                    id: $scope.deliveryManager.id
+                },
+                handlerManager: {
+                    id: $scope.handlerManager.id
+                },
+                customer: {
+                    id: document.getElementById('customer-hidden-id').value
+                },
+                recipient: {
+                    id: document.getElementById('recipient-hidden-id').value
+                },
+                date: currentDate.getFullYear() + "-" + currentDate.getMonth() + "-" + currentDate.getDay()
+            }
+        });
+        correctOrder.success( function (data){
+            $location.path('/orderList');
+            $location.replace();
+        });
+    };
 });
 
 
 
 
-app.controller("orderCorrectController", function ($scope, $routeParams, $rootScope, $cookieStore, $http) {
+app.controller("orderCorrectController", function ($scope, $routeParams, $rootScope, $location, $cookieStore, $http) {
     var id = $routeParams.id;
     var order = $http ({
         method: "get",
@@ -90,6 +138,40 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $rootSc
             }
         });
     });
+
+    $scope.correctOrder = {};
+    $scope.correctOrder.doClick = function (){
+        var currentDate = new Date();
+        var correctOrder = $http({
+            method: "post",
+            url: "/OrderFlowers/correctOrder",
+            data: {
+                id: $routeParams.id,
+                russianCurrentState: $scope.order.newState,
+                statusComment: $scope.order.statusComment,
+                orderDescription: $scope.order.orderDescription,
+                sum: $scope.order.sum,
+                date: currentDate.getFullYear() + "-" + currentDate.getMonth() + "-" + currentDate.getDay(),
+                deliveryManager: {
+                    id: $scope.deliveryManager.id
+                },
+                handlerManager: {
+                    id: $scope.handlerManager.id
+                },
+                customer: {
+                    id: document.getElementById('customer-hidden-id').value
+                },
+                recipient: {
+                    id: document.getElementById('recipient-hidden-id').value
+                }
+
+            }
+        });
+        correctOrder.success( function (data){
+            $location.path('/orderList');
+            $location.replace();
+        });
+    };
 });
 
 
