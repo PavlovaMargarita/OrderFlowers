@@ -21,7 +21,8 @@ app.run(function($rootScope, $cookieStore){
 
 app.service('PagerService', function() {
     this.totalPageNumber = function(pageRecords, totalRecords) {
-        return Math.floor((totalRecords + pageRecords - 1) / pageRecords);
+        var totalPageNumber = Math.floor((totalRecords + pageRecords - 1) / pageRecords);
+        return (totalPageNumber == 0) ? 1 : totalPageNumber;
     }
 
     this.buildRange = function(totalPageNumber) {
