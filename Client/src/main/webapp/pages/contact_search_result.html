@@ -1,0 +1,101 @@
+<div class="contact-list">
+
+    <button class="btn btn-info" ng-click="showPopupSendEmail.doClick()">Email</button>
+    <button class="btn btn-danger" ng-click="deleteContact.doClick()">Удалить</button>
+
+    <table class="table table-hover">
+        <thead>
+        <tr class="warning">
+            <th>&nbsp;</th>
+            <th>ФИО</th>
+            <th>Дата рождения</th>
+            <th>Адрес</th>
+            <th>Редактировать</th>
+        </tr>
+        </thead>
+
+        <tr data-ng-repeat="contact in contacts">
+            <td><input type="checkbox" checklist-model="checkContacts" checklist-value="contact.id"/></td>
+            <td>{{contact.surname}} {{contact.name}} {{contact.patronymic}}</td>
+            <td>{{contact.dateOfBirth}}</td>
+            <td>
+                <span ng-if="contact.city != null">г.{{contact.city}} </span>
+                <span ng-if="contact.street != null">ул.{{contact.street}} </span>
+                <span ng-if="contact.home != null">д.{{contact.home}}  </span>
+                <span ng-if="contact.flat != null">кв.{{contact.flat}}</span>
+            </td>
+            <td>
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-success"><a href="#contactCorrect/{{contact.id}}">Редактировать</a></button>
+                </div>
+            </td>
+        </tr>
+
+    </table>
+
+    <!--постраничная навигация-->
+    <div class="page-menu">
+        <ul class="pagination">
+            <li ng-show="currentPage == 1" class="disabled"><a href="">First</a></li>
+            <li ng-show="currentPage == 1" class="disabled"><a href="">&laquo;</a></li>
+            <li ng-show="currentPage != 1" ng-class="isFirstDisabled()"><a href="javascript:void(0)" ng-click="getRecords.doClick(1)">First</a></li>
+            <li ng-show="currentPage != 1" ng-class="isPrevDisabled()"><a href="javascript:void(0)" ng-click="getRecords.doClick(currentPage-1)">&laquo;</a></li>
+            <li ng-repeat="i in range" ng-class="{active : currentPage == i}">
+                <a href="javascript:void(0)" ng-click="getRecords.doClick(i)">{{i}}</a>
+            </li>
+            <li ng-show="currentPage != totalPages" ng-class="isNextDisabled()"><a href="javascript:void(0)" ng-click="getRecords.doClick(currentPage+1)">&raquo;</a></li>
+            <li ng-show="currentPage != totalPages" ng-class="isLastDisabled()"><a href="javascript:void(0)" ng-click="getRecords.doClick(totalPages)">Last</a></li>
+            <li ng-show="currentPage == totalPages" class="disabled"><a href="">&raquo;</a></li>
+            <li ng-show="currentPage == totalPages" class="disabled"><a href="">Last</a></li>
+        </ul>
+    </div>
+
+    <!--popup окно отправки сообщения-->
+    <div class="modal fade" id="modal-message" tabindex="-1" role="dialog" aria-labelledby="modal-label"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Закрыть</span></button>
+                    <h4 class="modal-title">Email</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Получатели</label>
+                        <table>
+                            <tr data-ng-repeat="email in emails track by $index">
+                                <td>{{email}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Тема</label>
+                        <input type="text" class="form-control" ng-model="email.topic" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Шаблон</label>
+                        <select class="form-control" ng-model="template"
+                                ng-change="email.text = template.template"
+                                ng-options="template.name for template in templates">
+                            <option value=""></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Текст</label>
+                        <textarea class="form-control" ng-model="email.text"></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-info" ng-click="sendEmail.doClick()">Отправить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
