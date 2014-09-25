@@ -32,7 +32,7 @@ public class CustomUserDetailService implements UserDetailsService {
         com.itechart.courses.entity.User user = userDAO.readUser(login);
         if(user != null) {
             List<GrantedAuthority> authorities = buildUserAuthority(user);
-            logger.info("User with login " + user.getLogin() + " is logged");
+            logger.info("User with login " + user.getLogin() + " has logged in");
             return buildUserForAuthentication(user, authorities);
         }else {
             throw new UsernameNotFoundException("Can't locate user '" + login + "'");
