@@ -2,12 +2,12 @@
     <div class="box" id="customer-and-receiver">
         <h3>Отправитель и получатель</h3>
         <hr>
-        <div class="input-group">
+        <div class="input-group" id="div-customer-surname">
             <span class="input-group-addon">Фамилия отправителя</span>
             <input type="text" class="form-control" name="customer-surname" id="customer-surname" ng-model="order.customerSurname"/>
         </div>
 
-        <div class="input-group">
+        <div class="input-group" id="div-recipient-surname">
             <span class="input-group-addon">Фамилия получателя</span>
             <input type="text" class="form-control" name="receiver-surname" id="receiver-surname" ng-model="order.recipientSurname"/>
         </div>
@@ -16,12 +16,12 @@
     <div class="box" id="order-date-range">
         <h3>Диапазон даты заказа</h3>
         <hr>
-        <div class="input-group">
+        <div class="input-group" id="div-date-from">
             <span class="input-group-addon">От</span>
             <input type="date" class="form-control" name="order-date-lower-range" id="order-date-lower-range" ng-model="order.lowerOrderDate"/>
         </div>
 
-        <div class="input-group">
+        <div class="input-group" id="div-date-to">
             <span class="input-group-addon">До</span>
             <input type="date" class="form-control" name="order-date-upper-range" id="order-date-upper-range" ng-model="order.upperOrderDate"/>
         </div>
