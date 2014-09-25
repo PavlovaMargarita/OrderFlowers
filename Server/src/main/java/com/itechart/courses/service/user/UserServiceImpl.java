@@ -77,6 +77,21 @@ public class UserServiceImpl implements UserService {
         return login;
     }
 
+
+    @Override
+    public List<PersonDTO> getUsersByRole(RoleEnum role) {
+        List<User> users = userDAO.readAllUsers(role);
+        List<PersonDTO> persons = null;
+
+        if (users != null){
+            persons = new ArrayList<PersonDTO>(users.size());
+            for (User user : users){
+                persons.add(userToPersonDTO(user));
+            }
+        }
+        return persons;
+    }
+
     public UserDTO userToUserDTO(User user){
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
@@ -118,6 +133,10 @@ public class UserServiceImpl implements UserService {
         personDTO.setSurname(user.getContact().getSurname());
         personDTO.setName(user.getContact().getName());
         personDTO.setPatronymic(user.getContact().getPatronymic());
+        personDTO.setCity(user.getContact().getCity());
+        personDTO.setStreet(user.getContact().getStreet());
+        personDTO.setHome(user.getContact().getHome());
+        personDTO.setFlat(user.getContact().getFlat());
         return personDTO;
     }
 }

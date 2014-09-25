@@ -14,6 +14,7 @@ public interface ContactDAO {
     public List<Contact> readAllContacts(); //if contacts not found, return null;
     public List<Contact> readContacts(int first, int count);
     public List<Contact> searchContact(ContactSearchDTO parameters, int first, int count);
+    public List<Contact> searchContact(ContactSearchDTO parameters);
     public List<Contact> searchContactByDateOfBirth(int month, int day);
     public int getContactCount();
     public int getContactCount(ContactSearchDTO parameters);

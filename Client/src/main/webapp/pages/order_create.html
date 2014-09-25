@@ -1,11 +1,13 @@
+<script type="text/javascript" src="script/jQuery.js"></script>
 <div class="order">
+
     <div class="box">
         <h3>Текущее состояние заказа: <b style="color: red">{{order.russianCurrentState}}</b></h3>
-        <hr>
-        <div class="input-group" ng-show="possibleStatesVisible">
+        <div class="input-group" ng-hide="possibleStatesHide">
             <span class="input-group-addon">Изменить состояние</span>
-            <select class="form-control" id="order-status">
-                <option data-ng-repeat="state in possibleStates">{{state}}</option>
+            <select class="form-control" id="new-order-status" ng-model="order.newState" onchange="showModalNewOrderStatus()">
+                <option value="">выберите новое состояние заказа</option>
+                <option data-ng-repeat="(key, value) in possibleStates" value="{{key}}">{{value}}</option>
             </select>
         </div>
     </div>
@@ -13,23 +15,22 @@
     <div class="box">
         <h3>Основная информация</h3>
         <hr>
+
         <div class="input-group">
             <span class="input-group-addon">Заказчик</span>
-            <select class="form-control" id="customer-id">
-                <!--подгрузка заказчиков-->
-            </select>
+            <input class="form-control" id="customer-id" value="{{order.customer.surname}} {{order.customer.name}} {{order.customer.patronymic}}" ng-disabled="disabledOnTheRole"/>
+            <input type="hidden" id="customer-hidden-id" value={{order.customer.id}}>
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">Получатель</span>
-            <select class="form-control" id="recipient">
-                <!--подгрузка получателей-->
-            </select>
+            <input class="form-control" id="recipient-id" value="{{order.recipient.surname}} {{order.recipient.name}} {{order.recipient.patronymic}}" ng-disabled="disabledOnTheRole"/>
+            <input type="hidden" id="recipient-hidden-id" value="{{order.recipient.id}}">
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">Сумма</span>
-            <input class="form-control" id="sum" value="{{order.sum}}"/>
+            <input class="form-control" id="sum" ng-model="order.sum"/>
         </div>
     </div>
 
@@ -38,20 +39,20 @@
         <hr>
         <div class="input-group">
             <span class="input-group-addon">Принял заказ</span>
-            <input class="form-control" id="handler-manager" readonly value="{{order.receiveManager.surname}} {{order.receiveManager.name}} {{order.receiveManager.patronymic}}">
+            <input class="form-control" id="receive-manager" disabled value="{{order.receiveManager.surname}} {{order.receiveManager.name}}">
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">Обрабатывает заказ</span>
-            <select class="form-control" id="specialist-processing-order">
-                <!--подгрузка специалистов обрабатывающих заказ-->
+            <select class="form-control" id="handler-manager" data-ng-model="handlerManager.id"
+                ng-options="c.id as c.surname + ' ' + c.name for c in handlerManagers" ng-disabled="disabledOnTheRole">
             </select>
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">Доставляет</span>
-            <select class="form-control" id="manager-service-delivery">
-                <!--подгрузка менеджеров службы доставки-->
+            <select class="form-control" id="delivery-manager" data-ng-model="deliveryManager.id"
+                ng-options="c.id as c.surname + ' ' + c.name for c in deliveryManagers" ng-disabled="disabledOnTheRole">
             </select>
         </div>
     </div>
@@ -59,8 +60,34 @@
     <div class="box">
         <h3>Описание</h3>
         <hr>
-        <textarea class="form-control" id="order-comment" rows="10" placeholder="Введите описание заказа" >{{order.orderDescription}}</textarea>
+        <textarea class="form-control" id="order-comment" rows="10" placeholder="Введите описание заказа" ng-model="order.orderDescription"></textarea>
     </div>
 
-    <button class="btn btn-primary" id="order-button">Сохранить</button>
+    <button class="btn btn-primary" id="order-button" ng-click="correctOrder.doClick()">Сохранить</button>
+
+    <!--Модальное окно изменения статуса заказа-->
+    <div class="modal fade bs-example-modal-sm" id="modal-order-status" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Закрыть</span></button>
+                    <h4 class="modal-title">Изменение статуса заказа</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Комментарий</label>
+                        <textarea class="form-control" rows="6" id="status-comment" ng-model="order.statusComment"></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="hideModalNewOrderStatus()">Закрыть</button>
+                    <button type="button" class="btn btn-info" onclick="saveModalOrderStatus()">Изменить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>

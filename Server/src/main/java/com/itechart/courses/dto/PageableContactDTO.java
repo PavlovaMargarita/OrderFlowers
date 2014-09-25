@@ -7,20 +7,20 @@ import java.util.List;
  */
 public class PageableContactDTO {
 
-    private List<ContactDTO> pageableContacts;
+    private List<PersonDTO> pageableContacts;
 
     private int totalCount;
 
-    public PageableContactDTO(List<ContactDTO> pageableContacts, int totalCount) {
-        this.pageableContacts = pageableContacts;
+    public PageableContactDTO(int totalCount, List<PersonDTO> pageableContacts) {
         this.totalCount = totalCount;
+        this.pageableContacts = pageableContacts;
     }
 
-    public List<ContactDTO> getPageableContacts() {
+    public List<PersonDTO> getPageableContacts() {
         return pageableContacts;
     }
 
-    public void setPageableContacts(List<ContactDTO> pageableContacts) {
+    public void setPageableContacts(List<PersonDTO> pageableContacts) {
         this.pageableContacts = pageableContacts;
     }
 

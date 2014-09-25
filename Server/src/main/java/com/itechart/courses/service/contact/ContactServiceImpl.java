@@ -93,22 +93,33 @@ public class ContactServiceImpl implements ContactService {
         List<Contact> contactList = contactDAO.readContacts(first, count);
         int totalCount = contactDAO.getContactCount();
         for (Contact contact : contactList) {
-            contactDTOList.add(contactToContactDTO(contact));
+            contactDTOList.add(contactToPersonDTO(contact));
         }
-        PageableContactDTO result = new PageableContactDTO(contactDTOList, totalCount);
+        PageableContactDTO result = new PageableContactDTO(totalCount, contactDTOList);
         return result;
     }
 
+
     @Override
     public PageableContactDTO searchContact(ContactSearchDTO parameters, int first, int count) {
-        List contactDTOList = new ArrayList<ContactDTO>();
+        List personDTOList = new ArrayList<ContactDTO>();
         List<Contact> contactList = contactDAO.searchContact(parameters, first, count);
         int totalCount = contactDAO.getContactCount(parameters);
         for (Contact contact : contactList){
-            contactDTOList.add(contactToContactDTO(contact));
+            personDTOList.add(contactToPersonDTO(contact));
         }
-        PageableContactDTO searchResult = new PageableContactDTO(contactDTOList, totalCount);
+        PageableContactDTO searchResult = new PageableContactDTO(totalCount, personDTOList);
         return searchResult;
+    }
+
+    @Override
+    public List<PersonDTO> searchContact(ContactSearchDTO parameters) {
+        List personDTOList = new ArrayList<ContactDTO>();
+        List<Contact> contactList = contactDAO.searchContact(parameters);
+        for (Contact contact : contactList){
+            personDTOList.add(contactToPersonDTO(contact));
+        }
+        return personDTOList;
     }
 
     @Override
@@ -133,6 +144,10 @@ public class ContactServiceImpl implements ContactService {
         personDTO.setSurname(contact.getSurname());
         personDTO.setName(contact.getName());
         personDTO.setPatronymic(contact.getPatronymic());
+        personDTO.setCity(contact.getCity());
+        personDTO.setStreet(contact.getStreet());
+        personDTO.setHome(contact.getHome());
+        personDTO.setFlat(contact.getFlat());
         return personDTO;
     }
 

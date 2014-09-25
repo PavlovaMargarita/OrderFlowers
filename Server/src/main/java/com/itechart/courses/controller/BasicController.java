@@ -1,10 +1,12 @@
 package com.itechart.courses.controller;
 
 import com.itechart.courses.dto.*;
+import com.itechart.courses.entity.Contact;
 import com.itechart.courses.enums.OrderStatusEnum;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.authorization.AuthorizationService;
 import com.itechart.courses.service.contact.ContactService;
+import com.itechart.courses.service.contact.ContactServiceImpl;
 import com.itechart.courses.service.email.EmailService;
 import com.itechart.courses.service.order.OrderService;
 import com.itechart.courses.service.role.RoleService;
@@ -16,12 +18,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/OrderFlowers")
@@ -189,7 +196,7 @@ public class BasicController {
     @RequestMapping(method = RequestMethod.GET, value = "/orderList")
     public @ResponseBody List<TableOrderDTO> getOrderList(Authentication authentication){
         LoginDTO dto = currentUserInfo(authentication);
-        logger.info("User has viewed all orders");
+        logger.info("User viewed all orders");
         com.itechart.courses.entity.User user = null;
         List<OrderStatusEnum> statusEnums = null;
         List<TableOrderDTO> orders = null;
@@ -225,7 +232,7 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getResolvedOrderState")
-    public @ResponseBody List<String> getResolvedOrderStatus(@RequestParam("currentState") OrderStatusEnum currentState){
+    public @ResponseBody Map<OrderStatusEnum, String> getResolvedOrderStatus(@RequestParam("currentState") OrderStatusEnum currentState){
         return orderService.getResolvedOrderStatus(currentState);
     }
 
@@ -234,8 +241,49 @@ public class BasicController {
         logger.info("User viewed the order");
         return orderService.readOrder(Integer.parseInt(id));
     }
+
+
     private int firstRecordNumber(int currentPage, int count){
         int firstRecordNumber = (currentPage - 1) * count;
         return firstRecordNumber >= 0 ? firstRecordNumber : 0;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getUsersByRole")
+    public @ResponseBody HashMap<String, List<PersonDTO>> getUsersByRole(@RequestParam("role")  List<String> role){
+        HashMap<String, List<PersonDTO>> map = new HashMap<String, List<PersonDTO>>(role.size());
+        for (String temp : role){
+            map.put(temp, userService.getUsersByRole(RoleEnum.valueOf(temp)));
+        }
+        return map;
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getPerson")
+    public @ResponseBody List<PersonDTO> getPerson(@RequestParam("term") String term) {
+        List<PersonDTO> listPersonDTO = new ArrayList<PersonDTO>();
+        ContactSearchDTO contactSearchDTO = new ContactSearchDTO();
+        contactSearchDTO.setSurname(term);
+        if (!term.trim().isEmpty())
+            listPersonDTO = contactService.searchContact(contactSearchDTO);
+        return listPersonDTO;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/correctOrder")
+    public @ResponseBody void correctOrder(@RequestBody OrderDTO orderDTO, Authentication authentication) throws ParseException {
+        logger.info("User updated the order");
+        LoginDTO loginDTO = currentUserInfo(authentication);
+        com.itechart.courses.entity.User user = userService.readUser(loginDTO.getLogin());
+        orderService.updateOrder(orderDTO, user);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/createOrder")
+    public @ResponseBody void createOrder(@RequestBody OrderDTO orderDTO, Authentication authentication) throws ParseException {
+        logger.info("User created new order");
+        LoginDTO loginDTO = currentUserInfo(authentication);
+        com.itechart.courses.entity.User user = userService.readUser(loginDTO.getLogin());
+        PersonDTO personDTO = new PersonDTO();
+        personDTO.setId(user.getId());
+        orderDTO.setReceiveManager(personDTO);
+        orderService.createOrder(orderDTO);
     }
 }

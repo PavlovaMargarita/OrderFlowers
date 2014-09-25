@@ -19,6 +19,7 @@ body {
     text-align: right;
 }
 
+
 .contact-list .page-menu, .order-list .page-menu, .user-list .page-menu {
     text-align: center;
 }
@@ -28,6 +29,11 @@ body {
     max-width: 1366px;
     padding-left:  5%;
     padding-right: 5%;
+}
+
+.contact .button-save-div {
+    margin: 0 auto;
+    text-align: center;
 }
 
 .contact .contact-information, .user, .contact-search, .order-search, .order {
@@ -56,8 +62,12 @@ body {
     border-color: #b92c28;
 }
 
-.contact .btn-toolbar, .contact-list .btn-toolbar, .order-list .btn-toolbar, .user-list .btn-toolbar{
+.contact .btn-group, .contact-list .btn-group, .user-list .btn-group  {
     margin-bottom: 10pt;
+}
+
+.modal {
+    text-align: left;
 }
 
 .modal-header {

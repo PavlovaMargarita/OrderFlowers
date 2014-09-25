@@ -95,7 +95,13 @@ public class OrderDAOImpl implements OrderDAO {
     public List<Order> searchOrder(OrderSearchDTO parameters) {
         StringBuilder builder = new StringBuilder();
         String customerSurname = parameters.getCustomerSurname();
+        if (customerSurname != null && (customerSurname = customerSurname.trim()).isEmpty()){
+            customerSurname = null;
+        }
         String recipientSurname = parameters.getRecipientSurname();
+        if (recipientSurname != null && (recipientSurname = recipientSurname.trim()).isEmpty()){
+            recipientSurname = null;
+        }
         Date lowerOrderDate = parameters.getLowerOrderDate();
         Date upperOrderDate = parameters.getUpperOrderDate();
 
@@ -111,22 +117,22 @@ public class OrderDAOImpl implements OrderDAO {
             if (builder.length() != 0){
                 builder.append(" and ");
             }
-            builder.append("order.customer.surname = :customerSurname");
+            builder.append("order.customer.surname LIKE :customerSurname");
         }
         if (recipientSurname != null){
             if (builder.length() != 0){
                 builder.append(" and ");
             }
-            builder.append("order.recipient.surname = :recipientSurname");
+            builder.append("order.recipient.surname LIKE :recipientSurname");
         }
         builder.insert(0, "from Order order where ");
 
         Query query = sessionFactory.getCurrentSession().createQuery(builder.toString());
         if (customerSurname != null){
-            query.setString("customerSurname", customerSurname);
+            query.setString("customerSurname", "%" + customerSurname + "%");
         }
         if (recipientSurname != null){
-            query.setString("recipientSurname", recipientSurname);
+            query.setString("recipientSurname", "%" + recipientSurname + "%");
         }
         if (lowerOrderDate != null){
             query.setDate("lowerOrderDate", lowerOrderDate);

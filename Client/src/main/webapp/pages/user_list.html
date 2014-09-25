@@ -1,6 +1,8 @@
 <div class="user-list">
 
-    <button type="button" class="btn btn-danger" ng-click="delete.doClick()"> Удалить</button>
+    <div class="btn-group btn-group-sm">
+        <button type="button" class="btn btn-danger" ng-click="delete.doClick()"> Удалить</button>
+    </div>
 
     <table class="table table-hover">
         <thead>
@@ -18,11 +20,7 @@
             <td>{{user.surname}} {{user.name}} {{user.patronymic}}</td>
             <td>{{user.login}}</td>
             <td>{{user.roleRussian}}</td>
-            <td>
-                <div class="btn-group btn-group-sm">
-                    <button class="btn btn-success"><a href="#userCorrect/{{user.id}}">Редактировать</a></button>
-                </div>
-            </td>
+            <td><a class="btn btn-success btn-sm" href="#userCorrect/{{user.id}}">Редактировать</a></td>
         </tr>
     </table>
 

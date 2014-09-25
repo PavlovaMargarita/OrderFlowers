@@ -50,6 +50,7 @@ app.service('PagerService', function() {
     }
 });
 
+
 app.service('MailService', function($http, $q){
 
     this.getMailTemplates = function(){
@@ -161,6 +162,38 @@ app.service('ContactsCommonService', function(PagerService, MailService, $route,
     }
 });
 
+app.service('Validation', function(){
+   this.validationName = function(value){
+       var re = /^[A-zА-яЁё -]+$/;
+       return re.test(value);
+   }
+    this.validationPatronymic = function(value){
+        var re = /^[A-zА-яЁё]+$/;
+        return re.test(value);
+    }
+    this.validationEmail = function(value){
+        if(value == undefined){
+            return true;
+        }
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(value);
+    }
+    this.validationCity = function(value){
+        var re = /^[A-zА-яЁё -]+$/;
+        return re.test(value);
+    }
+    this.validationStreet = function(value){
+        var re = /^[A-zА-яЁё0-9 -]+$/;
+        return re.test(value);
+    }
+    this.validationInt = function(value){
+        if(value == undefined){
+            return true;
+        }
+        var re = /^\d+$/;
+        return re.test(value);
+    }
+});
 
 app.config(function($routeProvider){
     $routeProvider
