@@ -16,19 +16,19 @@
         <h3>Основная информация</h3>
         <hr>
 
-        <div class="input-group">
+        <div class="input-group" id="div-customer">
             <span class="input-group-addon">Заказчик</span>
             <input class="form-control" id="customer-id" value="{{order.customer.surname}} {{order.customer.name}} {{order.customer.patronymic}}" ng-disabled="disabledOnTheRole"/>
             <input type="hidden" id="customer-hidden-id" value={{order.customer.id}}>
         </div>
 
-        <div class="input-group">
+        <div class="input-group" id="div-recipient">
             <span class="input-group-addon">Получатель</span>
             <input class="form-control" id="recipient-id" value="{{order.recipient.surname}} {{order.recipient.name}} {{order.recipient.patronymic}}" ng-disabled="disabledOnTheRole"/>
             <input type="hidden" id="recipient-hidden-id" value="{{order.recipient.id}}">
         </div>
 
-        <div class="input-group">
+        <div class="input-group" id="div-sum">
             <span class="input-group-addon">Сумма</span>
             <input class="form-control" id="sum" ng-model="order.sum"/>
         </div>
@@ -37,19 +37,19 @@
     <div class="box">
         <h3>Дополнительная информация</h3>
         <hr>
-        <div class="input-group">
+        <div class="input-group" id="div-receive">
             <span class="input-group-addon">Принял заказ</span>
             <input class="form-control" id="receive-manager" disabled value="{{order.receiveManager.surname}} {{order.receiveManager.name}}">
         </div>
 
-        <div class="input-group">
+        <div class="input-group" id="div-handler">
             <span class="input-group-addon">Обрабатывает заказ</span>
             <select class="form-control" id="handler-manager" data-ng-model="handlerManager.id"
                 ng-options="c.id as c.surname + ' ' + c.name for c in handlerManagers" ng-disabled="disabledOnTheRole">
             </select>
         </div>
 
-        <div class="input-group">
+        <div class="input-group" id="div-delivery">
             <span class="input-group-addon">Доставляет</span>
             <select class="form-control" id="delivery-manager" data-ng-model="deliveryManager.id"
                 ng-options="c.id as c.surname + ' ' + c.name for c in deliveryManagers" ng-disabled="disabledOnTheRole">
@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <div class="box">
+    <div class="box" id="div-description">
         <h3>Описание</h3>
         <hr>
         <textarea class="form-control" id="order-comment" rows="10" placeholder="Введите описание заказа" ng-model="order.orderDescription"></textarea>

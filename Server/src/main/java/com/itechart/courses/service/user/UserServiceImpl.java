@@ -6,6 +6,7 @@ import com.itechart.courses.dto.PersonDTO;
 import com.itechart.courses.dto.UserDTO;
 import com.itechart.courses.entity.User;
 import com.itechart.courses.enums.RoleEnum;
+import com.itechart.courses.validation.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,16 +34,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(UserDTO userDTO) {
-        User user = new User();
-        userDTOToUser(userDTO, user);
-        userDAO.createUser(user);
+        if(Validation.validateUser(userDTO)) {
+            User user = new User();
+            userDTOToUser(userDTO, user);
+            userDAO.createUser(user);
+        }
     }
 
     @Override
     public void updateUser(UserDTO userDTO) {
-        User user = userDAO.readUser(userDTO.getId());
-        userDTOToUser(userDTO, user);
-        userDAO.updateUser(user);
+        if(Validation.validateUser(userDTO)) {
+            User user = userDAO.readUser(userDTO.getId());
+            userDTOToUser(userDTO, user);
+            userDAO.updateUser(user);
+        }
     }
 
 

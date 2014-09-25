@@ -1,12 +1,8 @@
 <div class="order-list">
-    <div class="btn-toolbar">
-        <button class="btn btn-danger">Удалить</button>
-    </div>
 
     <table class="table table-hover">
         <thead>
             <tr class="warning">
-                <th>&nbsp;</th>
                 <th>Дата заказа</th>
                 <th>Заказчик</th>
                 <th>Получатель</th>
@@ -15,12 +11,11 @@
             </tr>
 
             <tr data-ng-repeat="order in orders">
-                <td><input type="checkbox" checklist-model="checkOrders" checklist-value="order.id"/></td>
                 <td>{{order.date}}</td>
                 <td>{{order.customer.surname}} {{order.customer.name}}</td>
                 <td>{{order.recipient.surname}} {{order.recipient.name}}</td>
                 <td>{{order.orderDescription}}</td>
-                <td><a href="#orderCorrect/{{order.id}}"><img src="../images/edit-button.png"/></a></td>
+                <td><a class="btn btn-success btn-sm" href="#orderCorrect/{{order.id}}">Редактировать</a></td>
             </tr>
         </thead>
     </table>

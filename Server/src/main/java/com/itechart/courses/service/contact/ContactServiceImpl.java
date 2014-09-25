@@ -10,6 +10,7 @@ import com.itechart.courses.entity.Order;
 import com.itechart.courses.entity.Phone;
 import com.itechart.courses.entity.User;
 import com.itechart.courses.enums.PhoneTypeEnum;
+import com.itechart.courses.validation.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,17 +44,21 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public void createContact(ContactDTO contactDTO) {
-        Contact contact = contactDTOToContact(contactDTO);
-        int idContact = contactDAO.createContact(contact);
-        contact = contactDAO.readContact(idContact);
-        updatePhone(contact, contactDTO.getPhones());
+        if(Validation.validateContact(contactDTO)) {
+            Contact contact = contactDTOToContact(contactDTO);
+            int idContact = contactDAO.createContact(contact);
+            contact = contactDAO.readContact(idContact);
+            updatePhone(contact, contactDTO.getPhones());
+        }
     }
 
     @Override
     public void updateContact(ContactDTO contactDTO) {
-        Contact contact = contactDTOToContact(contactDTO);
-        contactDAO.updateContact(contact);
-        updatePhone(contact, contactDTO.getPhones());
+        if(Validation.validateContact(contactDTO)) {
+            Contact contact = contactDTOToContact(contactDTO);
+            contactDAO.updateContact(contact);
+            updatePhone(contact, contactDTO.getPhones());
+        }
     }
 
     private void updatePhone(Contact contact, List<PhoneDTO> phones){
@@ -74,10 +79,8 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public boolean deleteContact(int id) {
         List<User> users = userDAO.readAllUsers();
-        boolean delete = true;
         for(User user: users){
             if(user.getContact().getId() == id){
-                delete = false;
                 return false;
             }
         }
@@ -101,9 +104,11 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public List<PersonDTO> searchContact(ContactSearchDTO parameters) {
         List personDTOList = new ArrayList<ContactDTO>();
-        List<Contact> contactList = contactDAO.searchContact(parameters);
-        for (Contact contact : contactList){
-            personDTOList.add(contactToPersonDTO(contact));
+        if(Validation.validateContactSearch(parameters)) {
+            List<Contact> contactList = contactDAO.searchContact(parameters);
+            for (Contact contact : contactList) {
+                personDTOList.add(contactToPersonDTO(contact));
+            }
         }
         return personDTOList;
     }
