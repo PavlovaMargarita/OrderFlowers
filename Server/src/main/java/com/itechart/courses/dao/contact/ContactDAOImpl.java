@@ -7,6 +7,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -377,7 +378,18 @@ public class ContactDAOImpl implements ContactDAO {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Contact.class);
         criteria.setProjection(Projections.rowCount());
+        buildContactSearchCriteria(criteria, parameters);
+        int totalCount = ((Number) criteria.uniqueResult()).intValue();
+        return totalCount;
+    }
 
+    private void addRestrictionIfNotNull(Criteria criteria, String propertyName, Object value) {
+        if (value != null) {
+            criteria.add(Restrictions.like(propertyName, (String)value, MatchMode.ANYWHERE));
+        }
+    }
+
+    private void buildContactSearchCriteria(Criteria criteria, ContactSearchDTO parameters){
         String surname = parameters.getSurname();
         String name = parameters.getName();
         String patronymic = parameters.getPatronymic();
@@ -403,14 +415,6 @@ public class ContactDAOImpl implements ContactDAO {
         addRestrictionIfNotNull(criteria, "home", home);
         addRestrictionIfNotNull(criteria, "flat", flat);
         criteria.add(Restrictions.eq("isDelete", false));
-        int totalCount = ((Number) criteria.uniqueResult()).intValue();
-
-        return totalCount;
     }
 
-    private void addRestrictionIfNotNull(Criteria criteria, String propertyName, Object value) {
-        if (value != null) {
-            criteria.add(Restrictions.eq(propertyName, value));
-        }
-    }
 }
