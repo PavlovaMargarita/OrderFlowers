@@ -79,10 +79,8 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public boolean deleteContact(int id) {
         List<User> users = userDAO.readAllUsers();
-        boolean delete = true;
         for(User user: users){
             if(user.getContact().getId() == id){
-                delete = false;
                 return false;
             }
         }
@@ -106,9 +104,11 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public List<PersonDTO> searchContact(ContactSearchDTO parameters) {
         List personDTOList = new ArrayList<ContactDTO>();
-        List<Contact> contactList = contactDAO.searchContact(parameters);
-        for (Contact contact : contactList){
-            personDTOList.add(contactToPersonDTO(contact));
+        if(Validation.validateContactSearch(parameters)) {
+            List<Contact> contactList = contactDAO.searchContact(parameters);
+            for (Contact contact : contactList) {
+                personDTOList.add(contactToPersonDTO(contact));
+            }
         }
         return personDTOList;
     }

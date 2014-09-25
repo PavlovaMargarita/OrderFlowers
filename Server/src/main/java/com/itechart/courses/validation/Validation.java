@@ -1,6 +1,6 @@
 package com.itechart.courses.validation;
 
-import com.itechart.courses.dto.ContactDTO;
+import com.itechart.courses.dto.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -88,5 +88,67 @@ public class Validation {
         } else{
             return false;
         }
+    }
+    public static boolean validateContactSearch(ContactSearchDTO contactSearchDTO){
+        boolean ok = true;
+        if(contactSearchDTO.getSurname() == null || !validateName(contactSearchDTO.getSurname()))
+            ok = false;
+        if(contactSearchDTO.getName() == null || !validateName(contactSearchDTO.getName()))
+            ok = false;
+        if(contactSearchDTO.getPatronymic() != null && !validatePatronymic(contactSearchDTO.getPatronymic()))
+            ok = false;
+        if(contactSearchDTO.getCity() != null && !validateCity(contactSearchDTO.getCity()))
+            ok = false;
+        if(contactSearchDTO.getStreet() != null && !validateStreet(contactSearchDTO.getStreet()))
+            ok = false;
+        return ok;
+    }
+    public static boolean validateUser(UserDTO user){
+        boolean ok = true;
+        if(user.getIdContact() == 0){
+            ok = false;
+        }
+        if(user.getRole().equals("")){
+            ok = false;
+        }
+        if(user.getLogin() == null || user.getLogin().trim().equals("")){
+            ok = false;
+        }
+        if(user.getPassword() == null || user.getLogin().trim().equals("")){
+            ok = false;
+        }
+        return ok;
+    }
+    public static boolean validateOrderSearch(OrderSearchDTO orderSearchDTO){
+        boolean ok = true;
+        if (!validatePatronymic(orderSearchDTO.getCustomerSurname()) && orderSearchDTO.getCustomerSurname() != null){
+            ok = false;
+        }
+        if (!validatePatronymic(orderSearchDTO.getRecipientSurname()) && orderSearchDTO.getRecipientSurname() != null){
+            ok = false;
+        }
+        return ok;
+    }
+    public static boolean validateOrder(OrderDTO orderDTO){
+        boolean ok = true;
+        if(orderDTO.getCustomer() == null){
+            ok = false;
+        }
+        if(orderDTO.getRecipient() == null){
+            ok = false;
+        }
+        if(orderDTO.getDeliveryManager() == null){
+            ok = false;
+        }
+        if(orderDTO.getHandlerManager() == null){
+            ok = false;
+        }
+        if(orderDTO.getOrderDescription() == null || orderDTO.getOrderDescription().trim().equals("")){
+            ok = false;
+        }
+        if(orderDTO.getSum() == 0){
+            ok = false;
+        }
+        return ok;
     }
 }

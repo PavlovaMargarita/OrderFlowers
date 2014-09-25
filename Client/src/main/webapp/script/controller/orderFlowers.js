@@ -238,7 +238,7 @@ function validateOrderSave(value, Validation) {
     } else {
         document.getElementById('div-receive').className = noError;
     }
-    if (value.order.sum == undefined || value.order.sum == '' || !Validation.validationInt(value.order.sum)) {
+    if (value.order.sum == undefined || value.order.sum == '' || !Validation.validationInt(value.order.sum) || value.order.sum == 0) {
         ok = false;
         document.getElementById('div-sum').className = hasError;
     } else {
