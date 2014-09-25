@@ -225,14 +225,14 @@ function validateOrderSave(value, Validation) {
     var hasError = "input-group has-error";
     var noError = "input-group";
     var ok = true;
-    if (document.getElementById('customer-hidden-id').value == "") {
+    if (document.getElementById('customer-id').value == "") {
         ok = false;
         document.getElementById('div-customer').className = hasError;
     } else {
         document.getElementById('div-customer').className = noError;
     }
 
-    if (document.getElementById('recipient-hidden-id').value == "") {
+    if (document.getElementById('recipient-id').value == "") {
         ok = false;
         document.getElementById('div-recipient').className = hasError;
     } else {
