@@ -13,5 +13,7 @@ public interface UserDAO {
     public User readUser(String login);
     public void updateUser(User user);
     public List<User> readAllUsers(); //if users not found, return null;
+    public List<User> readAllUsers(int first, int count);
     public List<User> readAllUsers(RoleEnum role);
+    public int getTotalUserCount();
 }

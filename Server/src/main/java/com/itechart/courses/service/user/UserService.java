@@ -1,5 +1,7 @@
 package com.itechart.courses.service.user;
 
+import com.itechart.courses.dto.PageableContactDTO;
+import com.itechart.courses.dto.PageableUserDTO;
 import com.itechart.courses.dto.PersonDTO;
 import com.itechart.courses.dto.UserDTO;
 import com.itechart.courses.enums.RoleEnum;
@@ -27,6 +29,9 @@ public interface UserService {
 
     @Secured(Roles.ADMIN)
     public List readUser();
+
+    @Secured(Roles.ADMIN)
+    public PageableUserDTO readUser(int first, int count);
 
     @Secured(Roles.ADMIN)
     public List readLogin();

@@ -110,9 +110,10 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/userList")
-    public @ResponseBody List<UserDTO> getUserList(){
+    public @ResponseBody PageableUserDTO getUserList(@RequestParam("currentPage") int currentPage, @RequestParam("pageRecords") int pageRecords){
         logger.info("User viewed all users");
-        return userService.readUser();
+        int firstRecordNumber = firstRecordNumber(currentPage, pageRecords);
+        return userService.readUser(firstRecordNumber, pageRecords);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/userCorrect")

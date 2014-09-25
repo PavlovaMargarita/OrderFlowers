@@ -2,6 +2,7 @@ package com.itechart.courses.service.user;
 
 import com.itechart.courses.dao.contact.ContactDAO;
 import com.itechart.courses.dao.user.UserDAO;
+import com.itechart.courses.dto.PageableUserDTO;
 import com.itechart.courses.dto.PersonDTO;
 import com.itechart.courses.dto.UserDTO;
 import com.itechart.courses.entity.User;
@@ -60,6 +61,18 @@ public class UserServiceImpl implements UserService {
             userDTOList.add(userToUserDTO(user));
         }
         return userDTOList;
+    }
+
+    @Override
+    public PageableUserDTO readUser(int first, int count) {
+        List userDTOList = new ArrayList<UserDTO>();
+        List<User> userList = userDAO.readAllUsers(first, count);
+        int totalCount = userDAO.getTotalUserCount();
+        for(User user: userList){
+            userDTOList.add(userToUserDTO(user));
+        }
+        PageableUserDTO result = new PageableUserDTO(userDTOList, totalCount);
+        return result;
     }
 
     @Override

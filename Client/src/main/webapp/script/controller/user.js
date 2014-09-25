@@ -1,17 +1,43 @@
 var loginList;
 var oldLogin;
-app.controller("userListController", function ($scope, $http, $location) {
+app.controller("userListController", function ($scope, $http, $location, $rootScope, $route, PagerService) {
+    $scope.users = [];
+    $scope.range = [];
+    $scope.currentPage = 1;
+    $scope.totalPages = 1;
+    $scope.totalRecords = 0;
+
     $scope.usersToDelete = [];
     var response = $http({
         method: "get",
-        url: "/OrderFlowers/userList"
+        url: "/OrderFlowers/userList",
+        params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
     });
     response.success(function (data) {
-        $scope.users = data;
+        $scope.users = data.pageableData;
+        $scope.totalRecords = data.totalCount;
+        $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
+        $scope.range = PagerService.buildRange($scope.totalPages);
     });
     response.error(function (data) {
         $scope.authorization.info = "error";
     });
+
+    $scope.getRecords = {};
+    $scope.getRecords.doClick = function (pageNumber) {
+        var response = $http({
+            method: "get",
+            url: "/OrderFlowers/userList",
+            params: {currentPage: pageNumber, pageRecords: $rootScope.recordsOnPage}
+        });
+        response.success(function (data) {
+            $scope.users = data.pageableData;
+            $scope.currentPage = pageNumber;
+            $scope.totalRecords = data.totalCount;
+            $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
+            $scope.range = PagerService.buildRange($scope.totalPages);
+        });
+    }
 
     $scope.delete = {};
     $scope.delete.doClick = function() {
@@ -24,18 +50,7 @@ app.controller("userListController", function ($scope, $http, $location) {
                 }
             });
             userDelete.success(function (data) {
-                var userList = $http({
-                    method: "get",
-                    url: "/OrderFlowers/userList"
-                });
-                userList.success(function (data) {
-                    $scope.users = data;
-                    $location.path('/userList');
-                    $location.replace();
-                });
-                userList.error(function (data) {
-                    $scope.authorization.info = "error";
-                });
+                $route.reload();
             });
             userDelete.error(function (data) {
                 $scope.authorization.info = "error";
@@ -102,18 +117,8 @@ app.controller("userCreateController", function ($scope, $http, $location) {
             }
         });
         user.success(function (data) {
-            var userList = $http({
-                method: "get",
-                url: "/OrderFlowers/userList"
-            });
-            userList.success(function (data) {
-                $scope.users = data;
-                $location.path('/userList');
-                $location.replace();
-            });
-            userList.error(function (data) {
-                $scope.authorization.info = "error";
-            });
+            $location.path('/userList');
+            $location.replace();
         });
         user.error(function (data) {
             $scope.authorization.info = "error";
@@ -207,18 +212,21 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
             }
         });
         user.success(function (data) {
-            var userList = $http({
-                method: "get",
-                url: "/OrderFlowers/userList"
-            });
-            userList.success(function (data) {
-                $scope.users = data;
-                $location.path('/userList');
-                $location.replace();
-            });
-            userList.error(function (data) {
-                $scope.authorization.info = "error";
-            });
+//            var userList = $http({
+//                method: "get",
+//                url: "/OrderFlowers/userList"
+//            });
+//            userList.success(function (data) {
+//                $scope.users = data;
+//                $location.path('/userList');
+//                $location.replace();
+//            });
+//            userList.error(function (data) {
+//                $scope.authorization.info = "error";
+//            });
+
+            $location.path('/userList');
+            $location.replace();
         });
         user.error(function (data) {
             $scope.authorization.info = "error";
