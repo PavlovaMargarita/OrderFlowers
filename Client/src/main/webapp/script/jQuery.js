@@ -31,8 +31,11 @@ $(function() {
                 data: {term: request.term},
                 success: function(data) {
                     response($.map(data, function(item) {
+                        var returnValue = item.surname + " " + item.name;
+                        if (item.patronymic !== null)
+                            returnValue += " " + item.patronymic;
                         return {
-                            value: item.surname + " " + item.name + " " + item.patronymic,
+                            value: returnValue,
                             id: item.id
                         };
                     }));
