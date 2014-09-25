@@ -147,7 +147,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrder(OrderDTO orderDTO, User currentUser) throws ParseException {
-        if(Validation.validateOrder(orderDTO)) {
+        if (Validation.validateOrder(orderDTO)) {
             Order order = orderDAO.readOrder(orderDTO.getId());
 
             if (currentUser.getRole() == RoleEnum.ROLE_SUPERVISOR || currentUser.getRole() == RoleEnum.ROLE_RECEIVING_ORDERS_MANAGER) {

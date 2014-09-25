@@ -91,9 +91,9 @@ public class Validation {
     }
     public static boolean validateContactSearch(ContactSearchDTO contactSearchDTO){
         boolean ok = true;
-        if(contactSearchDTO.getSurname() == null || !validateName(contactSearchDTO.getSurname()))
+        if(contactSearchDTO.getSurname() != null && !validateName(contactSearchDTO.getSurname()))
             ok = false;
-        if(contactSearchDTO.getName() == null || !validateName(contactSearchDTO.getName()))
+        if(contactSearchDTO.getName() != null && !validateName(contactSearchDTO.getName()))
             ok = false;
         if(contactSearchDTO.getPatronymic() != null && !validatePatronymic(contactSearchDTO.getPatronymic()))
             ok = false;
