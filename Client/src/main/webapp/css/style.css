@@ -56,7 +56,7 @@ body {
     border-color: #b92c28;
 }
 
-.contact .btn-toolbar, .contact-list .btn-toolbar, .order-list .btn-toolbar, .user-list .btn-toolbar{
+.contact .btn-group, .contact-list .btn-group, .user-list .btn-group  {
     margin-bottom: 10pt;
 }
 
