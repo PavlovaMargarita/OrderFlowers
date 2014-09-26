@@ -297,18 +297,8 @@ app.controller("contactCorrectController", function ($scope, $http, $routeParams
                 }
             });
             response.success(function (data) {
-                var contactList = $http({
-                    method: "get",
-                    url: "/OrderFlowers/contactList"
-                });
-                contactList.success(function (data) {
-                    $scope.contacts = data;
-                    $location.path('/contactList');
-                    $location.replace();
-                });
-                contactList.error(function (data) {
-                    $scope.authorization.info = "error";
-                });
+                $location.path('/contactList');
+                $location.replace();
             });
             response.error(function (data) {
                 $scope.authorization.info = "error";
