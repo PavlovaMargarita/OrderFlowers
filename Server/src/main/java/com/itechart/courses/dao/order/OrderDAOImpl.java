@@ -104,6 +104,29 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
+    public List<Order> readAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums, int first, int count) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < orderStatusEnums.size(); i++){
+            if (builder.length() != 0){
+                builder.append(" or ");
+            }
+            builder.append("order.status = :" + orderStatusEnums.get(i).toString());
+        }
+        builder.insert(0, "from Order order where order.deliveryManager.id = :id or order.receiveManager.id = :id " +
+                "or order.handlerManager.id = :id and ");
+
+        Query query = sessionFactory.getCurrentSession().createQuery(builder.toString());
+        query.setInteger("id", userId);
+        for (int i = 0; i < orderStatusEnums.size(); i++){
+            OrderStatusEnum temp = orderStatusEnums.get(i);
+            query.setString(temp.toString(), temp.toString());
+        }
+        query.setFirstResult(first);
+        query.setMaxResults(count);
+        return query.list();
+    }
+
+    @Override
     public List<Order> searchOrder(OrderSearchDTO parameters) {
         StringBuilder builder = new StringBuilder();
         String customerSurname = parameters.getCustomerSurname();
@@ -165,8 +188,25 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public int getOrdersCount(List<OrderStatusEnum> orderStatusEnums) {
-        return 0;
+    public int getOrdersCount(int userId, List<OrderStatusEnum> orderStatusEnums) {
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < orderStatusEnums.size(); i++){
+            if (builder.length() != 0){
+                builder.append(" or ");
+            }
+            builder.append("order.status = :" + orderStatusEnums.get(i).toString());
+        }
+        builder.insert(0, "Select Count(*) from Order order where order.deliveryManager.id = :id or order.receiveManager.id = :id " +
+                "or order.handlerManager.id = :id and ");
+
+        Query query = sessionFactory.getCurrentSession().createQuery(builder.toString());
+        query.setInteger("id", userId);
+        for (int i = 0; i < orderStatusEnums.size(); i++){
+            OrderStatusEnum temp = orderStatusEnums.get(i);
+            query.setString(temp.toString(), temp.toString());
+        }
+        return ((Number)query.uniqueResult()).intValue();
     }
 
 

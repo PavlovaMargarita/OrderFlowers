@@ -210,14 +210,14 @@ public class BasicController {
                 statusEnums = new ArrayList<OrderStatusEnum>(2);
                 statusEnums.add(OrderStatusEnum.ADOPTED);
                 statusEnums.add(OrderStatusEnum.IN_PROCESSING);
-                //orders = orderService.getAllOrders(user.getId(), statusEnums);
+                orders = orderService.getAllOrders(user.getId(), statusEnums, firstRecordNumber, pageRecords);
                 break;
             case ROLE_SERVICE_DELIVERY_MANAGER:
                 user = userService.readUser(dto.getLogin());
                 statusEnums = new ArrayList<OrderStatusEnum>(2);
                 statusEnums.add(OrderStatusEnum.READY_FOR_SHIPPING);
                 statusEnums.add(OrderStatusEnum.SHIPPING);
-                //orders = orderService.getAllOrders(user.getId(), statusEnums);
+                orders = orderService.getAllOrders(user.getId(), statusEnums, firstRecordNumber, pageRecords);
                 break;
             case ROLE_SUPERVISOR:
                 orders = orderService.getAllOrders(firstRecordNumber, pageRecords);
