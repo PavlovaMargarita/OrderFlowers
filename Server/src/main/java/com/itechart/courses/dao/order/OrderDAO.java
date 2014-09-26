@@ -17,6 +17,8 @@ public interface OrderDAO {
     public List<Order> readAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums);
     public List<Order> readAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums, int first, int count);
     public List<Order> searchOrder(OrderSearchDTO parameters);
+    public List<Order> searchOrder(OrderSearchDTO parameters, int first, int count);
     public int getOrdersCount();
+    public int getOrderCount(OrderSearchDTO parameters);
     public int getOrdersCount(int userId, List<OrderStatusEnum> orderStatusEnums);
 }

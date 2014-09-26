@@ -229,9 +229,12 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/orderSearch")
-    public @ResponseBody List<TableOrderDTO> searchOrder(@RequestBody OrderSearchDTO parameters){
+    public @ResponseBody PageableOrderDTO searchOrder(@RequestBody OrderSearchDTO parameters,
+                                                         @RequestParam("currentPage") int currentPage,
+                                                         @RequestParam("pageRecords") int pageRecords){
         logger.info("User searched orders");
-        return orderService.searchOrders(parameters);
+        int firstRecordNumber = firstRecordNumber(currentPage, pageRecords);
+        return orderService.searchOrders(parameters, firstRecordNumber, pageRecords);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getResolvedOrderState")

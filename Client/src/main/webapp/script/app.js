@@ -227,6 +227,9 @@ app.config(function($routeProvider){
         .when('/orderList', {
             templateUrl: 'pages/order_list.html',
             controller: 'orderListController'
+        } ).when('/orderSearchResult', {
+            templateUrl: 'pages/order_search_result.html',
+            controller: 'orderSearchResultController'
         } )
         .when('/orderCreate', {
             templateUrl: 'pages/order_create.html',

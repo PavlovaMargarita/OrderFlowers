@@ -52,6 +52,69 @@ app.controller("orderListController", function ($scope, $rootScope, $http, Pager
     }
 });
 
+app.controller("orderSearchResultController", function ($scope, $rootScope, $http, PagerService) {
+    $scope.orders = [];
+    $scope.range = [];
+    $scope.currentPage = 1;
+    $scope.totalPages = 1;
+    $scope.totalRecords = 0;
+
+    //получаем список заказов при загузке страницы order_list.html
+    if ($rootScope.isSearchOrder) {
+        var searchRequest = $rootScope.orderSearchRequest;
+        var response = $http({
+            method: "post",
+            url: "/OrderFlowers/orderSearch",
+            data: searchRequest,
+            params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
+        });
+        response.success(function (data) {
+            $scope.orders = data.pageableData;
+            $scope.totalRecords = data.totalCount;
+            $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
+            $scope.range = PagerService.buildRange($scope.totalPages);
+        });
+        response.error(function (data) {
+            $scope.authorization.info = "error";
+        });
+        $rootScope.isSearchOrder = false;
+    }
+
+    $scope.getRecords = {};
+    $scope.getRecords.doClick = function(pageNumber){
+        var response = $http({
+            method: "post",
+            url: "/OrderFlowers/orderSearch",
+            data: searchRequest,
+            params: {currentPage: pageNumber, pageRecords: $rootScope.recordsOnPage}
+        });
+        response.success(function(data){
+            $scope.orders = data.pageableData;
+            $scope.currentPage = pageNumber;
+            $scope.totalRecords = data.totalCount;
+            $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
+            $scope.range = PagerService.buildRange($scope.totalPages);
+
+        });
+    }
+
+    $scope.isPrevDisabled = function(){
+        return PagerService.isPrevDisabled($scope.currentPage);
+    }
+
+    $scope.isNextDisabled = function(){
+        return PagerService.isNextDisabled($scope.currentPage, $scope.totalPages);
+    }
+
+    $scope.isFirstDisabled = function(){
+        return PagerService.isFirstDisabled($scope.currentPage);
+    }
+
+    $scope.isLastDisabled = function(){
+        return PagerService.isLastDisabled($scope.currentPage, $scope.totalPages);
+    }
+});
+
 
 
 app.controller("orderCreateController", function ($scope, $http, $location) {
@@ -222,22 +285,28 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $rootSc
 app.controller("orderSearchController", function ($scope, $rootScope, $location, $http) {
     $scope.search = {};
     $scope.search.doClick = function (){
-        var response = $http({
-            method: "post",
-            url: "/OrderFlowers/orderSearch",
-            data: {
-                customerSurname: $scope.order.customerSurname,
-                recipientSurname: $scope.order.recipientSurname,
-                lowerOrderDate: $scope.order.lowerOrderDate,
-                upperOrderDate: $scope.order.upperOrderDate
-            }
-        });
-        response.success(function (data){
-            $rootScope.isSearchOrder = true;
-            $rootScope.data = data;
-            $location.path('/orderList');
-            $location.replace();
-        });
+        var searchRequest = {
+            customerSurname: $scope.order.customerSurname,
+            recipientSurname: $scope.order.recipientSurname,
+            lowerOrderDate: $scope.order.lowerOrderDate,
+            upperOrderDate: $scope.order.upperOrderDate
+        };
+        $rootScope.orderSearchRequest = searchRequest;
+        $rootScope.isSearchOrder = true;
+        $location.path('/orderSearchResult');
+        $location.replace();
+//        var response = $http({
+//            method: "post",
+//            url: "/OrderFlowers/orderSearch",
+//            data: searchRequest
+//
+//        });
+//        response.success(function (data){
+//            $rootScope.isSearchOrder = true;
+//            $rootScope.data = data;
+//            $location.path('/orderList');
+//            $location.replace();
+//        });
     }
 });
 
