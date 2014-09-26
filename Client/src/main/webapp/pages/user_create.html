@@ -1,29 +1,42 @@
 <div class="user">
-    <div class="box">
-        <div class="input-group" id="div-contact">
-            <span class="input-group-addon">Контакт</span>
-            <select class="form-control" name="contact" id="contact" data-ng-model="contact.id"
-                    ng-options="c.id as c.name + ' ' + c.surname for c in contacts">
-            </select>
-        </div>
-
-        <div class="input-group" id="div-role">
-            <span class="input-group-addon">Роль</span>
-            <select class="form-control" name="role" id="role" data-ng-model="user.role"
-                    ng-options="role.role as role.roleRussian for role in roles">
-            </select>
-        </div>
-
-        <div class="input-group" id="div-login">
-            <span class="input-group-addon">Логин</span>
-            <input type="text" class="form-control" name="login" id="login" ng-model="user.login" ng-keyup="isCorrectLogin.onkeyup()">
-        </div>
-
-        <div class="input-group" id="div-password">
-            <span class="input-group-addon">Пароль</span>
-            <input type="password" class="form-control" name="password" id="password" ng-model="user.password">
-        </div>
+    <div class="page-title">
+        <h2>Информация о пользователе</h2>
+        <hr>
     </div>
 
-    <button type="button" class="btn btn-primary" ng-click="save.doClick()"> Сохранить</button>
+    <div class="user-information">
+        <div class="box">
+            <h3>Контакт и роль</h3>
+            <hr>
+            <div class="input-group" id="div-contact">
+                <span class="input-group-addon">Контакт</span>
+                <select class="form-control" name="contact" id="contact" data-ng-model="contact.id"
+                        ng-options="c.id as c.name + ' ' + c.surname for c in contacts">
+                </select>
+            </div>
+
+            <div class="input-group" id="div-role">
+                <span class="input-group-addon">Роль</span>
+                <select class="form-control" name="role" id="role" data-ng-model="user.role"
+                        ng-options="role.role as role.roleRussian for role in roles">
+                </select>
+            </div>
+        </div>
+
+        <div class="box">
+            <h3>Данные для авторизации</h3>
+            <hr>
+            <div class="input-group" id="div-login">
+                <span class="input-group-addon">Логин</span>
+                <input type="text" class="form-control" name="login" id="login" ng-model="user.login" ng-keyup="isCorrectLogin.onkeyup()">
+            </div>
+
+            <div class="input-group" id="div-password">
+                <span class="input-group-addon">Пароль</span>
+                <input type="password" class="form-control" name="password" id="password" ng-model="user.password">
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary" ng-click="save.doClick()">Сохранить</button>
+    </div>
 </div>
