@@ -108,7 +108,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public PageableOrderDTO searchOrders(OrderSearchDTO parameters, int first, int count) {
-        List<Order> orders = orderDAO.searchOrder(parameters);
+        List<Order> orders = orderDAO.searchOrder(parameters, first, count);
         List<TableOrderDTO> ordersDTO = new ArrayList<TableOrderDTO>();
         int totalCount = orderDAO.getOrderCount(parameters);
         for (Order order : orders){
