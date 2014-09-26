@@ -12,11 +12,29 @@ app.controller("orderListController", function ($scope, $rootScope, $http, Pager
         params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
     });
     response.success(function (data) {
-        $scope.contacts = data.pageableContacts;
+        $scope.orders = data.pageableData;
         $scope.totalRecords = data.totalCount;
         $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
         $scope.range = PagerService.buildRange($scope.totalPages);
     });
+
+    $scope.getRecords = {};
+    $scope.getRecords.doClick = function(pageNumber){
+        var response = $http({
+            method: "post",
+            url: "/OrderFlowers/orderList",
+            data: searchRequest,
+            params: {currentPage: pageNumber, pageRecords: $rootScope.recordsOnPage}
+        });
+        response.success(function(data){
+            $scope.orders = data.pageableData;
+            $scope.currentPage = pageNumber;
+            $scope.totalRecords = data.totalCount;
+            $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
+            $scope.range = PagerService.buildRange($scope.totalPages);
+
+        });
+    }
 
     $scope.isPrevDisabled = function(){
         return PagerService.isPrevDisabled($scope.currentPage);

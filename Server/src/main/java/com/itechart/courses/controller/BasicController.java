@@ -195,9 +195,9 @@ public class BasicController {
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/orderList")
-    public @ResponseBody PageableOrderDTO getOrderList(Authentication authentication,
-                                                          @RequestParam("currentPage") int currentPage,
-                                                          @RequestParam("pageRecords") int pageRecords){
+    public @ResponseBody PageableOrderDTO getOrderList(@RequestParam("currentPage") int currentPage,
+                                                       @RequestParam("pageRecords") int pageRecords,
+                                                       Authentication authentication){
         LoginDTO dto = currentUserInfo(authentication);
         logger.info("User viewed all orders");
         com.itechart.courses.entity.User user = null;
