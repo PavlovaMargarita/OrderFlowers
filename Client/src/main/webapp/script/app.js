@@ -168,6 +168,7 @@ app.service('Validation', function(){
        return re.test(value);
    }
     this.validationPatronymic = function(value){
+
         var re = /^[A-zА-яЁё]+$/;
         return re.test(value);
     }
@@ -191,6 +192,10 @@ app.service('Validation', function(){
             return true;
         }
         var re = /^\d+$/;
+        return re.test(value);
+    }
+    this.validationRole = function(value){
+        var re = /^[A-Z_]+$/;
         return re.test(value);
     }
 });
@@ -244,6 +249,11 @@ app.config(function($routeProvider){
             controller: 'orderSearchController'
         } )
 
+
+        .when('/settings', {
+            templateUrl: 'pages/settings.html',
+            controller: 'orderHistoryController'
+        })
 
 
         .when('/userList', {

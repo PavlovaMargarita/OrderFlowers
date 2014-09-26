@@ -55,4 +55,13 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO {
         result = query.list();
         return result;
     }
+
+    @Override
+    public List readOrderHistory() {
+        List<OrderHistory> result = null;
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from OrderHistory");
+        result = query.list();
+        return result;
+    }
 }

@@ -23,7 +23,7 @@ app.controller("contactCreateController", function ($scope, $http, $location, Va
             phones.push(phone);
         }
 
-        if(validationContact($scope.contact, Validation)) {
+        if(validationContactSave($scope.contact, Validation)) {
             var response = $http({
                 method: "post",
                 url: "/OrderFlowers/saveContactCreate",
@@ -131,11 +131,13 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
             }, function(errorReason){
                 //ERROR !!!
             });
+
             var emailsPromise = ContactsCommonService.getEmails($scope.checkContacts);
             emailsPromise.then(function(data){
                 $scope.emails = data;
             }, function(errorReason){
                 //ERROR !!!
+
             });
             $('#' + 'modal-message').modal('show');
         }
@@ -152,7 +154,7 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
     }
 });
 
-app.controller("contactSearchController", function ($scope, $http, $location, $rootScope) {
+app.controller("contactSearchController", function ($scope, $http, $location, $rootScope, Validation) {
     $scope.save = {};
     $scope.save.doClick = function(){
         var searchRequest = {surname: $scope.contact.surname,
@@ -267,13 +269,41 @@ app.controller("contactSearchResultController", function ($scope, $rootScope, $h
     }
 
     $scope.sendEmail = {};
-    $scope.sendEmail.doClick = function(){
+    $scope.sendEmail.doClick = function() {
         var isSuccessPromise = ContactsCommonService.sendMail($scope.emails, $scope.email.text, $scope.email.topic);
-        isSuccessPromise.then(function(){
+        isSuccessPromise.then(function () {
             $('#' + 'modal-message').modal('hide');
-        }, function(errorReason){
+        }, function (errorReason) {
             // Process error
         });
+    }
+    $scope.save.doClick = function () {
+        if(validationContactSearch($scope.contact, Validation)) {
+            var contactSearch = $http({
+                method: "post",
+                url: "/OrderFlowers/contactSearch",
+                data: {
+                    surname: $scope.contact.surname,
+                    name: $scope.contact.name,
+                    patronymic: $scope.contact.patronymic,
+                    lowerDateOfBirth: $scope.contact.lowerDateOfBirth,
+                    upperDateOfBirth: $scope.contact.upperDateOfBirth,
+                    city: $scope.contact.city,
+                    street: $scope.contact.street,
+                    home: $scope.contact.home,
+                    flat: $scope.contact.flat
+                }
+            });
+            contactSearch.success(function (data) {
+                $rootScope.isSearchContact = true;
+                $rootScope.data = data;
+                $location.path('/contactList');
+                $location.replace();
+            });
+            contactSearch.error(function (data) {
+                $scope.authorization.info = "error";
+            });
+        }
     }
 });
 
@@ -313,7 +343,7 @@ app.controller("contactCorrectController", function ($scope, $http, $routeParams
             phones.push(phone);
         }
 
-        if (validationContact($scope.contact, Validation)) {
+        if (validationContactSave($scope.contact, Validation)) {
             response = $http({
                 method: "post",
                 url: "/OrderFlowers/saveContactCorrect",
@@ -338,65 +368,123 @@ app.controller("contactCorrectController", function ($scope, $http, $routeParams
             response.error(function (data) {
                 $scope.authorization.info = "error";
             });
-            response.error(function (data) {
-                $scope.authorization.info = "error";
-            });
         }
     }
 });
 
-function validationContact(value, Validation){
-    var errorClass = " has-error";
+function validationContactSave(value, Validation){
+    var hasError = "input-group has-error";
+    var noError = "input-group";
+
     var validate = true;
-    if (!Validation.validationName(value.surname) || value.surname == '') {
-        document.getElementById('div-surname').className += errorClass;
+    if (!Validation.validationName(value.surname) || value.surname.trim() == '') {
+        document.getElementById('div-surname').className = hasError;
         validate = false;
     } else{
-        document.getElementById('div-surname').className -= errorClass;
+        document.getElementById('div-surname').className = noError;
     }
-    if (!Validation.validationName(value.name) || value.name == '') {
-        document.getElementById('div-name').className += errorClass;
+    if (!Validation.validationName(value.name) || value.name.trim() == '') {
+        document.getElementById('div-name').className = hasError;
         validate = false;
     } else{
-        document.getElementById('div-name').className -= errorClass;
+        document.getElementById('div-name').className = noError;
     }
     if (!Validation.validationPatronymic(value.patronymic)) {
-        document.getElementById('div-patronymic').className += errorClass;
+        document.getElementById('div-patronymic').className = hasError;
         validate = false;
     } else{
-        document.getElementById('div-patronymic').className -= errorClass;
+        document.getElementById('div-patronymic').className = noError;
     }
     if(!Validation.validationEmail(value.email)){
-        document.getElementById('div-email').className += errorClass;
+        document.getElementById('div-email').className = hasError;
         validate = false;
     } else{
-        document.getElementById('div-email').className -= errorClass;
+        document.getElementById('div-email').className = noError;
     }
     if(!Validation.validationCity(value.city)){
-        document.getElementById('div-city').className += errorClass;
+        document.getElementById('div-city').className = hasError;
         validate = false;
     } else{
-        document.getElementById('div-city').className -= errorClass;
+        document.getElementById('div-city').className = noError;
     }
     if(!Validation.validationStreet(value.street)){
-        document.getElementById('div-street').className += errorClass;
+        document.getElementById('div-street').className = hasError;
         validate = false;
     } else{
-        document.getElementById('div-street').className -= errorClass;
+        document.getElementById('div-street').className = noError;
     }
     if(!Validation.validationInt(value.home)){
-        document.getElementById('div-home').className += errorClass;
+        document.getElementById('div-home').className = hasError;
         validate = false;
     } else{
-        document.getElementById('div-home').className -= errorClass;
+        document.getElementById('div-home').className = noError;
     }
     if(!Validation.validationInt(value.flat)){
-        document.getElementById('div-flat').className += errorClass;
+        document.getElementById('div-flat').className = hasError;
         validate = false;
     } else{
-        document.getElementById('div-flat').className -= errorClass;
+        document.getElementById('div-flat').className = noError;
     }
     return validate;
+}
+function validationContactSearch(value, Validation){
+    var hasError = "input-group has-error";
+    var noError = "input-group";
+    var fullInput = 0;
+    var ok = true;
+    if (!Validation.validationName(value.surname)) {
+        document.getElementById('div-surname').className = hasError;
+        ok = false;
+    } else{
+        document.getElementById('div-surname').className = noError;
+        fullInput++;
+    }
+    if (!Validation.validationName(value.name)) {
+        document.getElementById('div-name').className = hasError;
+        ok = false;
+    } else{
+        document.getElementById('div-name').className = noError;
+        fullInput++;
+    }
+    if (!Validation.validationPatronymic(value.patronymic)) {
+        document.getElementById('div-patronymic').className = hasError;
+        ok = false;
+    } else{
+        document.getElementById('div-patronymic').className = noError;
+        fullInput++;
+    }
+    if(!Validation.validationCity(value.city)){
+        document.getElementById('div-city').className = hasError;
+        ok = false;
+    } else{
+        document.getElementById('div-city').className = noError;
+        fullInput++;
+    }
+    if(!Validation.validationStreet(value.street)){
+        document.getElementById('div-street').className = hasError;
+        ok = false;
+    } else{
+        document.getElementById('div-street').className = noError;
+        fullInput++;
+    }
+    if(!Validation.validationInt(value.home)){
+        document.getElementById('div-home').className = hasError;
+        ok = false;
+    } else{
+        document.getElementById('div-home').className = noError;
+        fullInput++;
+    }
+    if(!Validation.validationInt(value.flat)){
+        document.getElementById('div-flat').className = hasError;
+        ok = false;
+    } else{
+        document.getElementById('div-flat').className = noError;
+        fullInput++;
+    }
+    if(ok == true && fullInput == 0){
+        return false;
+    }
+    return ok;
 }
 /*==================================================================
  КЛИЕНТСКАЯ ЛОГИКА СТРАНИЦЫ contact.html

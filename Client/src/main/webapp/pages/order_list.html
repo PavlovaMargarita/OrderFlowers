@@ -9,15 +9,15 @@
                 <th>Описание заказа</th>
                 <th>Редактировать</th>
             </tr>
-
-            <tr data-ng-repeat="order in orders">
-                <td>{{order.date}}</td>
-                <td>{{order.customer.surname}} {{order.customer.name}}</td>
-                <td>{{order.recipient.surname}} {{order.recipient.name}}</td>
-                <td>{{order.orderDescription}}</td>
-                <td><a class="btn btn-success btn-sm" href="#orderCorrect/{{order.id}}">Редактировать</a></td>
-            </tr>
         </thead>
+
+        <tr data-ng-repeat="order in orders">
+            <td>{{order.date}}</td>
+            <td>{{order.customer.surname}} {{order.customer.name}}</td>
+            <td>{{order.recipient.surname}} {{order.recipient.name}}</td>
+            <td>{{order.orderDescription}}</td>
+            <td><a class="btn btn-success btn-sm" href="#orderCorrect/{{order.id}}">Редактировать</a></td>
+        </tr>
     </table>
 
     <!--постраничная навигация-->

@@ -1,0 +1,31 @@
+<div class="settings">
+    <table class="table table-hover">
+        <thead>
+            <tr class="warning">
+                <th>Дата изменения статуса заказа</th>
+                <th>Статус заказа</th>
+                <th>Заказчик</th>
+                <th>Получатель</th>
+                <th>Комментарий</th>
+            </tr>
+        </thead>
+
+        <tr data-ng-repeat="order in orderHistory">
+            <td>{{order.date}}</td>
+            <td>{{order.russianOrderStatus}}</td>
+            <td>{{order.customer.surname}} {{order.customer.name}} {{order.customer.patronymic}}</td>
+            <td>{{order.recipient.surname}} {{order.recipient.name}} {{order.recipient.patronymic}}</td>
+            <td>{{order.comment}}</td>
+        </tr>
+    </table>
+
+    <!--постраничная навигация-->
+    <div class="page-menu">
+        <ul class="pagination">
+            <li class="disabled"><a href="#">&laquo;</a></li>
+            <li class="active"><a href="#">1<span class="sr-only"></span></a></li>
+            <li class="disabled"><a href="#">2</a></li>
+            <li class="disabled"><a href="#">&raquo</a></li>
+        </ul>
+    </div>
+</div>

@@ -2,7 +2,10 @@ package com.itechart.courses.service.order;
 
 import com.itechart.courses.dao.order.OrderDAO;
 import com.itechart.courses.dao.orderHistory.OrderHistoryDAO;
-import com.itechart.courses.dto.*;
+import com.itechart.courses.dto.ContactDTO;
+import com.itechart.courses.dto.OrderDTO;
+import com.itechart.courses.dto.OrderSearchDTO;
+import com.itechart.courses.dto.TableOrderDTO;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
 import com.itechart.courses.entity.OrderHistory;
@@ -11,6 +14,7 @@ import com.itechart.courses.enums.OrderStatusEnum;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.contact.ContactServiceImpl;
 import com.itechart.courses.service.user.UserServiceImpl;
+import com.itechart.courses.validation.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -98,10 +102,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<TableOrderDTO> searchOrders(OrderSearchDTO parameters) {
-        List<Order> orders = orderDAO.searchOrder(parameters);
         List<TableOrderDTO> result = new ArrayList<TableOrderDTO>();
-        for (Order order : orders){
-            result.add(orderToTableOrderDTO(order));
+        if(Validation.validateOrderSearch(parameters)) {
+            List<Order> orders = orderDAO.searchOrder(parameters);
+            for (Order order : orders) {
+                result.add(orderToTableOrderDTO(order));
+            }
         }
         return result;
     }
@@ -141,116 +147,120 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void createOrder(OrderDTO orderDTO) throws ParseException {
-        Order order = new Order();
-        order.setStatus(OrderStatusEnum.NEW);
-        String orderDescription = orderDTO.getOrderDescription();
-        if (orderDescription != null){
-            if ((orderDescription = orderDescription.trim()).isEmpty()){
-                throw new NullPointerException("incorrect orderDescription");
+        if(Validation.validateOrder(orderDTO)) {
+            Order order = new Order();
+            order.setStatus(OrderStatusEnum.NEW);
+            String orderDescription = orderDTO.getOrderDescription();
+            if (orderDescription != null) {
+                if ((orderDescription = orderDescription.trim()).isEmpty()) {
+                    throw new NullPointerException("incorrect orderDescription");
+                }
             }
+            order.setOrderDescription(orderDescription);
+            if (orderDTO.getSum() == null) {
+                throw new NullPointerException("incorrect sum");
+            }
+            order.setSum(orderDTO.getSum());
+            order.setDate(convertToDate(orderDTO.getDate()));
+
+            User receiveManager = new User();
+            receiveManager.setId(orderDTO.getReceiveManager().getId());
+            User deliveryManager = new User();
+            deliveryManager.setId(orderDTO.getDeliveryManager().getId());
+            User handlerManager = new User();
+            handlerManager.setId(orderDTO.getHandlerManager().getId());
+            Contact recipient = new Contact();
+            Contact customer = new Contact();
+            recipient.setId(orderDTO.getRecipient().getId());
+            customer.setId(orderDTO.getCustomer().getId());
+
+            if (receiveManager.getId() == null || handlerManager.getId() == null || deliveryManager.getId() == null ||
+                    recipient.getId() == null || customer.getId() == null) {
+                throw new NullPointerException("incorrect argument");
+            }
+
+            order.setDeliveryManager(deliveryManager);
+            order.setHandlerManager(handlerManager);
+            order.setReceiveManager(receiveManager);
+            order.setRecipient(recipient);
+            order.setCustomer(customer);
+            orderDAO.createOrder(order);
+
+            OrderHistory orderHistory = new OrderHistory();
+            orderHistory.setChangeDate(order.getDate());
+            orderHistory.setStatus(order.getStatus());
+            orderHistory.setUser(receiveManager);
+            orderHistory.setOrder(order);
+            orderHistoryDAO.createOrderHistory(orderHistory);
         }
-        order.setOrderDescription(orderDescription);
-        if (orderDTO.getSum() == null){
-            throw new NullPointerException("incorrect sum");
-        }
-        order.setSum(orderDTO.getSum());
-        order.setDate(convertToDate(orderDTO.getDate()));
-
-        User receiveManager = new User();
-        receiveManager.setId(orderDTO.getReceiveManager().getId());
-        User deliveryManager = new User();
-        deliveryManager.setId(orderDTO.getDeliveryManager().getId());
-        User handlerManager = new User();
-        handlerManager.setId(orderDTO.getHandlerManager().getId());
-        Contact recipient = new Contact();
-        Contact customer = new Contact();
-        recipient.setId(orderDTO.getRecipient().getId());
-        customer.setId(orderDTO.getCustomer().getId());
-
-        if (receiveManager.getId() == null || handlerManager.getId() == null || deliveryManager.getId() == null ||
-            recipient.getId() == null || customer.getId() == null){
-            throw new NullPointerException("incorrect argument");
-        }
-
-        order.setDeliveryManager(deliveryManager);
-        order.setHandlerManager(handlerManager);
-        order.setReceiveManager(receiveManager);
-        order.setRecipient(recipient);
-        order.setCustomer(customer);
-        orderDAO.createOrder(order);
-
-        OrderHistory orderHistory = new OrderHistory();
-        orderHistory.setChangeDate(order.getDate());
-        orderHistory.setStatus(order.getStatus());
-        orderHistory.setUser(receiveManager);
-        orderHistory.setOrder(order);
-        orderHistoryDAO.createOrderHistory(orderHistory);
     }
 
     @Override
     public void updateOrder(OrderDTO orderDTO, User currentUser) throws ParseException {
-        Order order = orderDAO.readOrder(orderDTO.getId());
+        if (Validation.validateOrder(orderDTO)) {
+            Order order = orderDAO.readOrder(orderDTO.getId());
 
-        if (currentUser.getRole() == RoleEnum.ROLE_SUPERVISOR || currentUser.getRole() == RoleEnum.ROLE_RECEIVING_ORDERS_MANAGER){
-            Contact customer = new Contact();
-            Contact recipient = new Contact();
-            customer.setId(orderDTO.getCustomer().getId());
-            recipient.setId(orderDTO.getRecipient().getId());
+            if (currentUser.getRole() == RoleEnum.ROLE_SUPERVISOR || currentUser.getRole() == RoleEnum.ROLE_RECEIVING_ORDERS_MANAGER) {
+                Contact customer = new Contact();
+                Contact recipient = new Contact();
+                customer.setId(orderDTO.getCustomer().getId());
+                recipient.setId(orderDTO.getRecipient().getId());
 
-            User deliveryManager = new User();
-            User handlerManager = new User();
-            deliveryManager.setId(orderDTO.getDeliveryManager().getId());
-            handlerManager.setId(orderDTO.getHandlerManager().getId());
+                User deliveryManager = new User();
+                User handlerManager = new User();
+                deliveryManager.setId(orderDTO.getDeliveryManager().getId());
+                handlerManager.setId(orderDTO.getHandlerManager().getId());
 
-            if (recipient.getId() == null || customer.getId() == null ||
-                deliveryManager.getId() == null || handlerManager.getId() == null){
-                throw new NullPointerException("Incorrect arguments");
+                if (recipient.getId() == null || customer.getId() == null ||
+                        deliveryManager.getId() == null || handlerManager.getId() == null) {
+                    throw new NullPointerException("Incorrect arguments");
+                }
+                order.setCustomer(customer);
+                order.setRecipient(recipient);
+                order.setDeliveryManager(deliveryManager);
+                order.setHandlerManager(handlerManager);
             }
-            order.setCustomer(customer);
-            order.setRecipient(recipient);
-            order.setDeliveryManager(deliveryManager);
-            order.setHandlerManager(handlerManager);
-        }
 
-        String orderDescription = orderDTO.getOrderDescription();
-        if (orderDescription != null){
-            if ((orderDescription = orderDescription.trim()).isEmpty()){
-                throw new NullPointerException("incorrect orderDescription");
-            }
-        }
-        order.setOrderDescription(orderDescription);
-        if (orderDTO.getSum() == null){
-            throw new NullPointerException("incorrect sum");
-        }
-        order.setSum(orderDTO.getSum());
-        order.setOrderHistory(null);
-
-        OrderStatusEnum newOrderStatus = null;
-        if (orderDTO.getRussianCurrentState() != null){
-            newOrderStatus = OrderStatusEnum.valueOf(orderDTO.getRussianCurrentState());
-        }
-
-        if (newOrderStatus != null && order.getStatus() != newOrderStatus){
-            order.setStatus(newOrderStatus);
-            OrderHistory orderHistory = new OrderHistory();
-            orderHistory.setStatus(newOrderStatus);
-            String statusComment = orderDTO.getStatusComment();
-            if (statusComment != null){
-                if ((statusComment = statusComment.trim()).isEmpty()){
-                    statusComment = null;
+            String orderDescription = orderDTO.getOrderDescription();
+            if (orderDescription != null) {
+                if ((orderDescription = orderDescription.trim()).isEmpty()) {
+                    throw new NullPointerException("incorrect orderDescription");
                 }
             }
-            orderHistory.setComment(statusComment);
-            Order temp = new Order();
-            temp.setId(order.getId());
-            User user = new User();
-            user.setId(currentUser.getId());
-            orderHistory.setOrder(temp);
-            orderHistory.setUser(user);
-            orderHistory.setChangeDate(convertToDate(orderDTO.getDate()));
-            orderHistoryDAO.createOrderHistory(orderHistory);
+            order.setOrderDescription(orderDescription);
+            if (orderDTO.getSum() == null) {
+                throw new NullPointerException("incorrect sum");
+            }
+            order.setSum(orderDTO.getSum());
+            order.setOrderHistory(null);
+
+            OrderStatusEnum newOrderStatus = null;
+            if (orderDTO.getRussianCurrentState() != null) {
+                newOrderStatus = OrderStatusEnum.valueOf(orderDTO.getRussianCurrentState());
+            }
+
+            if (newOrderStatus != null && order.getStatus() != newOrderStatus) {
+                order.setStatus(newOrderStatus);
+                OrderHistory orderHistory = new OrderHistory();
+                orderHistory.setStatus(newOrderStatus);
+                String statusComment = orderDTO.getStatusComment();
+                if (statusComment != null) {
+                    if ((statusComment = statusComment.trim()).isEmpty()) {
+                        statusComment = null;
+                    }
+                }
+                orderHistory.setComment(statusComment);
+                Order temp = new Order();
+                temp.setId(order.getId());
+                User user = new User();
+                user.setId(currentUser.getId());
+                orderHistory.setOrder(temp);
+                orderHistory.setUser(user);
+                orderHistory.setChangeDate(convertToDate(orderDTO.getDate()));
+                orderHistoryDAO.createOrderHistory(orderHistory);
+            }
+            orderDAO.updateOrder(order);
         }
-        orderDAO.updateOrder(order);
     }
 
     private TableOrderDTO orderToTableOrderDTO(Order order){

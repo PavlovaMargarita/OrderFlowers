@@ -7,6 +7,7 @@ import com.itechart.courses.service.authorization.AuthorizationService;
 import com.itechart.courses.service.contact.ContactService;
 import com.itechart.courses.service.email.EmailService;
 import com.itechart.courses.service.order.OrderService;
+import com.itechart.courses.service.orderHistory.OrderHistoryService;
 import com.itechart.courses.service.role.RoleService;
 import com.itechart.courses.service.template.MessageTemplateService;
 import com.itechart.courses.service.user.UserService;
@@ -52,6 +53,9 @@ public class BasicController {
 
     @Autowired
     private MessageTemplateService messageTemplateService;
+
+    @Autowired
+    private OrderHistoryService orderHistoryService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/userInfo")
     @ResponseBody
@@ -162,15 +166,15 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/showEmail")
-    public @ResponseBody List<String> showEmail(@RequestParam("checkId") ArrayList<Integer> contactId) throws IOException{
-        List<String> listEmail = new ArrayList<String>();
+    public @ResponseBody List<ContactDTO> showEmail(@RequestParam("checkId") ArrayList<Integer> contactId) throws IOException{
+        List<ContactDTO> listContacts = new ArrayList<ContactDTO>();
         ContactDTO contact;
         for(int i: contactId){
             contact = contactService.readContact(i);
             if (contact.getEmail() != null)
-                listEmail.add(contact.getEmail());
+                listContacts.add(contact);
         }
-        return listEmail;
+        return listContacts;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/showTemplate")
@@ -291,5 +295,11 @@ public class BasicController {
         personDTO.setId(user.getId());
         orderDTO.setReceiveManager(personDTO);
         orderService.createOrder(orderDTO);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getOrderHistory")
+    public @ResponseBody List getOrderHistory( ){
+        logger.info("User viewed the order history");
+        return orderHistoryService.readOrderHistory();
     }
 }

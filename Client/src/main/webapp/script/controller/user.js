@@ -59,7 +59,7 @@ app.controller("userListController", function ($scope, $http, $location, $rootSc
     }
 });
 
-app.controller("userCreateController", function ($scope, $http, $location) {
+app.controller("userCreateController", function ($scope, $http, $location, Validation) {
     var contacts = $http({
         method: "get",
         url: "/OrderFlowers/contactListForUser",
@@ -98,35 +98,37 @@ app.controller("userCreateController", function ($scope, $http, $location) {
     $scope.isCorrectLogin = {};
     $scope.isCorrectLogin.onkeyup = function(){
         if(loginList.indexOf($scope.user.login) == -1 || $scope.user.login == oldLogin){
-            document.getElementById('login').style.color = "black";
+            document.getElementById('div-login').className = "input-group";
         } else{
-            document.getElementById('login').style.color = "#ff0000";
+            document.getElementById('div-login').className = "input-group has-error";
         }
     }
 
     $scope.save = {};
     $scope.save.doClick = function(){
-        var user = $http({
-            method: "post",
-            url: "/OrderFlowers/saveUserCreate",
-            data: {
-                idContact: $scope.contact.id,
-                role: $scope.user.role,
-                login: $scope.user.login,
-                password: $scope.user.password
-            }
-        });
-        user.success(function (data) {
-            $location.path('/userList');
-            $location.replace();
-        });
-        user.error(function (data) {
-            $scope.authorization.info = "error";
-        });
+        if(validateUserSave($scope, Validation)) {
+            var user = $http({
+                method: "post",
+                url: "/OrderFlowers/saveUserCreate",
+                data: {
+                    idContact: $scope.contact.id,
+                    role: $scope.user.role,
+                    login: $scope.user.login,
+                    password: $scope.user.password
+                }
+            });
+            user.success(function (data) {
+                $location.path('/userList');
+                $location.replace();
+            });
+            user.error(function (data) {
+                $scope.authorization.info = "error";
+            });
+        }
     }
 });
 
-app.controller("userCorrectController", function ($scope, $http, $routeParams, $location) {
+app.controller("userCorrectController", function ($scope, $http, $routeParams, $location, Validation) {
     var id = $routeParams.id;
     var user = $http({
         method: "get",
@@ -192,44 +194,76 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
     $scope.isCorrectLogin = {};
     $scope.isCorrectLogin.onkeyup = function(){
         if(loginList.indexOf($scope.user.login) == -1 || $scope.user.login == oldLogin){
-            document.getElementById('login').style.color = "black";
+            document.getElementById('div-login').className = "input-group";
         } else{
-            document.getElementById('login').style.color = "#ff0000";
+            document.getElementById('div-login').className = "input-group has-error";
         }
     }
 
     $scope.save = {};
     $scope.save.doClick = function(){
-        var user = $http({
-            method: "post",
-            url: "/OrderFlowers/saveUserCorrect",
-            data: {
-                id: id,
-                idContact: $scope.contact.id,
-                role: $scope.user.role,
-                login: $scope.user.login,
-                password: $scope.user.password
-            }
-        });
-        user.success(function (data) {
-//            var userList = $http({
-//                method: "get",
-//                url: "/OrderFlowers/userList"
-//            });
-//            userList.success(function (data) {
-//                $scope.users = data;
-//                $location.path('/userList');
-//                $location.replace();
-//            });
-//            userList.error(function (data) {
-//                $scope.authorization.info = "error";
-//            });
-
-            $location.path('/userList');
-            $location.replace();
-        });
-        user.error(function (data) {
-            $scope.authorization.info = "error";
-        });
+        if(validateUserSave($scope,Validation)) {
+            var user = $http({
+                method: "post",
+                url: "/OrderFlowers/saveUserCorrect",
+                data: {
+                    id: id,
+                    idContact: $scope.contact.id,
+                    role: $scope.user.role,
+                    login: $scope.user.login,
+                    password: $scope.user.password
+                }
+            });
+            user.success(function (data) {
+                $location.path('/userList');
+                $location.replace();
+            });
+            user.error(function (data) {
+                $scope.authorization.info = "error";
+            });
+        }
     }
 });
+
+function validateUserSave(value, Validation){
+    var ok = false;
+    var hasError = "input-group has-error";
+    var noError = "input-group";
+    var validContact = false;
+    var validRole = false;
+    var validLogin = false;
+    var validPassword = false;
+    if(value.contact!= undefined && Validation.validationInt(value.contact.id)){
+        document.getElementById('div-contact').className = noError;
+        validContact = true;
+    }
+    if(!validContact){
+        document.getElementById('div-contact').className = hasError;
+        ok = false;
+    }
+    if(value.user!= undefined && Validation.validationRole(value.user.role)){
+        document.getElementById('div-role').className = noError;
+        validRole = true;
+    }
+    if(!validRole){
+        document.getElementById('div-role').className = hasError;
+        ok = false;
+    }
+    if(value.user!= undefined && value.user.login != undefined && value.user.login.trim() != ''){
+        document.getElementById('div-login').className = noError;
+        validLogin = true;
+    }
+    if(!validLogin){
+        document.getElementById('div-login').className = hasError;
+        ok = false;
+    }
+    if(value.user!= undefined && value.user.password != undefined && value.user.password.trim() != ''){
+        document.getElementById('div-password').className = noError;
+        validPassword = true;
+    }
+    if(!validPassword){
+        document.getElementById('div-password').className = hasError;
+        ok = false;
+    }
+    return ok;
+}
