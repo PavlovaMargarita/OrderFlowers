@@ -40,17 +40,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderHistoryDAO orderHistoryDAO;
 
-
-    @Override
-    public List<TableOrderDTO> getAllOrders() {
-        List<Order> orders = orderDAO.readAllOrders();
-        List<TableOrderDTO> ordersDTO = new ArrayList<TableOrderDTO>();
-        for (Order order : orders){
-            ordersDTO.add(orderToTableOrderDTO(order));
-        }
-        return ordersDTO;
-    }
-
     @Override
     public PageableOrderDTO getAllOrders(int first, int count) {
         List<Order> orders = orderDAO.readAllOrders(first, count);
@@ -63,15 +52,6 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
-    @Override
-    public List<TableOrderDTO> getAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums) {
-        List<Order> orders = orderDAO.readAllOrders(userId, orderStatusEnums);
-        List<TableOrderDTO> ordersDTO = new ArrayList<TableOrderDTO>();
-        for (Order order : orders){
-            ordersDTO.add(orderToTableOrderDTO(order));
-        }
-        return ordersDTO;
-    }
 
     @Override
     public PageableOrderDTO getAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums, int first, int count) {
@@ -82,30 +62,6 @@ public class OrderServiceImpl implements OrderService {
             ordersDTO.add(orderToTableOrderDTO(order));
         }
         PageableOrderDTO result = new PageableOrderDTO(ordersDTO, totalCount);
-        return result;
-    }
-
-//    @Override
-//    public PageableOrderDTO getAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums, int first, int count) {
-//        List<Order> orders = orderDAO.readAllOrders(userId, orderStatusEnums);
-//        List<TableOrderDTO> ordersDTO = new ArrayList<TableOrderDTO>();
-//        int totalCount =
-//        for (Order order : orders){
-//            ordersDTO.add(orderToTableOrderDTO(order));
-//        }
-//        PageableOrderDTO result = new PageableOrderDTO(ordersDTO, );
-//        return ordersDTO;
-//    }
-
-    @Override
-    public List<TableOrderDTO> searchOrders(OrderSearchDTO parameters) {
-        List<TableOrderDTO> result = new ArrayList<TableOrderDTO>();
-        if(Validation.validateOrderSearch(parameters)) {
-            List<Order> orders = orderDAO.searchOrder(parameters);
-            for (Order order : orders) {
-                result.add(orderToTableOrderDTO(order));
-            }
-        }
         return result;
     }
 

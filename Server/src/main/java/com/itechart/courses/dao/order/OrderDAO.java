@@ -11,12 +11,9 @@ public interface OrderDAO {
     public Integer createOrder(Order order);  //return id(Integer) new order
     public Order readOrder(int id); //if the order is not found, returns null
     public void updateOrder(Order order);
-    public List readAllOrders();
     public List readAllOrders(int first, int count);
     public List readAllOrder(Contact contact);
-    public List<Order> readAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums);
     public List<Order> readAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums, int first, int count);
-    public List<Order> searchOrder(OrderSearchDTO parameters);
     public List<Order> searchOrder(OrderSearchDTO parameters, int first, int count);
     public int getOrdersCount();
     public int getOrderCount(OrderSearchDTO parameters);
