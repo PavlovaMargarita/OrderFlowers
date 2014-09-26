@@ -130,6 +130,11 @@ app.config(function($routeProvider){
         } )
 
 
+        .when('/settings', {
+            templateUrl: 'pages/settings.html',
+            controller: 'orderHistoryController'
+        })
+
 
         .when('/userList', {
             templateUrl: 'pages/user_list.html',

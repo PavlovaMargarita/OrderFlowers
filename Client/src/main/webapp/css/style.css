@@ -20,11 +20,11 @@ body {
 }
 
 
-.contact-list .page-menu, .order-list .page-menu, .user-list .page-menu {
+.contact-list .page-menu, .order-list .page-menu, .user-list .page-menu, .settings .page-menu {
     text-align: center;
 }
 
-.contact, .contact-list, .order-list, .user-list {
+.contact, .contact-list, .order-list, .user-list, .settings {
     min-width: 800px;
     max-width: 1366px;
     padding-left:  5%;

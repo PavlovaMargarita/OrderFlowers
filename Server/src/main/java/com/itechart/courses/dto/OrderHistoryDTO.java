@@ -8,25 +8,25 @@ import java.sql.Date;
  * Created by Margarita on 26.09.2014.
  */
 public class OrderHistoryDTO {
-    private ContactDTO customer;
-    private ContactDTO recipient;
+    private PersonDTO customer;
+    private PersonDTO recipient;
     private Date date;
-    private OrderStatusEnum orderStatusEnum;
+    private String russianOrderStatus;
     private String comment;
 
-    public ContactDTO getCustomer() {
+    public PersonDTO getCustomer() {
         return customer;
     }
 
-    public void setCustomer(ContactDTO customer) {
+    public void setCustomer(PersonDTO customer) {
         this.customer = customer;
     }
 
-    public ContactDTO getRecipient() {
+    public PersonDTO getRecipient() {
         return recipient;
     }
 
-    public void setRecipient(ContactDTO recipient) {
+    public void setRecipient(PersonDTO recipient) {
         this.recipient = recipient;
     }
 
@@ -38,12 +38,12 @@ public class OrderHistoryDTO {
         this.date = date;
     }
 
-    public OrderStatusEnum getOrderStatusEnum() {
-        return orderStatusEnum;
+    public String getRussianOrderStatus() {
+        return russianOrderStatus;
     }
 
-    public void setOrderStatusEnum(OrderStatusEnum orderStatusEnum) {
-        this.orderStatusEnum = orderStatusEnum;
+    public void setRussianOrderStatus(String russianOrderStatusEnum) {
+        this.russianOrderStatus = russianOrderStatusEnum;
     }
 
     public String getComment() {
