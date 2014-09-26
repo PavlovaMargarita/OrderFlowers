@@ -1,12 +1,10 @@
 package com.itechart.courses.controller;
 
 import com.itechart.courses.dto.*;
-import com.itechart.courses.entity.Contact;
 import com.itechart.courses.enums.OrderStatusEnum;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.authorization.AuthorizationService;
 import com.itechart.courses.service.contact.ContactService;
-import com.itechart.courses.service.contact.ContactServiceImpl;
 import com.itechart.courses.service.email.EmailService;
 import com.itechart.courses.service.order.OrderService;
 import com.itechart.courses.service.role.RoleService;
@@ -18,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +24,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map;
 
 @Controller
@@ -218,6 +214,9 @@ public class BasicController {
                 statusEnums.add(OrderStatusEnum.READY_FOR_SHIPPING);
                 statusEnums.add(OrderStatusEnum.SHIPPING);
                 orders = orderService.getAllOrders(user.getId(), statusEnums, firstRecordNumber, pageRecords);
+                break;
+            case ROLE_RECEIVING_ORDERS_MANAGER:
+                orders = orderService.getAllOrders(firstRecordNumber, pageRecords);
                 break;
             case ROLE_SUPERVISOR:
                 orders = orderService.getAllOrders(firstRecordNumber, pageRecords);

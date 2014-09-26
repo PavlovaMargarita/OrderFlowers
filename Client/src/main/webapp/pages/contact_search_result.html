@@ -24,11 +24,7 @@
                 <span ng-if="contact.home != null">д.{{contact.home}}  </span>
                 <span ng-if="contact.flat != null">кв.{{contact.flat}}</span>
             </td>
-            <td>
-                <div class="btn-group btn-group-sm">
-                    <button class="btn btn-success"><a href="#contactCorrect/{{contact.id}}">Редактировать</a></button>
-                </div>
-            </td>
+            <td><a class="btn btn-success btn-sm" href="#contactCorrect/{{contact.id}}">Редактировать</a></td>
         </tr>
 
     </table>
