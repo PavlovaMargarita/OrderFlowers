@@ -8,7 +8,8 @@ app.controller("orderListController", function ($scope, $rootScope, $http, Pager
     //получаем список заказов при загузке страницы order_list.html
     var response = $http({
         method: "get",
-        url: "/OrderFlowers/orderList"
+        url: "/OrderFlowers/orderList",
+        params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
     });
     response.success(function (data) {
         $scope.contacts = data.pageableContacts;

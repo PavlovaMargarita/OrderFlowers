@@ -74,15 +74,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public PageableOrderDTO getAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums, int first, int count) {
-        List<Order> orders = orderDAO.readAllOrders(userId, orderStatusEnums);
-        List<TableOrderDTO> ordersDTO = new ArrayList<TableOrderDTO>();
-        int totalCount =
-        for (Order order : orders){
-            ordersDTO.add(orderToTableOrderDTO(order));
-        }
-        PageableOrderDTO result = new PageableOrderDTO(ordersDTO, );
-        return ordersDTO;
+        return null;
     }
+
+//    @Override
+//    public PageableOrderDTO getAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums, int first, int count) {
+//        List<Order> orders = orderDAO.readAllOrders(userId, orderStatusEnums);
+//        List<TableOrderDTO> ordersDTO = new ArrayList<TableOrderDTO>();
+//        int totalCount =
+//        for (Order order : orders){
+//            ordersDTO.add(orderToTableOrderDTO(order));
+//        }
+//        PageableOrderDTO result = new PageableOrderDTO(ordersDTO, );
+//        return ordersDTO;
+//    }
 
     @Override
     public List<TableOrderDTO> searchOrders(OrderSearchDTO parameters) {
