@@ -21,9 +21,8 @@ app.controller("orderListController", function ($scope, $rootScope, $http, Pager
     $scope.getRecords = {};
     $scope.getRecords.doClick = function(pageNumber){
         var response = $http({
-            method: "post",
+            method: "get",
             url: "/OrderFlowers/orderList",
-            data: searchRequest,
             params: {currentPage: pageNumber, pageRecords: $rootScope.recordsOnPage}
         });
         response.success(function(data){
