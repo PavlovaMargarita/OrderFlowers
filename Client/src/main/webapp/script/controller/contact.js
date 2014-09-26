@@ -168,31 +168,6 @@ app.controller("contactSearchController", function ($scope, $http, $location, $r
         $rootScope.isSearchContact = true;
         $location.path('/contactSearchResult');
         $location.replace();
-//        var contactSearch = $http({
-//            method: "post",
-//            url: "/OrderFlowers/contactSearch",
-//            data: {
-//                surname: $scope.contact.surname,
-//                name: $scope.contact.name,
-//                patronymic: $scope.contact.patronymic,
-//                lowerDateOfBirth: $scope.contact.lowerDateOfBirth,
-//                upperDateOfBirth: $scope.contact.upperDateOfBirth,
-//                city: $scope.contact.city,
-//                street: $scope.contact.street,
-//                home: $scope.contact.home,
-//                flat: $scope.contact.flat
-//            },
-//            params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
-//        });
-//        contactSearch.success(function (data) {
-//            $rootScope.isSearchContact = true;
-//            $rootScope.data = data.pageableContacts;
-//            $location.path('/contactSearchResult');
-//            $location.replace();
-//        });
-//        contactSearch.error(function (data) {
-//            $scope.authorization.info = "error";
-//        });
     }
 });
 

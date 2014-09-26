@@ -106,6 +106,18 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    @Override
+    public PageableOrderDTO searchOrders(OrderSearchDTO parameters, int first, int count) {
+        List<Order> orders = orderDAO.searchOrder(parameters);
+        List<TableOrderDTO> ordersDTO = new ArrayList<TableOrderDTO>();
+        int totalCount = orderDAO.getOrderCount(parameters);
+        for (Order order : orders){
+            ordersDTO.add(orderToTableOrderDTO(order));
+        }
+        PageableOrderDTO result = new PageableOrderDTO(ordersDTO, totalCount);
+        return result;
+    }
+
 
     @Override
     public Map<OrderStatusEnum, String> getResolvedOrderStatus(OrderStatusEnum currentStatus){
