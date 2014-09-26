@@ -144,6 +144,7 @@ public class ContactServiceImpl implements ContactService {
         personDTO.setSurname(contact.getSurname());
         personDTO.setName(contact.getName());
         personDTO.setPatronymic(contact.getPatronymic());
+        personDTO.setDateOfBirth(contact.getDateOfBirth());
         personDTO.setCity(contact.getCity());
         personDTO.setStreet(contact.getStreet());
         personDTO.setHome(contact.getHome());

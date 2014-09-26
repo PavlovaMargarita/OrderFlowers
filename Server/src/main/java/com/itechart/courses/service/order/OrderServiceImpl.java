@@ -1,7 +1,6 @@
 package com.itechart.courses.service.order;
 
 import com.itechart.courses.dao.order.OrderDAO;
-import com.itechart.courses.dao.order.OrderDAOImpl;
 import com.itechart.courses.dao.orderHistory.OrderHistoryDAO;
 import com.itechart.courses.dto.*;
 import com.itechart.courses.entity.Contact;
@@ -14,6 +13,7 @@ import com.itechart.courses.service.contact.ContactServiceImpl;
 import com.itechart.courses.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.sql.Date;
 import java.text.ParseException;
