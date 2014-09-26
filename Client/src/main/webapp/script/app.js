@@ -188,7 +188,7 @@ app.service('Validation', function(){
         return re.test(value);
     }
     this.validationInt = function(value){
-        if(value == undefined){
+        if(value == undefined || value == ""){
             return true;
         }
         var re = /^\d+$/;

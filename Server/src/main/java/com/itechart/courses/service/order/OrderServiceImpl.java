@@ -2,10 +2,7 @@ package com.itechart.courses.service.order;
 
 import com.itechart.courses.dao.order.OrderDAO;
 import com.itechart.courses.dao.orderHistory.OrderHistoryDAO;
-import com.itechart.courses.dto.ContactDTO;
-import com.itechart.courses.dto.OrderDTO;
-import com.itechart.courses.dto.OrderSearchDTO;
-import com.itechart.courses.dto.TableOrderDTO;
+import com.itechart.courses.dto.*;
 import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
 import com.itechart.courses.entity.OrderHistory;

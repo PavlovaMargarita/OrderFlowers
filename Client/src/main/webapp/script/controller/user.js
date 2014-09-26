@@ -226,7 +226,7 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
 });
 
 function validateUserSave(value, Validation){
-    var ok = false;
+    var ok = true;
     var hasError = "input-group has-error";
     var noError = "input-group";
     var validContact = false;

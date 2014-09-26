@@ -157,19 +157,22 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
 app.controller("contactSearchController", function ($scope, $http, $location, $rootScope, Validation) {
     $scope.save = {};
     $scope.save.doClick = function(){
-        var searchRequest = {surname: $scope.contact.surname,
-            name: $scope.contact.name,
-            patronymic: $scope.contact.patronymic,
-            lowerDateOfBirth: $scope.contact.lowerDateOfBirth,
-            upperDateOfBirth: $scope.contact.upperDateOfBirth,
-            city: $scope.contact.city,
-            street: $scope.contact.street,
-            home: $scope.contact.home,
-            flat: $scope.contact.flat};
-        $rootScope.request = searchRequest;
-        $rootScope.isSearchContact = true;
-        $location.path('/contactSearchResult');
-        $location.replace();
+        if(validationContactSearch($scope.contact, Validation)) {
+            var searchRequest = {surname: $scope.contact.surname,
+                name: $scope.contact.name,
+                patronymic: $scope.contact.patronymic,
+                lowerDateOfBirth: $scope.contact.lowerDateOfBirth,
+                upperDateOfBirth: $scope.contact.upperDateOfBirth,
+                city: $scope.contact.city,
+                street: $scope.contact.street,
+                home: $scope.contact.home,
+                flat: $scope.contact.flat};
+            $rootScope.request = searchRequest;
+            $rootScope.isSearchContact = true;
+            $location.path('/contactSearchResult');
+            $location.replace();
+        }
+
     }
 });
 
@@ -276,34 +279,6 @@ app.controller("contactSearchResultController", function ($scope, $rootScope, $h
         }, function (errorReason) {
             // Process error
         });
-    }
-    $scope.save.doClick = function () {
-        if(validationContactSearch($scope.contact, Validation)) {
-            var contactSearch = $http({
-                method: "post",
-                url: "/OrderFlowers/contactSearch",
-                data: {
-                    surname: $scope.contact.surname,
-                    name: $scope.contact.name,
-                    patronymic: $scope.contact.patronymic,
-                    lowerDateOfBirth: $scope.contact.lowerDateOfBirth,
-                    upperDateOfBirth: $scope.contact.upperDateOfBirth,
-                    city: $scope.contact.city,
-                    street: $scope.contact.street,
-                    home: $scope.contact.home,
-                    flat: $scope.contact.flat
-                }
-            });
-            contactSearch.success(function (data) {
-                $rootScope.isSearchContact = true;
-                $rootScope.data = data;
-                $location.path('/contactList');
-                $location.replace();
-            });
-            contactSearch.error(function (data) {
-                $scope.authorization.info = "error";
-            });
-        }
     }
 });
 
@@ -432,6 +407,9 @@ function validationContactSearch(value, Validation){
     var noError = "input-group";
     var fullInput = 0;
     var ok = true;
+    if(value == undefined){
+        return false;
+    }
     if (!Validation.validationName(value.surname)) {
         document.getElementById('div-surname').className = hasError;
         ok = false;
