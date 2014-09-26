@@ -20,7 +20,7 @@ app.controller("userListController", function ($scope, $http, $location) {
                 method: "post",
                 url: "/OrderFlowers/userDelete",
                 data: {
-                    deleteId: $scope.usersToDelete
+                    checkId: $scope.usersToDelete
                 }
             });
             userDelete.success(function (data) {

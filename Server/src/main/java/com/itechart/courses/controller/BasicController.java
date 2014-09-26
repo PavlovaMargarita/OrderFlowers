@@ -1,14 +1,13 @@
 package com.itechart.courses.controller;
 
 import com.itechart.courses.dto.*;
-import com.itechart.courses.entity.Contact;
 import com.itechart.courses.enums.OrderStatusEnum;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.service.authorization.AuthorizationService;
 import com.itechart.courses.service.contact.ContactService;
-import com.itechart.courses.service.contact.ContactServiceImpl;
 import com.itechart.courses.service.email.EmailService;
 import com.itechart.courses.service.order.OrderService;
+import com.itechart.courses.service.orderHistory.OrderHistoryService;
 import com.itechart.courses.service.role.RoleService;
 import com.itechart.courses.service.template.MessageTemplateService;
 import com.itechart.courses.service.user.UserService;
@@ -18,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +25,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map;
 
 @Controller
@@ -56,6 +53,9 @@ public class BasicController {
 
     @Autowired
     private MessageTemplateService messageTemplateService;
+
+    @Autowired
+    private OrderHistoryService orderHistoryService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/userInfo")
     @ResponseBody
@@ -281,5 +281,11 @@ public class BasicController {
         personDTO.setId(user.getId());
         orderDTO.setReceiveManager(personDTO);
         orderService.createOrder(orderDTO);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getOrderHistory")
+    public @ResponseBody List getOrderHistory( ){
+        logger.info("User viewed the order history");
+        return orderHistoryService.readOrderHistory();
     }
 }
