@@ -12,7 +12,10 @@ public interface OrderDAO {
     public Order readOrder(int id); //if the order is not found, returns null
     public void updateOrder(Order order);
     public List readAllOrders();
+    public List readAllOrders(int first, int count);
     public List readAllOrder(Contact contact);
     public List<Order> readAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums);
     public List<Order> searchOrder(OrderSearchDTO parameters);
+    public int getOrdersCount();
+    public int getOrdersCount(List<OrderStatusEnum> orderStatusEnums);
 }

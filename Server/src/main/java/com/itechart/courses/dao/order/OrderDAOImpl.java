@@ -5,6 +5,8 @@ import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
 import com.itechart.courses.enums.OrderStatusEnum;
 import org.hibernate.*;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import sun.launcher.resources.launcher_it;
@@ -56,6 +58,16 @@ public class OrderDAOImpl implements OrderDAO {
     public List<Order> readAllOrders() {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Order.class);
+        List<Order> result = criteria.list();
+        return result;
+    }
+
+    @Override
+    public List readAllOrders(int first, int count) {
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Order.class);
+        criteria.setFirstResult(first);
+        criteria.setMaxResults(count);
         List<Order> result = criteria.list();
         return result;
     }
@@ -142,4 +154,20 @@ public class OrderDAOImpl implements OrderDAO {
         }
         return query.list();
     }
+
+    @Override
+    public int getOrdersCount() {
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Order.class);
+        criteria.setProjection(Projections.rowCount());
+        int totalCount = ((Number) criteria.uniqueResult()).intValue();
+        return totalCount;
+    }
+
+    @Override
+    public int getOrdersCount(List<OrderStatusEnum> orderStatusEnums) {
+        return 0;
+    }
+
+
 }

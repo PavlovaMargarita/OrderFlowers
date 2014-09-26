@@ -46,7 +46,7 @@ app.controller("userListController", function ($scope, $http, $location, $rootSc
                 method: "post",
                 url: "/OrderFlowers/userDelete",
                 data: {
-                    deleteId: $scope.usersToDelete
+                    checkId: $scope.usersToDelete
                 }
             });
             userDelete.success(function (data) {

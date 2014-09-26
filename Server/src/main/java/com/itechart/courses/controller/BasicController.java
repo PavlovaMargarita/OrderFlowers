@@ -195,32 +195,35 @@ public class BasicController {
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/orderList")
-    public @ResponseBody List<TableOrderDTO> getOrderList(Authentication authentication){
+    public @ResponseBody PageableOrderDTO getOrderList(Authentication authentication,
+                                                          @RequestParam("currentPage") int currentPage,
+                                                          @RequestParam("pageRecords") int pageRecords){
         LoginDTO dto = currentUserInfo(authentication);
         logger.info("User viewed all orders");
         com.itechart.courses.entity.User user = null;
         List<OrderStatusEnum> statusEnums = null;
-        List<TableOrderDTO> orders = null;
+        PageableOrderDTO orders = null;
+        int firstRecordNumber = firstRecordNumber(currentPage, pageRecords);
         switch (dto.getRole()){
             case ROLE_PROCESSING_ORDERS_SPECIALIST:
                 user = userService.readUser(dto.getLogin());
                 statusEnums = new ArrayList<OrderStatusEnum>(2);
                 statusEnums.add(OrderStatusEnum.ADOPTED);
                 statusEnums.add(OrderStatusEnum.IN_PROCESSING);
-                orders = orderService.getAllOrders(user.getId(), statusEnums);
+                //orders = orderService.getAllOrders(user.getId(), statusEnums);
                 break;
             case ROLE_SERVICE_DELIVERY_MANAGER:
                 user = userService.readUser(dto.getLogin());
                 statusEnums = new ArrayList<OrderStatusEnum>(2);
                 statusEnums.add(OrderStatusEnum.READY_FOR_SHIPPING);
                 statusEnums.add(OrderStatusEnum.SHIPPING);
-                orders = orderService.getAllOrders(user.getId(), statusEnums);
+                //orders = orderService.getAllOrders(user.getId(), statusEnums);
                 break;
             case ROLE_SUPERVISOR:
-                orders = orderService.getAllOrders();
+                orders = orderService.getAllOrders(firstRecordNumber, pageRecords);
                 break;
             case ROLE_ADMIN:
-                orders = orderService.getAllOrders();
+                orders = orderService.getAllOrders(firstRecordNumber, pageRecords);
                 break;
         }
         return orders;

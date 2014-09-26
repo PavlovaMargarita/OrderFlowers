@@ -1,17 +1,36 @@
-app.controller("orderListController", function ($scope, $rootScope, $http) {
+app.controller("orderListController", function ($scope, $rootScope, $http, PagerService) {
+    $scope.orders = [];
+    $scope.range = [];
+    $scope.currentPage = 1;
+    $scope.totalPages = 1;
+    $scope.totalRecords = 0;
+
     //получаем список заказов при загузке страницы order_list.html
-    if (!$rootScope.isSearchOrder){
-        var response = $http({
-            method: "get",
-            url: "/OrderFlowers/orderList"
-        });
-        response.success(function (data) {
-            $scope.orders = data;
-        });
+    var response = $http({
+        method: "get",
+        url: "/OrderFlowers/orderList"
+    });
+    response.success(function (data) {
+        $scope.contacts = data.pageableContacts;
+        $scope.totalRecords = data.totalCount;
+        $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
+        $scope.range = PagerService.buildRange($scope.totalPages);
+    });
+
+    $scope.isPrevDisabled = function(){
+        return PagerService.isPrevDisabled($scope.currentPage);
     }
-    else {
-        $scope.orders = $rootScope.data;
-        $rootScope.isSearchOrder = false;
+
+    $scope.isNextDisabled = function(){
+        return PagerService.isNextDisabled($scope.currentPage, $scope.totalPages);
+    }
+
+    $scope.isFirstDisabled = function(){
+        return PagerService.isFirstDisabled($scope.currentPage);
+    }
+
+    $scope.isLastDisabled = function(){
+        return PagerService.isLastDisabled($scope.currentPage, $scope.totalPages);
     }
 });
 
