@@ -170,7 +170,7 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
                 }
             });
             showEmail.success(function (data) {
-                $scope.emails = data;
+                $scope.listContacts = data;
             });
             showEmail.error(function (data) {
                 $scope.authorization.info = "error";
@@ -184,7 +184,7 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
             method: "post",
             url: "/OrderFlowers/sendEmail",
             data: {
-                emails: $scope.emails,
+                contacts: $scope.listContacts,
                 text: $scope.email.text,
                 topic: $scope.email.topic
             }

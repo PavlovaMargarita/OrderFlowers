@@ -63,8 +63,8 @@
                     <div class="form-group">
                         <label>Получатели</label>
                         <table>
-                        <tr data-ng-repeat="email in emails track by $index">
-                            <td>{{email}}</td>
+                        <tr data-ng-repeat="contact in listContacts track by $index">
+                            <td>{{contact.email}}</td>
                         </tr>
                         </table>
                     </div>

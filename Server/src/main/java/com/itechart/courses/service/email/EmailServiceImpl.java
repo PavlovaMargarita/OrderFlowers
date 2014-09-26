@@ -1,5 +1,6 @@
 package com.itechart.courses.service.email;
 
+import com.itechart.courses.dto.ContactDTO;
 import com.itechart.courses.dto.EmailDTO;
 import org.antlr.stringtemplate.StringTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,18 @@ public class EmailServiceImpl implements EmailService {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom("sasha25121993@mail.ru");
         simpleMailMessage.setSubject(emailDTO.getTopic());
-        for (String email : emailDTO.getEmails()) {
-            st.setAttribute("mail", email);
+        for (ContactDTO contact : emailDTO.getContacts()) {
+            st.setAttribute("email", contact.getEmail());
+            st.setAttribute("name", contact.getName());
+            st.setAttribute("surname", contact.getSurname());
+            st.setAttribute("patronymic", contact.getPatronymic());
+            st.setAttribute("dateOfBirth", contact.getDateOfBirth());
+            st.setAttribute("city", contact.getCity());
+            st.setAttribute("street", contact.getStreet());
+            st.setAttribute("home", contact.getHome());
+            st.setAttribute("flat", contact.getFlat());
             simpleMailMessage.setText(st.toString());
-            simpleMailMessage.setTo(email);
+            simpleMailMessage.setTo(contact.getEmail());
             mailSender.send(simpleMailMessage);
             st.reset();
         }

@@ -161,15 +161,15 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/showEmail")
-    public @ResponseBody List<String> showEmail(@RequestParam("checkId") ArrayList<Integer> contactId) throws IOException{
-        List<String> listEmail = new ArrayList<String>();
+    public @ResponseBody List<ContactDTO> showEmail(@RequestParam("checkId") ArrayList<Integer> contactId) throws IOException{
+        List<ContactDTO> listContacts = new ArrayList<ContactDTO>();
         ContactDTO contact;
         for(int i: contactId){
             contact = contactService.readContact(i);
             if (contact.getEmail() != null)
-                listEmail.add(contact.getEmail());
+                listContacts.add(contact);
         }
-        return listEmail;
+        return listContacts;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/showTemplate")

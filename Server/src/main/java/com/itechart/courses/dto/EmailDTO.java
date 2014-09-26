@@ -5,20 +5,20 @@ import java.util.List;
 
 public class EmailDTO {
 
-    private List<String> emails;
+    private List<ContactDTO> contacts;
     private String text;
     private String topic;
 
     public EmailDTO() {
-        emails = new ArrayList<String>();
+        contacts = new ArrayList<ContactDTO>();
     }
 
-    public List<String> getEmails() {
-        return emails;
+    public List<ContactDTO> getContacts() {
+        return contacts;
     }
 
-    public void setEmails(List<String> emails) {
-        this.emails = emails;
+    public void setContacts(List<ContactDTO> contacts) {
+        this.contacts = contacts;
     }
 
     public String getText() {
