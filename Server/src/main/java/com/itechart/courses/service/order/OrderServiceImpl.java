@@ -66,21 +66,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<TableOrderDTO> searchOrders(OrderSearchDTO parameters) {
-        List<TableOrderDTO> result = new ArrayList<TableOrderDTO>();
-        if(Validation.validateOrderSearch(parameters)) {
-            List<Order> orders = orderDAO.searchOrder(parameters);
-            for (Order order : orders) {
-                result.add(orderToTableOrderDTO(order));
-            }
-        }
-        else {
-            throw new IllegalArgumentException("incorrect parameters");
-        }
-        return result;
-    }
-
-    @Override
     public PageableOrderDTO searchOrders(OrderSearchDTO parameters, int first, int count) {
         List<Order> orders = orderDAO.searchOrder(parameters, first, count);
         List<TableOrderDTO> ordersDTO = new ArrayList<TableOrderDTO>();
@@ -91,7 +76,6 @@ public class OrderServiceImpl implements OrderService {
         PageableOrderDTO result = new PageableOrderDTO(ordersDTO, totalCount);
         return result;
     }
-
 
     @Override
     public Map<OrderStatusEnum, String> getResolvedOrderStatus(OrderStatusEnum currentStatus){

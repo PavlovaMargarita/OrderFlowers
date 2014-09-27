@@ -23,6 +23,12 @@ body {
     color: red;
 }
 
+.box label {
+    color: red;
+    float: right;
+    display: none;
+}
+
 .page-title {
     padding-bottom: 2%;
 }
