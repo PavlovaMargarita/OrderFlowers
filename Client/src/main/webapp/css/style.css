@@ -24,7 +24,7 @@ body {
 }
 
 .box label {
-    color: red;
+    color: #b92c28;
     float: right;
     display: none;
 }
@@ -36,6 +36,12 @@ body {
 .page-title h2 {
     color: deepskyblue;
     font-weight: bold;
+}
+
+.main-label {
+    color: #b92c28;
+    display: none;
+    font-size: 14pt;
 }
 
 .contact-list .page-menu, .order-list .page-menu, .user-list .page-menu, .settings .page-menu {
@@ -133,6 +139,7 @@ body {
     text-align:center;
     z-index: 899999;
 }
+
 #errorMessage{
     margin: 50px;
     white-space: pre-wrap;
