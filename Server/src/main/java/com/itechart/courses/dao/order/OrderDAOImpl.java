@@ -101,14 +101,56 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public List<Order> searchOrder(OrderSearchDTO parameters, int first, int count) {
-        List<Order> orders;
-        Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Order.class);
-        buildOrderSearchCriteria(criteria, parameters);
-        criteria.setFirstResult(first);
-        criteria.setMaxResults(count);
-        orders = (List<Order>) criteria.list();
-        return orders;
+        StringBuilder builder = new StringBuilder();
+        String customerSurname = parameters.getCustomerSurname();
+        if (customerSurname != null && (customerSurname = customerSurname.trim()).isEmpty()){
+            customerSurname = null;
+        }
+        String recipientSurname = parameters.getRecipientSurname();
+        if (recipientSurname != null && (recipientSurname = recipientSurname.trim()).isEmpty()){
+            recipientSurname = null;
+        }
+        Date lowerOrderDate = parameters.getLowerOrderDate();
+        Date upperOrderDate = parameters.getUpperOrderDate();
+
+        if (lowerOrderDate != null && upperOrderDate != null) {
+            builder.append("order.date between :lowerOrderDate AND :upperOrderDate");
+        } else if (lowerOrderDate != null) {
+            builder.append("order.date >= :lowerOrderDate");
+        } else if (upperOrderDate != null) {
+            builder.append("order.date <= :upperOrderDate");
+        }
+
+        if (customerSurname != null){
+            if (builder.length() != 0){
+                builder.append(" and ");
+            }
+            builder.append("order.customer.surname LIKE :customerSurname");
+        }
+        if (recipientSurname != null){
+            if (builder.length() != 0){
+                builder.append(" and ");
+            }
+            builder.append("order.recipient.surname LIKE :recipientSurname");
+        }
+        builder.insert(0, "from Order order where ");
+
+        Query query = sessionFactory.getCurrentSession().createQuery(builder.toString());
+        if (customerSurname != null){
+            query.setString("customerSurname", "%" + customerSurname + "%");
+        }
+        if (recipientSurname != null){
+            query.setString("recipientSurname", "%" + recipientSurname + "%");
+        }
+        if (lowerOrderDate != null){
+            query.setDate("lowerOrderDate", lowerOrderDate);
+        }
+        if (upperOrderDate != null){
+            query.setDate("upperOrderDate", upperOrderDate);
+        }
+        query.setFirstResult(first);
+        query.setMaxResults(count);
+        return query.list();
     }
 
     @Override
@@ -122,12 +164,54 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public int getOrderCount(OrderSearchDTO parameters) {
-        Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Order.class);
-        criteria.setProjection(Projections.rowCount());
-        buildOrderSearchCriteria(criteria, parameters);
-        int totalCount = ((Number) criteria.uniqueResult()).intValue();
-        return totalCount;
+        StringBuilder builder = new StringBuilder();
+        String customerSurname = parameters.getCustomerSurname();
+        if (customerSurname != null && (customerSurname = customerSurname.trim()).isEmpty()){
+            customerSurname = null;
+        }
+        String recipientSurname = parameters.getRecipientSurname();
+        if (recipientSurname != null && (recipientSurname = recipientSurname.trim()).isEmpty()){
+            recipientSurname = null;
+        }
+        Date lowerOrderDate = parameters.getLowerOrderDate();
+        Date upperOrderDate = parameters.getUpperOrderDate();
+
+        if (lowerOrderDate != null && upperOrderDate != null) {
+            builder.append("order.date between :lowerOrderDate AND :upperOrderDate");
+        } else if (lowerOrderDate != null) {
+            builder.append("order.date >= :lowerOrderDate");
+        } else if (upperOrderDate != null) {
+            builder.append("order.date <= :upperOrderDate");
+        }
+
+        if (customerSurname != null){
+            if (builder.length() != 0){
+                builder.append(" and ");
+            }
+            builder.append("order.customer.surname LIKE :customerSurname");
+        }
+        if (recipientSurname != null){
+            if (builder.length() != 0){
+                builder.append(" and ");
+            }
+            builder.append("order.recipient.surname LIKE :recipientSurname");
+        }
+        builder.insert(0, "Select Count(*) from Order order where ");
+
+        Query query = sessionFactory.getCurrentSession().createQuery(builder.toString());
+        if (customerSurname != null){
+            query.setString("customerSurname", "%" + customerSurname + "%");
+        }
+        if (recipientSurname != null){
+            query.setString("recipientSurname", "%" + recipientSurname + "%");
+        }
+        if (lowerOrderDate != null){
+            query.setDate("lowerOrderDate", lowerOrderDate);
+        }
+        if (upperOrderDate != null){
+            query.setDate("upperOrderDate", upperOrderDate);
+        }
+        return ((Number)query.uniqueResult()).intValue();
     }
 
     @Override
@@ -150,36 +234,4 @@ public class OrderDAOImpl implements OrderDAO {
         }
         return ((Number)query.uniqueResult()).intValue();
     }
-
-    private void buildOrderSearchCriteria(Criteria criteria, OrderSearchDTO parameters){
-        String customerSurname = parameters.getCustomerSurname();
-        if (customerSurname != null && (customerSurname = customerSurname.trim()).isEmpty()){
-            customerSurname = null;
-        }
-        String recipientSurname = parameters.getRecipientSurname();
-        if (recipientSurname != null && (recipientSurname = recipientSurname.trim()).isEmpty()){
-            recipientSurname = null;
-        }
-        Date lowerOrderDate = parameters.getLowerOrderDate();
-        Date upperOrderDate = parameters.getUpperOrderDate();
-
-        if (lowerOrderDate != null && upperOrderDate != null) {
-            criteria.add(Restrictions.between("order.date", lowerOrderDate, upperOrderDate));
-        } else if (lowerOrderDate != null) {
-            criteria.add(Restrictions.ge("order.date", lowerOrderDate));
-        } else if (upperOrderDate != null) {
-            criteria.add(Restrictions.le("order.date", upperOrderDate));
-        }
-        addStringRestrictionIfNotNull(criteria, "order.customer.surname", customerSurname);
-        addStringRestrictionIfNotNull(criteria, "order.recipient.surname", recipientSurname);
-
-    }
-
-    private void addStringRestrictionIfNotNull(Criteria criteria, String propertyName, String value) {
-        if (value != null) {
-            criteria.add(Restrictions.like(propertyName, value, MatchMode.ANYWHERE));
-        }
-    }
-
-
 }
