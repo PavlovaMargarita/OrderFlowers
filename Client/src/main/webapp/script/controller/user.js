@@ -129,6 +129,7 @@ app.controller("userCreateController", function ($scope, $http, $location, Valid
 });
 
 app.controller("userCorrectController", function ($scope, $http, $routeParams, $location, Validation) {
+    $scope.user = [];
     var id = $routeParams.id;
     var user = $http({
         method: "get",

@@ -19,7 +19,18 @@ app.run(function($rootScope, $cookieStore){
     }
 });
 
-app.factory('ServerHttpResponseInterceptor', function($q, $timeout) {
+app.service('ErrorPopupService', function($timeout) {
+    this.showErrorMessage = function(message){
+        document.getElementById("errorOverlay").style.visibility = "visible";
+        document.getElementById('errorMessage').innerHTML = message;
+        $timeout(function() {
+            document.getElementById("errorOverlay").style.visibility = "hidden";
+        }, 3000);
+    }
+
+});
+
+app.factory('ServerHttpResponseInterceptor', function($q, ErrorPopupService) {
     return function (promise) {
         return promise.then(function (response) {
                 return response;
@@ -28,38 +39,21 @@ app.factory('ServerHttpResponseInterceptor', function($q, $timeout) {
                 var responseStatus = response.status;
                 switch(responseStatus){
                     case 500:{
-                        document.getElementById("errorOverlay").style.visibility = "visible";
-                        document.getElementById('errorMessage').innerHTML = "Произошла серверная ошибка.\r\n" +
-                            "Приносим свои извинения за неудобства.";
-                        $timeout(function() {
-                            document.getElementById("errorOverlay").style.visibility = "hidden";
-                        }, 3000);
+                        ErrorPopupService.showErrorMessage("Произошла серверная ошибка.\r\n" +
+                            "Приносим свои извинения за неудобства.");
                         break;
                     }
                     case 403:{
-                        document.getElementById("errorOverlay").style.visibility = "visible";
-                        document.getElementById('errorMessage').innerHTML = "Произошла серверная ошибка.\r\n" +
-                            "Приносим свои извинения за неудобства.";
-                        $timeout(function() {
-                            document.getElementById("errorOverlay").style.visibility = "hidden";
-                        }, 3000);
+                        ErrorPopupService.showErrorMessage("Произошла серверная ошибка.\r\n" +
+                            "Приносим свои извинения за неудобства.");
                         break;
                     }
-                    case 401:
-                    {
-                        document.getElementById("errorOverlay").style.visibility = "visible";
-                        document.getElementById('errorMessage').innerHTML = "У вас нет прав доступа, или вы не авторизированы";
-                        $timeout(function () {
-                            document.getElementById("errorOverlay").style.visibility = "hidden";
-                        }, 3000);
+                    case 401:{
+                        ErrorPopupService.showErrorMessage("У вас нет прав доступа, или вы не авторизированы");
                         break;
                     }
                     case 400:{
-                        document.getElementById("errorOverlay").style.visibility = "visible";
-                        document.getElementById('errorMessage').innerHTML = "Введены некорректные данные.";
-                        $timeout(function() {
-                            document.getElementById("errorOverlay").style.visibility = "hidden";
-                        }, 3000);
+                        ErrorPopupService.showErrorMessage("Введены некорректные данные.");
                         break;
                     }
                 }
@@ -67,6 +61,7 @@ app.factory('ServerHttpResponseInterceptor', function($q, $timeout) {
             });
     };
 });
+
 
 app.service('PagerService', function() {
     this.totalPageNumber = function(pageRecords, totalRecords) {
