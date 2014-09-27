@@ -32,6 +32,7 @@ app.factory('ServerHttpResponseInterceptor', function($q, $timeout) {
                     $timeout(function() {
                         document.getElementById("errorOverlay").style.visibility = "visible";
                     }, 3000);
+                    alert(response.reason);
                 }
                 return $q.reject(response);
             });
