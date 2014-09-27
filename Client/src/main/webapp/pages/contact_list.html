@@ -1,5 +1,10 @@
 <div class="contact-list">
 
+    <div class="page-title">
+        <h2>Список контактов</h2>
+        <hr>
+    </div>
+
     <div class="btn-group btn-group-sm">
         <button class="btn btn-info" ng-click="showPopupSendEmail.doClick()">Email</button>
         <button class="btn btn-danger" ng-click="deleteContact.doClick()">Удалить</button>
@@ -34,17 +39,17 @@
     <!--постраничная навигация-->
     <div class="page-menu">
         <ul class="pagination">
-            <li ng-show="currentPage == 1" class="disabled"><a href="">First</a></li>
+            <li ng-show="currentPage == 1" class="disabled"><a href="">Первая</a></li>
             <li ng-show="currentPage == 1" class="disabled"><a href="">&laquo;</a></li>
-            <li ng-show="currentPage != 1" ng-class="isFirstDisabled()"><a href="javascript:void(0)" ng-click="getRecords.doClick(1)">First</a></li>
+            <li ng-show="currentPage != 1" ng-class="isFirstDisabled()"><a href="javascript:void(0)" ng-click="getRecords.doClick(1)">Первая</a></li>
             <li ng-show="currentPage != 1" ng-class="isPrevDisabled()"><a href="javascript:void(0)" ng-click="getRecords.doClick(currentPage-1)">&laquo;</a></li>
             <li ng-repeat="i in range" ng-class="{active : currentPage == i}">
                 <a href="javascript:void(0)" ng-click="getRecords.doClick(i)">{{i}}</a>
             </li>
             <li ng-show="currentPage != totalPages" ng-class="isNextDisabled()"><a href="javascript:void(0)" ng-click="getRecords.doClick(currentPage+1)">&raquo;</a></li>
-            <li ng-show="currentPage != totalPages" ng-class="isLastDisabled()"><a href="javascript:void(0)" ng-click="getRecords.doClick(totalPages)">Last</a></li>
+            <li ng-show="currentPage != totalPages" ng-class="isLastDisabled()"><a href="javascript:void(0)" ng-click="getRecords.doClick(totalPages)">Последняя</a></li>
             <li ng-show="currentPage == totalPages" class="disabled"><a href="">&raquo;</a></li>
-            <li ng-show="currentPage == totalPages" class="disabled"><a href="">Last</a></li>
+            <li ng-show="currentPage == totalPages" class="disabled"><a href="">Последняя</a></li>
         </ul>
     </div>
 
@@ -56,7 +61,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span
                             aria-hidden="true">&times;</span><span class="sr-only">Закрыть</span></button>
-                    <h4 class="modal-title">Email</h4>
+                    <h4 class="modal-title">Отправить email</h4>
                 </div>
 
                 <div class="modal-body">

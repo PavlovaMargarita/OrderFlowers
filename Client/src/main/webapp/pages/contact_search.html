@@ -1,63 +1,80 @@
 <div class="contact-search">
-    <div class="box" id="snp">
+
+    <div class="page-title">
+        <h2>Поиск контактов</h2>
+        <hr>
+    </div>
+
+    <div class="contact-search-information">
         <label id="label-require" style="display: none; color: red; font-size: 1.5em;">Для поиска необходимо заполнить хотя бы 1 поле</label>
-        <h3>ФИО</h3>
-        <hr>
-        <div class="input-group" id="div-surname">
-            <span class="input-group-addon">Фамилия</span>
-            <input class="form-control" name="surname" id="surname" ng-model="contact.surname"/>
+
+        <div class="box" id="snp">
+            <h3>ФИО</h3>
+            <hr>
+
+            <label id="label-surname">Введите корректную фамилию</label>
+            <div class="input-group" id="div-surname">
+                <span class="input-group-addon">Фамилия</span>
+                <input class="form-control" name="surname" id="surname" ng-model="contact.surname"/>
+            </div>
+
+            <label id="label-name">Введите корректное имя</label>
+            <div class="input-group" id="div-name">
+                <span class="input-group-addon">Имя</span>
+                <input class="form-control" name="name" id="name" ng-model="contact.name"/>
+            </div>
+
+            <label id="label-patronymic">Введите корректное отчество</label>
+            <div class="input-group" id="div-patronymic">
+                <span class="input-group-addon">Отчество</span>
+                <input class="form-control" name="patronymic" id="patronymic" ng-model="contact.patronymic"/>
+            </div>
         </div>
-        <label id="label-surname" style="display: none; color: red;">Введите корректную фамилию</label>
-        <div class="input-group" id="div-name">
-            <span class="input-group-addon">Имя</span>
-            <input class="form-control" name="name" id="name" ng-model="contact.name"/>
+
+        <div class="box" id="dob-range">
+            <h3>Диапазон Даты рождения</h3>
+            <hr>
+
+            <div class="input-group">
+                <span class="input-group-addon">От</span>
+                <input type="date" class="form-control" name="dob-lower-range" id="dob-lower-range" ng-model="contact.lowerDateOfBirth"/>
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon">До</span>
+                <input type="date" class="form-control" name="dob-upper-range" id="dob-upper-range" ng-model="contact.upperDateOfBirth"/>
+            </div>
         </div>
-        <label id="label-name" style="display: none; color: red;">Введите корректное имя</label>
-        <div class="input-group" id="div-patronymic">
-            <span class="input-group-addon">Отчество</span>
-            <input class="form-control" name="patronymic" id="patronymic" ng-model="contact.patronymic"/>
+
+        <div class="box" id="address">
+            <h3>Адрес</h3>
+            <hr>
+
+            <label id="label-city">Введите корректный город</label>
+            <div class="input-group" id="div-city">
+                <span class="input-group-addon">Город</span>
+                <input type="text" class="form-control" name="city" id="city" ng-model="contact.city"/>
+            </div>
+
+            <label id="label-street">Введите корректную улицу</label>
+            <div class="input-group" id="div-street">
+                <span class="input-group-addon">Улица</span>
+                <input type="text" class="form-control" name="street" id="street" ng-model="contact.street"/>
+            </div>
+
+            <label id="label-home">Введите корректный номер дома</label>
+            <div class="input-group" id="div-home">
+                <span class="input-group-addon">Дом</span>
+                <input type="text" class="form-control" name="house" id="home" ng-model="contact.home"/>
+            </div>
+
+            <label id="label-flat">Введите корректный номер квартиры</label>
+            <div class="input-group" id="div-flat">
+                <span class="input-group-addon">Квартира</span>
+                <input type="text" class="form-control" name="flat" id="flat" ng-model="contact.flat"/>
+            </div>
         </div>
-        <label id="label-patronymic" style="display: none; color: red;">Введите корректное отчество</label>
+
+        <button class="btn btn-primary" ng-click="save.doClick()">Поиск</button>
     </div>
-
-    <div class="box" id="dob-range">
-        <h3>Диапазон Даты рождения</h3>
-        <hr>
-        <div class="input-group">
-            <span class="input-group-addon">От</span>
-            <input type="date" class="form-control" name="dob-lower-range" id="dob-lower-range" ng-model="contact.lowerDateOfBirth"/>
-        </div>
-
-        <div class="input-group">
-            <span class="input-group-addon">До</span>
-            <input type="date" class="form-control" name="dob-upper-range" id="dob-upper-range" ng-model="contact.upperDateOfBirth"/>
-        </div>
-    </div>
-
-    <div class="box" id="address">
-        <h3>Адрес</h3>
-        <hr>
-        <div class="input-group" id="div-city">
-            <span class="input-group-addon">Город</span>
-            <input type="text" class="form-control" name="city" id="city" ng-model="contact.city"/>
-        </div>
-        <label id="label-city" style="display: none; color: red;">Введите корректный город</label>
-        <div class="input-group" id="div-street">
-            <span class="input-group-addon">Улица</span>
-            <input type="text" class="form-control" name="street" id="street" ng-model="contact.street"/>
-        </div>
-        <label id="label-street" style="display: none; color: red;">Введите корректную улицу</label>
-        <div class="input-group" id="div-home">
-            <span class="input-group-addon">Дом</span>
-            <input type="text" class="form-control" name="house" id="home" ng-model="contact.home"/>
-        </div>
-        <label id="label-home" style="display: none; color: red;">Введите корректный номер дома</label>
-        <div class="input-group" id="div-flat">
-            <span class="input-group-addon">Квартира</span>
-            <input type="text" class="form-control" name="flat" id="flat" ng-model="contact.flat"/>
-        </div>
-        <label id="label-flat" style="display: none; color: red;">Введите корректный номер квартиры</label>
-    </div>
-
-    <button class="btn btn-primary" ng-click="save.doClick()">Поиск</button>
 </div>

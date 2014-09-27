@@ -1,32 +1,44 @@
 <div class="order-search">
-    <label id="label-require" style="display: none; color: red;">Для поиска необходимо заполнить хотя бы 1 поле</label>
-    <div class="box" id="customer-and-receiver">
-        <h3>Отправитель и получатель</h3>
+    <div class="page-title">
+        <h2>Поиск заказов</h2>
         <hr>
-        <div class="input-group" id="div-customer-surname">
-            <span class="input-group-addon">Фамилия отправителя</span>
-            <input type="text" class="form-control" name="customer-surname" id="customer-surname" ng-model="order.customerSurname"/>
-        </div>
-        <label id="label-customer" style="display: none; color: red;">Введите получателя</label>
-        <div class="input-group" id="div-recipient-surname">
-            <span class="input-group-addon">Фамилия получателя</span>
-            <input type="text" class="form-control" name="receiver-surname" id="receiver-surname" ng-model="order.recipientSurname"/>
-        </div>
-        <label id="label-recipient" style="display: none; color: red;">Введите получателя</label>
     </div>
 
-    <div class="box" id="order-date-range">
-        <h3>Диапазон даты заказа</h3>
-        <hr>
-        <div class="input-group" id="div-date-from">
-            <span class="input-group-addon">От</span>
-            <input type="date" class="form-control" name="order-date-lower-range" id="order-date-lower-range" ng-model="order.lowerOrderDate"/>
+    <div class="order-search-information">
+        <label id="label-require" style="display: none; color: red;">Для поиска необходимо заполнить хотя бы 1 поле</label>
+
+        <div class="box" id="customer-and-receiver">
+            <h3>Отправитель и получатель</h3>
+            <hr>
+
+            <label id="label-customer">Введите отправителя</label>
+            <div class="input-group" id="div-customer-surname">
+                <span class="input-group-addon">Фамилия отправителя</span>
+                <input type="text" class="form-control" name="customer-surname" id="customer-surname" ng-model="order.customerSurname"/>
+            </div>
+
+            <label id="label-recipient">Введите получателя</label>
+            <div class="input-group" id="div-recipient-surname">
+                <span class="input-group-addon">Фамилия получателя</span>
+                <input type="text" class="form-control" name="receiver-surname" id="receiver-surname" ng-model="order.recipientSurname"/>
+            </div>
         </div>
 
-        <div class="input-group" id="div-date-to">
-            <span class="input-group-addon">До</span>
-            <input type="date" class="form-control" name="order-date-upper-range" id="order-date-upper-range" ng-model="order.upperOrderDate"/>
+        <div class="box" id="order-date-range">
+            <h3>Диапазон даты заказа</h3>
+            <hr>
+
+            <div class="input-group" id="div-date-from">
+                <span class="input-group-addon">От</span>
+                <input type="date" class="form-control" name="order-date-lower-range" id="order-date-lower-range" ng-model="order.lowerOrderDate"/>
+            </div>
+
+            <div class="input-group" id="div-date-to">
+                <span class="input-group-addon">До</span>
+                <input type="date" class="form-control" name="order-date-upper-range" id="order-date-upper-range" ng-model="order.upperOrderDate"/>
+            </div>
         </div>
+
+        <button class="btn btn-primary" ng-click="search.doClick()">Поиск</button>
     </div>
-    <button class="btn btn-primary" ng-click="search.doClick()">Поиск</button>
 </div>

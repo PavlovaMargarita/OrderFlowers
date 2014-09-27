@@ -2,7 +2,7 @@ var app = angular.module("OrderFlowers", ['ngRoute', 'checklist-model', 'ngCooki
 
 app.run(function($rootScope, $cookieStore){
 
-    $rootScope.recordsOnPage = 5;
+    $rootScope.recordsOnPage = 10;
 
     $rootScope.isAuth = function(){
         var user = $cookieStore.get("userInfo");

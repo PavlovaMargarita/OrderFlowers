@@ -77,7 +77,6 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
-
     @Override
     public Map<OrderStatusEnum, String> getResolvedOrderStatus(OrderStatusEnum currentStatus){
         List<OrderStatusEnum> statusEnums = sequenceOrderStatus.getValues(currentStatus);
@@ -103,16 +102,7 @@ public class OrderServiceImpl implements OrderService {
         if(Validation.validateOrder(orderDTO)) {
             Order order = new Order();
             order.setStatus(OrderStatusEnum.NEW);
-            String orderDescription = orderDTO.getOrderDescription();
-            if (orderDescription != null) {
-                if ((orderDescription = orderDescription.trim()).isEmpty()) {
-                    throw new NullPointerException("incorrect orderDescription");
-                }
-            }
-            order.setOrderDescription(orderDescription);
-            if (orderDTO.getSum() == null) {
-                throw new NullPointerException("incorrect sum");
-            }
+            order.setOrderDescription(orderDTO.getOrderDescription());
             order.setSum(orderDTO.getSum());
             order.setDate(convertToDate(orderDTO.getDate()));
 
@@ -127,11 +117,6 @@ public class OrderServiceImpl implements OrderService {
             recipient.setId(orderDTO.getRecipient().getId());
             customer.setId(orderDTO.getCustomer().getId());
 
-            if (receiveManager.getId() == null || handlerManager.getId() == null || deliveryManager.getId() == null ||
-                    recipient.getId() == null || customer.getId() == null) {
-                throw new NullPointerException("incorrect argument");
-            }
-
             order.setDeliveryManager(deliveryManager);
             order.setHandlerManager(handlerManager);
             order.setReceiveManager(receiveManager);
@@ -145,6 +130,9 @@ public class OrderServiceImpl implements OrderService {
             orderHistory.setUser(receiveManager);
             orderHistory.setOrder(order);
             orderHistoryDAO.createOrderHistory(orderHistory);
+        }
+        else {
+            throw new IllegalArgumentException("incorrect orderDTO");
         }
     }
 
@@ -164,26 +152,13 @@ public class OrderServiceImpl implements OrderService {
                 deliveryManager.setId(orderDTO.getDeliveryManager().getId());
                 handlerManager.setId(orderDTO.getHandlerManager().getId());
 
-                if (recipient.getId() == null || customer.getId() == null ||
-                        deliveryManager.getId() == null || handlerManager.getId() == null) {
-                    throw new NullPointerException("Incorrect arguments");
-                }
                 order.setCustomer(customer);
                 order.setRecipient(recipient);
                 order.setDeliveryManager(deliveryManager);
                 order.setHandlerManager(handlerManager);
             }
 
-            String orderDescription = orderDTO.getOrderDescription();
-            if (orderDescription != null) {
-                if ((orderDescription = orderDescription.trim()).isEmpty()) {
-                    throw new NullPointerException("incorrect orderDescription");
-                }
-            }
-            order.setOrderDescription(orderDescription);
-            if (orderDTO.getSum() == null) {
-                throw new NullPointerException("incorrect sum");
-            }
+            order.setOrderDescription(orderDTO.getOrderDescription());
             order.setSum(orderDTO.getSum());
             order.setOrderHistory(null);
 
@@ -213,6 +188,9 @@ public class OrderServiceImpl implements OrderService {
                 orderHistoryDAO.createOrderHistory(orderHistory);
             }
             orderDAO.updateOrder(order);
+        }
+        else {
+            throw new IllegalArgumentException("incorrect orderDTO");
         }
     }
 

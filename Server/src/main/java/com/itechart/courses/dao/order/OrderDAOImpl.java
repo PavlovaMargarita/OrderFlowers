@@ -5,7 +5,6 @@ import com.itechart.courses.entity.Contact;
 import com.itechart.courses.entity.Order;
 import com.itechart.courses.enums.OrderStatusEnum;
 import org.hibernate.*;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import java.util.List;
  */
 
 @Repository
+//@Transactional
 public class OrderDAOImpl implements OrderDAO {
 
     @Autowired
@@ -73,7 +73,6 @@ public class OrderDAOImpl implements OrderDAO {
         result = query.list();
         return result;
     }
-
 
     @Override
     public List<Order> readAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums, int first, int count) {
@@ -132,6 +131,11 @@ public class OrderDAOImpl implements OrderDAO {
             }
             builder.append("order.recipient.surname LIKE :recipientSurname");
         }
+
+        if (builder.length() == 0){
+            throw new IllegalArgumentException("incorrect parameters");
+        }
+
         builder.insert(0, "from Order order where ");
 
         Query query = sessionFactory.getCurrentSession().createQuery(builder.toString());
