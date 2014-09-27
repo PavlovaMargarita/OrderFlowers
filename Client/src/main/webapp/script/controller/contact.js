@@ -44,9 +44,6 @@ app.controller("contactCreateController", function ($scope, $http, $location, Va
                 $location.path('/contactList');
                 $location.replace();
             });
-            response.error(function (data) {
-                $scope.authorization.info = "error";
-            });
         }
     }
 });
@@ -69,9 +66,6 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
         $scope.totalRecords = data.totalCount;
         $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
         $scope.range = PagerService.buildRange($scope.totalPages);
-    });
-    response.error(function (data) {
-        $scope.authorization.info = "error";
     });
 
     $scope.getRecords = {};
@@ -116,8 +110,6 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
                     alert("Вы пытаетесь удалить контакт, который связан с пользователем");
                 }
                 $route.reload();
-            }, function(errorReason){
-                //ERROR !!!
             });
         }
     }
@@ -128,16 +120,11 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
             var templatesPromise = ContactsCommonService.getMailTemplates();
             templatesPromise.then(function(data){
                 $scope.templates = data;
-            }, function(errorReason){
-                //ERROR !!!
             });
 
             var emailsPromise = ContactsCommonService.getEmails($scope.checkContacts);
             emailsPromise.then(function(data){
                 $scope.emails = data;
-            }, function(errorReason){
-                //ERROR !!!
-
             });
             $('#' + 'modal-message').modal('show');
         }
@@ -148,8 +135,6 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
         var isSuccessPromise = ContactsCommonService.sendMail($scope.emails, $scope.email.text, $scope.email.topic);
         isSuccessPromise.then(function(){
             $('#' + 'modal-message').modal('hide');
-        }, function(errorReason){
-            // Process error
         });
     }
 });
@@ -198,9 +183,6 @@ app.controller("contactSearchResultController", function ($scope, $rootScope, $h
             $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
             $scope.range = PagerService.buildRange($scope.totalPages);
         });
-        response.error(function (data) {
-            $scope.authorization.info = "error";
-        });
         $rootScope.isSearchContact = false;
     }
 
@@ -247,8 +229,6 @@ app.controller("contactSearchResultController", function ($scope, $rootScope, $h
             }
             $rootScope.isSearchContact = true;
             $route.reload();
-        }, function(errorReason){
-            //ERROR !!!
         });
     }
 
@@ -258,14 +238,10 @@ app.controller("contactSearchResultController", function ($scope, $rootScope, $h
             var templatesPromise = ContactsCommonService.getMailTemplates();
             templatesPromise.then(function(data){
                 $scope.templates = data;
-            }, function(errorReason){
-
             });
             var emailsPromise = ContactsCommonService.getEmails($scope.checkContacts);
             emailsPromise.then(function(data){
                 $scope.emails = data;
-            }, function(errorReason){
-                //ERROR !!!
             });
             $('#' + 'modal-message').modal('show');
         }
@@ -276,8 +252,6 @@ app.controller("contactSearchResultController", function ($scope, $rootScope, $h
         var isSuccessPromise = ContactsCommonService.sendMail($scope.emails, $scope.email.text, $scope.email.topic);
         isSuccessPromise.then(function () {
             $('#' + 'modal-message').modal('hide');
-        }, function (errorReason) {
-            // Process error
         });
     }
 });
@@ -294,9 +268,7 @@ app.controller("contactCorrectController", function ($scope, $http, $routeParams
     response.success(function (data) {
         $scope.contact = data;
     });
-    response.error(function (data) {
-        $scope.authorization.info = "error";
-    });
+
     $scope.save = {};
     $scope.save.doClick = function () {
         var phones = new Array();
@@ -339,9 +311,6 @@ app.controller("contactCorrectController", function ($scope, $http, $routeParams
             response.success(function (data) {
                 $location.path('/contactList');
                 $location.replace();
-            });
-            response.error(function (data) {
-                $scope.authorization.info = "error";
             });
         }
     }

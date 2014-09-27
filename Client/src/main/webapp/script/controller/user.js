@@ -142,9 +142,6 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
         $scope.user = data;
         oldLogin = data.login;
     });
-    user.error(function (data) {
-        $scope.authorization.info = "error";
-    });
     var contacts = $http({
         method: "get",
         url: "/OrderFlowers/contactListForUser",
@@ -161,9 +158,6 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
             }
         }
     });
-    contacts.error(function (data) {
-        $scope.authorization.info = "error";
-    });
     var roleEnum = $http({
         method: "get",
         url: "/OrderFlowers/roleEnum"
@@ -177,9 +171,6 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
             }
         }
     });
-    roleEnum.error(function (data) {
-        $scope.authorization.info = "error";
-    });
 
     var login = $http({
         method: "post",
@@ -187,9 +178,6 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
     });
     login.success(function (data) {
         loginList = data;
-    });
-    login.error(function (data) {
-        $scope.authorization.info = "error";
     });
 
     $scope.isCorrectLogin = {};
@@ -218,9 +206,6 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
             user.success(function (data) {
                 $location.path('/userList');
                 $location.replace();
-            });
-            user.error(function (data) {
-                $scope.authorization.info = "error";
             });
         }
     }
