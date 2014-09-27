@@ -32,7 +32,7 @@ app.factory('ServerHttpResponseInterceptor', function($q, $timeout) {
                         document.getElementById('errorMessage').innerHTML = "Произошла серверная ошибка.\r\n" +
                             "Приносим свои извинения за неудобства.";
                         $timeout(function() {
-                            document.getElementById("errorOverlay").style.visibility = "visible";
+                            document.getElementById("errorOverlay").style.visibility = "hidden";
                         }, 3000);
                         break;
                     }
@@ -41,7 +41,7 @@ app.factory('ServerHttpResponseInterceptor', function($q, $timeout) {
                         document.getElementById('errorMessage').innerHTML = "Произошла серверная ошибка.\r\n" +
                             "Приносим свои извинения за неудобства.";
                         $timeout(function() {
-                            document.getElementById("errorOverlay").style.visibility = "visible";
+                            document.getElementById("errorOverlay").style.visibility = "hidden";
                         }, 3000);
                         break;
                     }
@@ -50,7 +50,7 @@ app.factory('ServerHttpResponseInterceptor', function($q, $timeout) {
                         document.getElementById("errorOverlay").style.visibility = "visible";
                         document.getElementById('errorMessage').innerHTML = "У вас нет прав доступа, или вы не авторизированы";
                         $timeout(function () {
-                            document.getElementById("errorOverlay").style.visibility = "visible";
+                            document.getElementById("errorOverlay").style.visibility = "hidden";
                         }, 3000);
                         break;
                     }
@@ -58,7 +58,7 @@ app.factory('ServerHttpResponseInterceptor', function($q, $timeout) {
                         document.getElementById("errorOverlay").style.visibility = "visible";
                         document.getElementById('errorMessage').innerHTML = "Введены некорректные данные.";
                         $timeout(function() {
-                            document.getElementById("errorOverlay").style.visibility = "visible";
+                            document.getElementById("errorOverlay").style.visibility = "hidden";
                         }, 3000);
                         break;
                     }
