@@ -5,18 +5,22 @@
     </div>
 
     <div class="order-search-information">
+        <label id="label-require" style="display: none; color: red;">Для поиска необходимо заполнить хотя бы 1 поле</label>
         <div class="box" id="customer-and-receiver">
             <h3>Отправитель и получатель</h3>
             <hr>
+            
             <div class="input-group" id="div-customer-surname">
                 <span class="input-group-addon">Фамилия отправителя</span>
                 <input type="text" class="form-control" name="customer-surname" id="customer-surname" ng-model="order.customerSurname"/>
             </div>
+            <label id="label-customer" style="display: none; color: red;">Введите отправителя</label>
 
             <div class="input-group" id="div-recipient-surname">
                 <span class="input-group-addon">Фамилия получателя</span>
                 <input type="text" class="form-control" name="receiver-surname" id="receiver-surname" ng-model="order.recipientSurname"/>
             </div>
+            <label id="label-recipient" style="display: none; color: red;">Введите получателя</label>
         </div>
 
         <div class="box" id="order-date-range">

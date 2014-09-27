@@ -236,34 +236,47 @@ function validateUserSave(value, Validation){
     if(value.contact!= undefined && Validation.validationInt(value.contact.id)){
         document.getElementById('div-contact').className = noError;
         validContact = true;
+        document.getElementById('label-contact').style.display = 'none';
     }
     if(!validContact){
         document.getElementById('div-contact').className = hasError;
+        document.getElementById('label-contact').style.display = 'inline';
         ok = false;
     }
     if(value.user!= undefined && Validation.validationRole(value.user.role)){
         document.getElementById('div-role').className = noError;
+        document.getElementById('label-role').style.display = 'none';
         validRole = true;
     }
     if(!validRole){
         document.getElementById('div-role').className = hasError;
+        document.getElementById('label-role').style.display = 'inline';
         ok = false;
     }
     if(value.user!= undefined && value.user.login != undefined && value.user.login.trim() != ''){
         document.getElementById('div-login').className = noError;
+        document.getElementById('label-login').style.display = 'none';
         validLogin = true;
     }
     if(!validLogin){
         document.getElementById('div-login').className = hasError;
+        document.getElementById('label-login').style.display = 'inline';
         ok = false;
     }
     if(value.user!= undefined && value.user.password != undefined && value.user.password.trim() != ''){
         document.getElementById('div-password').className = noError;
+        document.getElementById('label-password').style.display = 'none';
         validPassword = true;
     }
     if(!validPassword){
         document.getElementById('div-password').className = hasError;
+        document.getElementById('label-password').style.display = 'inline';
         ok = false;
+    }
+    if(!validContact && !validLogin && !validRole && !validPassword){
+        document.getElementById('label-require').style.display = 'inline';
+    } else{
+        document.getElementById('label-require').style.display = 'none';
     }
     return ok;
 }

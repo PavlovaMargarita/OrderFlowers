@@ -10,5 +10,6 @@ public interface OrderHistoryDAO {
     public OrderHistory readOrderHistory(int id); //if the orderHistory is not found, returns null
     public void updateOrderHistory(OrderHistory orderHistory);
     public List readOrderHistory(Order order);
-    public List readOrderHistory();
+    public List readOrderHistory(int first, int count);
+    public int getOrderHistoryCount();
 }

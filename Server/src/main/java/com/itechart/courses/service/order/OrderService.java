@@ -15,11 +15,8 @@ import java.util.Map;
  * Created by User on 20.09.14.
  */
 public interface OrderService {
-    public List<TableOrderDTO> getAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums);
     public PageableOrderDTO getAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums, int first, int count);
-    public List<TableOrderDTO> getAllOrders();
     public PageableOrderDTO getAllOrders(int first, int count);
-    public List<TableOrderDTO> searchOrders(OrderSearchDTO parameters);
     public PageableOrderDTO searchOrders(OrderSearchDTO parameters, int first, int count);
     public Map<OrderStatusEnum, String> getResolvedOrderStatus(OrderStatusEnum currentStatus);
     public OrderDTO readOrder(int id);

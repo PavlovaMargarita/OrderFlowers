@@ -355,50 +355,66 @@ function validationContactSave(value, Validation){
     if (!Validation.validationName(value.surname) || value.surname.trim() == '') {
         document.getElementById('div-surname').className = hasError;
         validate = false;
+        document.getElementById('label-surname').style.display = 'inline';
     } else{
         document.getElementById('div-surname').className = noError;
+        document.getElementById('label-surname').style.display = 'none';
     }
     if (!Validation.validationName(value.name) || value.name.trim() == '') {
         document.getElementById('div-name').className = hasError;
         validate = false;
+        document.getElementById('label-name').style.display = 'inline';
     } else{
         document.getElementById('div-name').className = noError;
+        document.getElementById('label-name').style.display = 'none';
     }
     if (!Validation.validationPatronymic(value.patronymic)) {
         document.getElementById('div-patronymic').className = hasError;
         validate = false;
+        document.getElementById('label-patronymic').style.display = 'inline';
     } else{
         document.getElementById('div-patronymic').className = noError;
+        document.getElementById('label-patronymic').style.display = 'none';
     }
     if(!Validation.validationEmail(value.email)){
         document.getElementById('div-email').className = hasError;
+        document.getElementById('label-email').style.display = 'inline';
         validate = false;
     } else{
         document.getElementById('div-email').className = noError;
+        document.getElementById('label-email').style.display = 'none';
     }
     if(!Validation.validationCity(value.city)){
         document.getElementById('div-city').className = hasError;
         validate = false;
+        document.getElementById('label-city').style.display = 'inline';
     } else{
         document.getElementById('div-city').className = noError;
+        document.getElementById('label-city').style.display = 'none';
     }
     if(!Validation.validationStreet(value.street)){
         document.getElementById('div-street').className = hasError;
         validate = false;
+        document.getElementById('label-street').style.display = 'inline';
     } else{
         document.getElementById('div-street').className = noError;
+        document.getElementById('label-street').style.display = 'none';
     }
     if(!Validation.validationInt(value.home)){
         document.getElementById('div-home').className = hasError;
         validate = false;
+        document.getElementById('label-home').style.display = 'inline';
     } else{
         document.getElementById('div-home').className = noError;
+        document.getElementById('label-home').style.display = 'none';
     }
     if(!Validation.validationInt(value.flat)){
         document.getElementById('div-flat').className = hasError;
         validate = false;
+        document.getElementById('label-flat').style.display = 'inline';
     } else{
         document.getElementById('div-flat').className = noError;
+        document.getElementById('label-flat').style.display = 'none';
     }
     return validate;
 }
@@ -408,59 +424,77 @@ function validationContactSearch(value, Validation){
     var fullInput = 0;
     var ok = true;
     if(value == undefined){
+        document.getElementById('label-require').style.display = 'inline';
         return false;
     }
     if (!Validation.validationName(value.surname)) {
         document.getElementById('div-surname').className = hasError;
         ok = false;
+        document.getElementById('label-surname').style.display = 'inline';
     } else{
         document.getElementById('div-surname').className = noError;
+        document.getElementById('label-surname').style.display = 'none';
         fullInput++;
     }
     if (!Validation.validationName(value.name)) {
         document.getElementById('div-name').className = hasError;
         ok = false;
+        document.getElementById('label-name').style.display = 'inline';
     } else{
         document.getElementById('div-name').className = noError;
+        document.getElementById('label-name').style.display = 'none';
         fullInput++;
     }
     if (!Validation.validationPatronymic(value.patronymic)) {
         document.getElementById('div-patronymic').className = hasError;
         ok = false;
+        document.getElementById('label-patronymic').style.display = 'inline';
     } else{
         document.getElementById('div-patronymic').className = noError;
+        document.getElementById('label-patronymic').style.display = 'none';
         fullInput++;
     }
     if(!Validation.validationCity(value.city)){
         document.getElementById('div-city').className = hasError;
         ok = false;
+        document.getElementById('label-city').style.display = 'inline';
     } else{
         document.getElementById('div-city').className = noError;
+        document.getElementById('label-city').style.display = 'none';
         fullInput++;
     }
     if(!Validation.validationStreet(value.street)){
         document.getElementById('div-street').className = hasError;
         ok = false;
+        document.getElementById('label-street').style.display = 'inline';
     } else{
         document.getElementById('div-street').className = noError;
+        document.getElementById('label-street').style.display = 'none';
         fullInput++;
     }
     if(!Validation.validationInt(value.home)){
         document.getElementById('div-home').className = hasError;
         ok = false;
+        document.getElementById('label-home').style.display = 'inline';
     } else{
         document.getElementById('div-home').className = noError;
+        document.getElementById('label-home').style.display = 'none';
         fullInput++;
     }
     if(!Validation.validationInt(value.flat)){
         document.getElementById('div-flat').className = hasError;
         ok = false;
+        document.getElementById('label-flat').style.display = 'inline';
     } else{
         document.getElementById('div-flat').className = noError;
+        document.getElementById('label-flat').style.display = 'none';
         fullInput++;
     }
     if(ok == true && fullInput == 0){
+        document.getElementById('label-require').style.display = 'inline';
         return false;
+    } else{
+        document.getElementById('label-require').style.display = 'none';
     }
     return ok;
 }

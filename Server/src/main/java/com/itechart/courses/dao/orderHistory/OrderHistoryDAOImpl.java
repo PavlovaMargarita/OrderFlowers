@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
 public class OrderHistoryDAOImpl implements OrderHistoryDAO {
 
     @Autowired
@@ -57,11 +56,20 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO {
     }
 
     @Override
-    public List readOrderHistory() {
+    public List readOrderHistory(int first, int count) {
         List<OrderHistory> result = null;
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("from OrderHistory");
+        query.setFirstResult(first);
+        query.setMaxResults(count);
         result = query.list();
         return result;
     }
+
+    public int getOrderHistoryCount(){
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("Select count(*) from OrderHistory");
+        return ((Number)query.uniqueResult()).intValue();
+    }
+
 }

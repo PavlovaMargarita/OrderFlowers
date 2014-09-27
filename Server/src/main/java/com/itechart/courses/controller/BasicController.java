@@ -717,11 +717,13 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getOrderHistory")
-    public @ResponseBody List getOrderHistory( ){
+    public @ResponseBody PageableOrderHistoryDTO getOrderHistory(@RequestParam("currentPage") int currentPage,
+                                                                 @RequestParam("pageRecords") int pageRecords ){
         logger.info("User viewed the order history");
-        List result = null;
+        PageableOrderHistoryDTO result = null;
         try {
-            result = orderHistoryService.readOrderHistory();
+            int firstRecordNumber = firstRecordNumber(currentPage, pageRecords);
+            result = orderHistoryService.readOrderHistory(firstRecordNumber, pageRecords);
         }
         catch (AccessDeniedException e){
             throw new NotAuthorizedException();

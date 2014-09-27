@@ -11,19 +11,21 @@
             <hr>
             <input type="hidden" class="form-control" name="id" id="id" ng-model="contact.id"/>
             <div class="input-group" id="div-surname">
-                <span class="input-group-addon">Фамилия</span>
+                <span class="input-group-addon">Фамилия </span>
                 <input type="text" class="form-control" name="surname" id="surname" ng-model="contact.surname"/>
             </div>
+            <label id="label-surname" style="display: none; color: red;">Введите корректную фамилию</label>
 
             <div class="input-group" id="div-name">
                 <span class="input-group-addon" >Имя</span>
                 <input type="text" class="form-control" id="name" name="name" ng-model="contact.name"/>
             </div>
-
+            <label id="label-name" style="display: none; color: red;">Введите корректное имя</label>
             <div class="input-group" id="div-patronymic">
                 <span class="input-group-addon">Отчество</span>
                 <input type="text" class="form-control" name="patronymic" id="patronymic" ng-model="contact.patronymic"/>
             </div>
+            <label id="label-patronymic" style="display: none; color: red;">Введите корректное отчество</label>
         </div>
 
         <div class="box" id="dob&email">
@@ -38,6 +40,7 @@
                 <span class="input-group-addon">Email</span>
                 <input type="email" class="form-control" name="email" id="email" ng-model="contact.email"/>
             </div>
+            <label id="label-email" style="display: none; color: red;">Введите корректный email</label>
         </div>
 
         <div class="box" id="address">
@@ -47,21 +50,23 @@
                 <span class="input-group-addon">Город</span>
                 <input type="text" class="form-control" name="city" id="city" ng-model="contact.city"/>
             </div>
+            <label id="label-city" style="display: none; color: red;">Введите корректный город</label>
 
             <div class="input-group" id="div-street">
                 <span class="input-group-addon">Улица</span>
                 <input type="text" class="form-control" name="street" id="street" ng-model="contact.street">
             </div>
-
+            <label id="label-street" style="display: none; color: red;">Введите корректную улицу</label>
             <div class="input-group" id="div-home">
                 <span class="input-group-addon">Дом</span>
                 <input type="text" class="form-control" name="home" id="home" ng-model="contact.home">
             </div>
-
+            <label id="label-home" style="display: none; color: red;">Введите корректный номер дома</label>
             <div class="input-group" id="div-flat">
                 <span class="input-group-addon">Квартира</span>
                 <input type="text" class="form-control" name="flat" id="flat" ng-model="contact.flat">
             </div>
+            <label id="label-flat" style="display: none; color: red;">Введите корректный номер квартиры</label>
         </div>
     </div>
 

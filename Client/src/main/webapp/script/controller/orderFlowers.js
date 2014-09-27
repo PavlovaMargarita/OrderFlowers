@@ -319,43 +319,55 @@ function validateOrderSave(value, Validation) {
     var hasError = "input-group has-error";
     var noError = "input-group";
     var ok = true;
-    if (document.getElementById('customer-id').value == "") {
+    if (document.getElementById('customer-id').value == "" || document.getElementById('customer-hidden-id').value == "") {
         ok = false;
         document.getElementById('div-customer').className = hasError;
+        document.getElementById('label-customer').style.display = 'inline';
     } else {
         document.getElementById('div-customer').className = noError;
+        document.getElementById('label-customer').style.display = 'none';
     }
 
-    if (document.getElementById('recipient-id').value == "") {
+    if (document.getElementById('recipient-id').value == "" || document.getElementById('recipient-hidden-id').value == "") {
         ok = false;
         document.getElementById('div-recipient').className = hasError;
+        document.getElementById('label-recipient').style.display = 'inline';
     } else {
         document.getElementById('div-receive').className = noError;
+        document.getElementById('label-recipient').style.display = 'none';
     }
     if (value.order.sum == undefined || value.order.sum == '' || !Validation.validationInt(value.order.sum) || value.order.sum == 0) {
         ok = false;
         document.getElementById('div-sum').className = hasError;
+        document.getElementById('label-sum').style.display = 'inline';
     } else {
         document.getElementById('div-sum').className = noError;
+        document.getElementById('label-sum').style.display = 'none';
     }
 
     if (value.deliveryManager == undefined) {
         ok = false;
         document.getElementById('div-delivery').className = hasError;
+        document.getElementById('label-delivery').style.display = 'inline';
     } else {
         document.getElementById('div-delivery').className = noError;
+        document.getElementById('label-delivery').style.display = 'none';
     }
     if (value.handlerManager == undefined) {
         ok = false;
         document.getElementById('div-handler').className = hasError;
+        document.getElementById('label-handler').style.display = 'inline';
     } else {
         document.getElementById('div-handler').className = noError;
+        document.getElementById('label-handler').style.display = 'none';
     }
     if (value.order.orderDescription == undefined || value.order.orderDescription.trim() == '') {
         ok = false;
         document.getElementById('div-description').className = hasError;
+        document.getElementById('label-description').style.display = 'inline';
     } else {
         document.getElementById('div-description').className = noError;
+        document.getElementById('label-description').style.display = 'none';
     }
     return ok;
 }
@@ -366,12 +378,14 @@ function validateOrderSearch(value, Validation) {
     var fullInput = 0;
     var ok = true;
     if (value == undefined) {
+        document.getElementById('label-require').style.display = 'inline';
         document.getElementById('div-customer-surname').className = hasError;
         document.getElementById('div-recipient-surname').className = hasError;
         document.getElementById('div-date-from').className = hasError;
         document.getElementById('div-date-to').className = hasError;
         return false;
     } else {
+        document.getElementById('label-require').style.display = 'none';
         document.getElementById('div-customer-surname').className = noError;
         document.getElementById('div-recipient-surname').className = noError;
         document.getElementById('div-date-from').className = noError;
@@ -381,8 +395,10 @@ function validateOrderSearch(value, Validation) {
         if (!Validation.validationName(value.customerSurname.trim())) {
             ok = false;
             document.getElementById('div-customer-surname').className = hasError;
+            document.getElementById('label-customer').style.display = 'inline';
         } else {
             document.getElementById('div-customer-surname').className = noError;
+            document.getElementById('label-customer').style.display = 'none';
             fullInput++;
         }
     }
@@ -390,8 +406,10 @@ function validateOrderSearch(value, Validation) {
         if (!Validation.validationName(value.recipientSurname.trim())) {
             ok = false;
             document.getElementById('div-recipient-surname').className = hasError;
+            document.getElementById('label-recipient').style.display = 'inline';
         } else {
             document.getElementById('div-recipient-surname').className = noError;
+            document.getElementById('label-recipient').style.display = 'none';
             fullInput++;
         }
     }
@@ -406,6 +424,7 @@ function validateOrderSearch(value, Validation) {
         document.getElementById('div-recipient-surname').className = hasError;
         document.getElementById('div-date-from').className = hasError;
         document.getElementById('div-date-to').className = hasError;
+        document.getElementById('label-require').style.display = 'inline';
         return false;
     }
     return ok;

@@ -305,7 +305,6 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public int getOrdersCount(int userId, List<OrderStatusEnum> orderStatusEnums) {
-
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < orderStatusEnums.size(); i++){
             if (builder.length() != 0){
@@ -324,6 +323,4 @@ public class OrderDAOImpl implements OrderDAO {
         }
         return ((Number)query.uniqueResult()).intValue();
     }
-
-
 }
