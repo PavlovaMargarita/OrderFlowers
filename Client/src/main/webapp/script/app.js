@@ -25,13 +25,43 @@ app.factory('ServerHttpResponseInterceptor', function($q, $timeout) {
                 return response;
             },
             function (response) {
-                if (response.status === 500) {
-                    document.getElementById("errorOverlay").style.visibility = "visible";
-                    document.getElementById('errorMessage').innerHTML = "Произошла серверная ошибка.\r\n" +
-                    "Приносим свои извинения за неудобства.";
-                    $timeout(function() {
+                var responseStatus = response.status;
+                switch(responseStatus){
+                    case 500:{
                         document.getElementById("errorOverlay").style.visibility = "visible";
-                    }, 3000);
+                        document.getElementById('errorMessage').innerHTML = "Произошла серверная ошибка.\r\n" +
+                            "Приносим свои извинения за неудобства.";
+                        $timeout(function() {
+                            document.getElementById("errorOverlay").style.visibility = "visible";
+                        }, 3000);
+                        break;
+                    }
+                    case 403:{
+                        document.getElementById("errorOverlay").style.visibility = "visible";
+                        document.getElementById('errorMessage').innerHTML = "Произошла серверная ошибка.\r\n" +
+                            "Приносим свои извинения за неудобства.";
+                        $timeout(function() {
+                            document.getElementById("errorOverlay").style.visibility = "visible";
+                        }, 3000);
+                        break;
+                    }
+                    case 401:
+                    {
+                        document.getElementById("errorOverlay").style.visibility = "visible";
+                        document.getElementById('errorMessage').innerHTML = "У вас нет прав доступа, или вы не авторизированы";
+                        $timeout(function () {
+                            document.getElementById("errorOverlay").style.visibility = "visible";
+                        }, 3000);
+                        break;
+                    }
+                    case 400:{
+                        document.getElementById("errorOverlay").style.visibility = "visible";
+                        document.getElementById('errorMessage').innerHTML = "Введены некорректные данные.";
+                        $timeout(function() {
+                            document.getElementById("errorOverlay").style.visibility = "visible";
+                        }, 3000);
+                        break;
+                    }
                 }
                 return $q.reject(response);
             });
