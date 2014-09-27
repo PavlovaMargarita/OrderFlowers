@@ -104,3 +104,34 @@ body {
     width: 15pt;
     cursor: hand;
 }
+
+.overlay {
+    visibility: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    text-align:center;
+    z-index: 899999;
+}
+#errorMessage{
+    margin: 50px;
+    white-space: pre-wrap;
+}
+
+.errorPopup{
+    width: 400px;
+    height: 200px;
+    margin: 100px auto;
+    background-color: #fff;
+    border:1px solid #000;
+    z-index:900000;
+    max-width: 450px;
+    border-radius: 9px;
+}
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 2s, opacity 2s linear;
+}

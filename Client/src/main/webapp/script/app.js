@@ -19,6 +19,25 @@ app.run(function($rootScope, $cookieStore){
     }
 });
 
+app.factory('ServerHttpResponseInterceptor', function($q, $timeout) {
+    return function (promise) {
+        return promise.then(function (response) {
+                return response;
+            },
+            function (response) {
+                if (response.status === 500) {
+                    document.getElementById("errorOverlay").style.visibility = "visible";
+                    document.getElementById('errorMessage').innerHTML = "Произошла серверная ошибка.\r\n" +
+                    "Приносим свои извинения за неудобства.";
+                    $timeout(function() {
+                        document.getElementById("errorOverlay").style.visibility = "visible";
+                    }, 3000);
+                }
+                return $q.reject(response);
+            });
+    };
+});
+
 app.service('PagerService', function() {
     this.totalPageNumber = function(pageRecords, totalRecords) {
         var totalPageNumber = 1;
@@ -203,7 +222,7 @@ app.service('Validation', function(){
     }
 });
 
-app.config(function($routeProvider){
+app.config(function($routeProvider, $httpProvider){
     $routeProvider
         .when('/login', {
             templateUrl: 'pages/authorization.html',
@@ -271,5 +290,7 @@ app.config(function($routeProvider){
             templateUrl: 'pages/user_create.html',
             controller: 'userCorrectController'
         } )
+
+    $httpProvider.responseInterceptors.push('ServerHttpResponseInterceptor');
 });
 
