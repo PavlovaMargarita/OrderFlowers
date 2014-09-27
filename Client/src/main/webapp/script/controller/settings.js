@@ -11,7 +11,7 @@ app.controller("orderHistoryController", function ($scope, $http, $rootScope, Pa
         params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
     });
     getOrderHistory.success(function (data){
-        $scope.orderHistory = data.pageableContacts;
+        $scope.orderHistory = data.pageableData;
         $scope.totalRecords = data.totalCount;
         $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
         $scope.range = PagerService.buildRange($scope.totalPages);
@@ -25,7 +25,7 @@ app.controller("orderHistoryController", function ($scope, $http, $rootScope, Pa
             params: {currentPage: pageNumber, pageRecords: $rootScope.recordsOnPage}
         });
         response.success(function (data) {
-            $scope.contacts = data.pageableContacts;
+            $scope.orderHistory = data.pageableData;
             $scope.currentPage = pageNumber;
             $scope.totalRecords = data.totalCount;
             $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
