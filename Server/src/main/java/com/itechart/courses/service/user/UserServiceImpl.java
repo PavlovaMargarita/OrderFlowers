@@ -42,6 +42,9 @@ public class UserServiceImpl implements UserService {
             userDTOToUser(userDTO, user);
             userDAO.createUser(user);
         }
+        else {
+            throw new IllegalArgumentException("incorrect userDTO");
+        }
     }
 
     @Override
@@ -50,6 +53,9 @@ public class UserServiceImpl implements UserService {
             User user = userDAO.readUser(userDTO.getId());
             userDTOToUser(userDTO, user);
             userDAO.updateUser(user);
+        }
+        else {
+            throw new IllegalArgumentException("incorrect userDTO");
         }
     }
 

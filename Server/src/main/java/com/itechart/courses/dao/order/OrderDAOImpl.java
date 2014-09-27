@@ -160,6 +160,11 @@ public class OrderDAOImpl implements OrderDAO {
             }
             builder.append("order.recipient.surname LIKE :recipientSurname");
         }
+
+        if (builder.length() == 0){
+            throw new IllegalArgumentException("incorrect parameters");
+        }
+
         builder.insert(0, "from Order order where ");
 
         Query query = sessionFactory.getCurrentSession().createQuery(builder.toString());
@@ -212,6 +217,11 @@ public class OrderDAOImpl implements OrderDAO {
             }
             builder.append("order.recipient.surname LIKE :recipientSurname");
         }
+
+        if (builder.length() == 0){
+            throw new IllegalArgumentException("incorrect parameters");
+        }
+
         builder.insert(0, "from Order order where ");
 
         Query query = sessionFactory.getCurrentSession().createQuery(builder.toString());

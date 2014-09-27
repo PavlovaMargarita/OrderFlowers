@@ -52,6 +52,9 @@ public class ContactServiceImpl implements ContactService {
             contact = contactDAO.readContact(idContact);
             updatePhone(contact, contactDTO.getPhones());
         }
+        else {
+            throw new IllegalArgumentException("incorrectDTO");
+        }
     }
 
     @Override
@@ -60,6 +63,9 @@ public class ContactServiceImpl implements ContactService {
             Contact contact = contactDTOToContact(contactDTO);
             contactDAO.updateContact(contact);
             updatePhone(contact, contactDTO.getPhones());
+        }
+        else {
+            throw new IllegalArgumentException("IncorrectDTO");
         }
     }
 
@@ -123,6 +129,9 @@ public class ContactServiceImpl implements ContactService {
             for (Contact contact : contactList) {
                 personDTOList.add(contactToPersonDTO(contact));
             }
+        }
+        else {
+            throw new IllegalArgumentException("incorrect parameters");
         }
         return personDTOList;
     }

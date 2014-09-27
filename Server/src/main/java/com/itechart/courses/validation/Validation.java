@@ -129,24 +129,25 @@ public class Validation {
         }
         return ok;
     }
+
     public static boolean validateOrder(OrderDTO orderDTO){
         boolean ok = true;
-        if(orderDTO.getCustomer() == null){
+        if(orderDTO.getCustomer() == null || orderDTO.getCustomer().getId() == null){
             ok = false;
         }
-        if(orderDTO.getRecipient() == null){
+        if(orderDTO.getRecipient() == null || orderDTO.getRecipient().getId() == null){
             ok = false;
         }
-        if(orderDTO.getDeliveryManager() == null){
+        if(orderDTO.getDeliveryManager() == null || orderDTO.getDeliveryManager().getId() == null){
             ok = false;
         }
-        if(orderDTO.getHandlerManager() == null){
+        if(orderDTO.getHandlerManager() == null || orderDTO.getHandlerManager().getId() == null){
             ok = false;
         }
         if(orderDTO.getOrderDescription() == null || orderDTO.getOrderDescription().trim().equals("")){
             ok = false;
         }
-        if(orderDTO.getSum() == 0){
+        if(orderDTO.getSum() == null){
             ok = false;
         }
         return ok;
