@@ -109,6 +109,12 @@ body {
     border-color: #28a4c9;
 }
 
+.authorization .div-error {
+    color: #b92c28;
+    font-weight: bold;
+    text-align: center;
+}
+
 .authorization .container {
     margin-top: 5%;
     width: 400px;
