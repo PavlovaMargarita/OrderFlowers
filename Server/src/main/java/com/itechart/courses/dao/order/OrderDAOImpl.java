@@ -21,7 +21,6 @@ import java.util.List;
  */
 
 @Repository
-//@Transactional
 public class OrderDAOImpl implements OrderDAO {
 
     @Autowired

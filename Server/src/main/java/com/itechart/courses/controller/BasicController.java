@@ -298,8 +298,10 @@ public class BasicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getOrderHistory")
-    public @ResponseBody List getOrderHistory( ){
+    public @ResponseBody PageableOrderHistoryDTO getOrderHistory(@RequestParam("currentPage") int currentPage,
+                                                                 @RequestParam("pageRecords") int pageRecords ){
         logger.info("User viewed the order history");
-        return orderHistoryService.readOrderHistory();
+        int firstRecordNumber = firstRecordNumber(currentPage, pageRecords);
+        return orderHistoryService.readOrderHistory(firstRecordNumber, pageRecords);
     }
 }
