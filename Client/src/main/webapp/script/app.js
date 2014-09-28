@@ -199,7 +199,7 @@ app.service('ContactsCommonService', function(PagerService, MailService, $route,
                 }
             });
             contactDelete.success(function (data) {
-                deferred.resolve(true);
+                deferred.resolve(data == "true");
 ;            });
             contactDelete.error(function(reason){
                 deferred.reject(reason);
