@@ -162,6 +162,11 @@ app.service('ContactsCommonService', function(PagerService, MailService, $route,
         return dataPromise;
     }
 
+    this.getMailTemplates = function(){
+        var dataPromise = MailService.getMailTemplates();
+        return dataPromise;
+    }
+
     this.sendMail = function(listContacts, text, topic){
         return MailService.sendMail(listContacts, text, topic);
 
@@ -179,7 +184,7 @@ app.service('ContactsCommonService', function(PagerService, MailService, $route,
             });
             contactDelete.success(function (data) {
                 deferred.resolve(data == "true");
-;            });
+            });
             contactDelete.error(function(reason){
                 deferred.reject(reason);
             });
