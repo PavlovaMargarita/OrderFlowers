@@ -157,27 +157,6 @@ app.service('MailService', function($http, $q){
 
 app.service('ContactsCommonService', function(PagerService, MailService, $route, $http, $q) {
 
-    this.isPrevDisabled = function(currentPage){
-        return PagerService.isPrevDisabled(currentPage);
-    }
-
-    this.isNextDisabled = function(currentPage, totalPages){
-        return PagerService.isNextDisabled(currentPage, totalPages);
-    }
-
-    this.isFirstDisabled = function(currentPage){
-        return PagerService.isFirstDisabled(currentPage);
-    }
-
-    this.isLastDisabled = function(currentPage, totalPages){
-        return PagerService.isLastDisabled(currentPage, totalPages);
-    }
-
-    this.getMailTemplates = function(){
-        var dataPromise = MailService.getMailTemplates();
-        return dataPromise;
-    }
-
     this.getEmails = function(checkContacts){
         var dataPromise = MailService.getEmails(checkContacts);
         return dataPromise;
