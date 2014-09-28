@@ -1,4 +1,4 @@
-app.controller("contactCreateController", function ($scope, $http, $location, Validation) {
+app.controller("contactCreateController", function ($scope, $http, $location, $anchorScroll, Validation) {
     $scope.contact = {};
     $scope.contact.surname = '';
     $scope.contact.name='';
@@ -44,6 +44,9 @@ app.controller("contactCreateController", function ($scope, $http, $location, Va
                 $location.path('/contactList');
                 $location.replace();
             });
+        }
+        else{
+            window.scrollTo(0, 200);
         }
     }
 });
@@ -256,7 +259,7 @@ app.controller("contactSearchResultController", function ($scope, $rootScope, $h
     }
 });
 
-app.controller("contactCorrectController", function ($scope, $http, $routeParams, $location, Validation) {
+app.controller("contactCorrectController", function ($scope, $http, $routeParams, $location, $anchorScroll, Validation) {
     var id = $routeParams.id;
     var response = $http({
         method: "get",
@@ -312,6 +315,9 @@ app.controller("contactCorrectController", function ($scope, $http, $routeParams
                 $location.path('/contactList');
                 $location.replace();
             });
+        }
+        else{
+            window.scrollTo(0, 200);
         }
     }
 });
