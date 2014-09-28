@@ -124,7 +124,7 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
 
             var emailsPromise = ContactsCommonService.getEmails($scope.checkContacts);
             emailsPromise.then(function(data){
-                $scope.emails = data;
+                $scope.listContacts = data;
             });
             $('#' + 'modal-message').modal('show');
         }
@@ -132,7 +132,7 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
 
     $scope.sendEmail = {};
     $scope.sendEmail.doClick = function(){
-        var isSuccessPromise = ContactsCommonService.sendMail($scope.emails, $scope.email.text, $scope.email.topic);
+        var isSuccessPromise = ContactsCommonService.sendMail($scope.listContacts, $scope.email.text, $scope.email.topic);
         isSuccessPromise.then(function(){
             $('#' + 'modal-message').modal('hide');
         });
@@ -241,7 +241,7 @@ app.controller("contactSearchResultController", function ($scope, $rootScope, $h
             });
             var emailsPromise = ContactsCommonService.getEmails($scope.checkContacts);
             emailsPromise.then(function(data){
-                $scope.emails = data;
+                $scope.listContacts = data;
             });
             $('#' + 'modal-message').modal('show');
         }
@@ -249,7 +249,7 @@ app.controller("contactSearchResultController", function ($scope, $rootScope, $h
 
     $scope.sendEmail = {};
     $scope.sendEmail.doClick = function() {
-        var isSuccessPromise = ContactsCommonService.sendMail($scope.emails, $scope.email.text, $scope.email.topic);
+        var isSuccessPromise = ContactsCommonService.sendMail($scope.listContacts, $scope.email.text, $scope.email.topic);
         isSuccessPromise.then(function () {
             $('#' + 'modal-message').modal('hide');
         });
