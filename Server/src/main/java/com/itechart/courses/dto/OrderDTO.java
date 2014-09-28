@@ -2,10 +2,8 @@ package com.itechart.courses.dto;
 
 import com.itechart.courses.enums.OrderStatusEnum;
 
-/**
- * Created by User on 21.09.14.
- */
 public class OrderDTO {
+
     private int id;
     private OrderStatusEnum currentState;
     private String russianCurrentState;
@@ -13,12 +11,9 @@ public class OrderDTO {
     private String orderDescription;
     private Integer sum;
     private String date;
-
-
     private PersonDTO receiveManager;
     private PersonDTO handlerManager;
     private PersonDTO deliveryManager;
-
     private PersonDTO customer;
     private PersonDTO recipient;
 

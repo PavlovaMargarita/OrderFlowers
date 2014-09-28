@@ -1,13 +1,9 @@
 package com.itechart.courses.dto;
 
-import com.itechart.courses.enums.OrderStatusEnum;
-
 import java.sql.Date;
 
-/**
- * Created by Margarita on 26.09.2014.
- */
 public class OrderHistoryDTO {
+
     private PersonDTO customer;
     private PersonDTO recipient;
     private Date date;

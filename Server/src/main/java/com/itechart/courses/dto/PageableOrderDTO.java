@@ -5,7 +5,6 @@ import java.util.List;
 public class PageableOrderDTO {
 
     private List<TableOrderDTO> pageableData;
-
     private int totalCount;
 
     public PageableOrderDTO(List<TableOrderDTO> pageableData, int totalCount) {

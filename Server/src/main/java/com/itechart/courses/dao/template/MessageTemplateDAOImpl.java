@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-//@Transactional
 public class MessageTemplateDAOImpl implements MessageTemplateDAO {
 
     @Autowired

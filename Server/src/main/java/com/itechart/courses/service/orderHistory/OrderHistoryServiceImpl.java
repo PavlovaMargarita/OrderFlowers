@@ -14,9 +14,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Margarita on 26.09.2014.
- */
 @Service
 @Transactional
 public class OrderHistoryServiceImpl implements OrderHistoryService {

@@ -5,9 +5,6 @@ import com.itechart.courses.dto.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Margarita on 25.09.2014.
- */
 public class Validation {
     public static boolean validateContact(ContactDTO contactDTO){
         boolean ok = true;
