@@ -19,9 +19,6 @@ app.controller("userListController", function ($scope, $http, $location, $rootSc
         $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
         $scope.range = PagerService.buildRange($scope.totalPages);
     });
-    response.error(function (data) {
-        $scope.authorization.info = "error";
-    });
 
     $scope.getRecords = {};
     $scope.getRecords.doClick = function (pageNumber) {
@@ -52,9 +49,6 @@ app.controller("userListController", function ($scope, $http, $location, $rootSc
             userDelete.success(function (data) {
                 $route.reload();
             });
-            userDelete.error(function (data) {
-                $scope.authorization.info = "error";
-            });
         }
     }
 });
@@ -70,18 +64,13 @@ app.controller("userCreateController", function ($scope, $http, $location, Valid
     contacts.success(function (data) {
         $scope.contacts = data;
     });
-    contacts.error(function (data) {
-        $scope.authorization.info = "error";
-    });
+
     var roleEnum = $http({
         method: "get",
         url: "/OrderFlowers/roleEnum"
     });
     roleEnum.success(function (data) {
         $scope.roles = data;
-    });
-    roleEnum.error(function (data) {
-        $scope.authorization.info = "error";
     });
 
     var login = $http({
@@ -90,9 +79,6 @@ app.controller("userCreateController", function ($scope, $http, $location, Valid
     });
     login.success(function (data) {
         loginList = data;
-    });
-    login.error(function (data) {
-        $scope.authorization.info = "error";
     });
 
     $scope.isCorrectLogin = {};
@@ -120,9 +106,6 @@ app.controller("userCreateController", function ($scope, $http, $location, Valid
             user.success(function (data) {
                 $location.path('/userList');
                 $location.replace();
-            });
-            user.error(function (data) {
-                $scope.authorization.info = "error";
             });
         }
     }
