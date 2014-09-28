@@ -267,6 +267,8 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $rootSc
                 $location.path('/orderList');
                 $location.replace();
             });
+        }else {
+            window.scrollTo(0, 200);
         }
     };
 });
