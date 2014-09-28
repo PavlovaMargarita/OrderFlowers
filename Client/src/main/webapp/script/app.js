@@ -195,12 +195,12 @@ app.service('ContactsCommonService', function(PagerService, MailService, $route,
 
 app.service('Validation', function(){
    this.validationName = function(value){
-       var re = /^[A-zА-яЁё -]+$/;
+       var re = /^[A-Za-zА-Яа-яЁё -]+$/;
        return re.test(value);
    }
     this.validationPatronymic = function(value){
 
-        var re = /^[A-zА-яЁё]+$/;
+        var re = /^[A-Za-zА-Яа-яЁё]+$/;
         return re.test(value);
     }
     this.validationEmail = function(value){
@@ -212,11 +212,11 @@ app.service('Validation', function(){
         return re.test(value);
     }
     this.validationCity = function(value){
-        var re = /^[A-zА-яЁё -]+$/;
+        var re = /^[A-Za-zА-Яа-яЁё -]+$/;
         return re.test(value);
     }
     this.validationStreet = function(value){
-        var re = /^[A-zА-яЁё0-9 -]+$/;
+        var re = /^[A-Za-zА-Яа-яЁё0-9 -]+$/;
         return re.test(value);
     }
     this.validationInt = function(value){
