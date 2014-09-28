@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -61,12 +62,10 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public List<Order> readAllOrder(Contact contact) {
-        List<Order> result = null;
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("from Order where customer = :customer");
         query.setParameter("customer", contact);
-        result = query.list();
-        return result;
+        return query.list();
     }
 
     @Override
@@ -89,7 +88,14 @@ public class OrderDAOImpl implements OrderDAO {
         }
         query.setFirstResult(first);
         query.setMaxResults(count);
-        return query.list();
+        List <Order> array = query.list();
+        List result = new ArrayList();
+        for(Order order: array){
+            if(orderStatusEnums.contains(order.getStatus())){
+                result.add(order);
+            }
+        }
+        return result;
     }
 
     @Override
