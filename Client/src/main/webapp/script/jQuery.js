@@ -27,6 +27,7 @@ $(function() {
     $( "#recipient-id" ).autocomplete({
         source: function( request, response ) {
             $.ajax({
+                method: "post",
                 url: "/OrderFlowers/getPerson",
                 dataType: "json",
                 data: {term: request.term},
