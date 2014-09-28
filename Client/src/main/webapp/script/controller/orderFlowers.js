@@ -8,7 +8,7 @@ app.controller("orderListController", function ($scope, $rootScope, $http, Pager
     //получаем список заказов при загузке страницы order_list.html
     var response = $http({
         method: "get",
-        url: "/OrderFlowers/orderList",
+        url: "/OrderFlowers/order/orderList",
         params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
     });
     response.success(function (data) {
@@ -22,7 +22,7 @@ app.controller("orderListController", function ($scope, $rootScope, $http, Pager
     $scope.getRecords.doClick = function(pageNumber){
         var response = $http({
             method: "get",
-            url: "/OrderFlowers/orderList",
+            url: "/OrderFlowers/order/orderList",
             params: {currentPage: pageNumber, pageRecords: $rootScope.recordsOnPage}
         });
         response.success(function(data){
@@ -64,7 +64,7 @@ app.controller("orderSearchResultController", function ($scope, $rootScope, $htt
         var searchRequest = $rootScope.orderSearchRequest;
         var response = $http({
             method: "post",
-            url: "/OrderFlowers/orderSearch",
+            url: "/OrderFlowers/order/orderSearch",
             data: searchRequest,
             params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
         });
@@ -81,7 +81,7 @@ app.controller("orderSearchResultController", function ($scope, $rootScope, $htt
     $scope.getRecords.doClick = function(pageNumber){
         var response = $http({
             method: "post",
-            url: "/OrderFlowers/orderSearch",
+            url: "/OrderFlowers/order/orderSearch",
             data: searchRequest,
             params: {currentPage: pageNumber, pageRecords: $rootScope.recordsOnPage}
         });
@@ -124,7 +124,7 @@ app.controller("orderCreateController", function ($scope, $http, $location, Vali
 
     var getManagers = $http({
         method: "get",
-        url: "/OrderFlowers/getUsersByRole",
+        url: "/OrderFlowers/user/getUsersByRole",
         params: {
             role: ['ROLE_PROCESSING_ORDERS_SPECIALIST', 'ROLE_SERVICE_DELIVERY_MANAGER']
         }
@@ -140,7 +140,7 @@ app.controller("orderCreateController", function ($scope, $http, $location, Vali
         if (validateOrderSave($scope, Validation)) {
             var correctOrder = $http({
                 method: "post",
-                url: "/OrderFlowers/createOrder",
+                url: "/OrderFlowers/order/createOrder",
                 data: {
                     orderDescription: $scope.order.orderDescription,
                     sum: $scope.order.sum,
@@ -172,7 +172,7 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $rootSc
     var id = $routeParams.id;
     var order = $http({
         method: "get",
-        url: "/OrderFlowers/showOrder",
+        url: "/OrderFlowers/order/showOrder",
         params: {
             id: id
         }
@@ -182,7 +182,7 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $rootSc
 
         var possibleOrderStates = $http({
             method: "get",
-            url: "/OrderFlowers/getResolvedOrderState",
+            url: "/OrderFlowers/order/getResolvedOrderState",
             params: {
                 currentState: $scope.order.currentState
             }
@@ -200,7 +200,7 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $rootSc
                 $scope.disabledOnTheRole = false;
                 var getManagers = $http({
                     method: "get",
-                    url: "/OrderFlowers/getUsersByRole",
+                    url: "/OrderFlowers/user/getUsersByRole",
                     params: {
                         role: ['ROLE_PROCESSING_ORDERS_SPECIALIST', 'ROLE_SERVICE_DELIVERY_MANAGER']
                     }
@@ -240,7 +240,7 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $rootSc
         if (validateOrderSave($scope, Validation)) {
             var correctOrder = $http({
                 method: "post",
-                url: "/OrderFlowers/correctOrder",
+                url: "/OrderFlowers/order/correctOrder",
                 data: {
                     id: $routeParams.id,
                     russianCurrentState: $scope.order.newState,

@@ -3,7 +3,7 @@ $(function() {
         source: function( request, response ) {
             $.ajax({
                 method: "post",
-                url: "/OrderFlowers/getPerson",
+                url: "/OrderFlowers/contact/getPerson",
                 dataType: "json",
                 data: {term: request.term},
                 success: function(data) {
@@ -28,7 +28,7 @@ $(function() {
         source: function( request, response ) {
             $.ajax({
                 method: "post",
-                url: "/OrderFlowers/getPerson",
+                url: "/OrderFlowers/contact/getPerson",
                 dataType: "json",
                 data: {term: request.term},
                 success: function(data) {

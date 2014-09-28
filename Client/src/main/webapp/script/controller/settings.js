@@ -7,7 +7,7 @@ app.controller("orderHistoryController", function ($scope, $http, $rootScope, Pa
 
     var getOrderHistory = $http({
         method: "get",
-        url: "/OrderFlowers/getOrderHistory",
+        url: "/OrderFlowers/orderHistory/getOrderHistory",
         params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
     });
     getOrderHistory.success(function (data){
@@ -21,7 +21,7 @@ app.controller("orderHistoryController", function ($scope, $http, $rootScope, Pa
     $scope.getRecords.doClick = function (pageNumber) {
         var response = $http({
             method: "get",
-            url: "/OrderFlowers/getOrderHistory",
+            url: "/OrderFlowers/orderHistory/getOrderHistory",
             params: {currentPage: pageNumber, pageRecords: $rootScope.recordsOnPage}
         });
         response.success(function (data) {

@@ -105,7 +105,7 @@ app.service('MailService', function($http, $q){
         var deferred = $q.defer();
         var showTemplate = $http({
             method: "get",
-            url: "/OrderFlowers/showTemplate"
+            url: "/OrderFlowers/mail/showTemplate"
         });
         showTemplate.success(function(data) {
             deferred.resolve(data);
@@ -120,7 +120,7 @@ app.service('MailService', function($http, $q){
         var deferred = $q.defer();
         var showEmail = $http({
             method: "get",
-            url: "/OrderFlowers/showEmail",
+            url: "/OrderFlowers/mail/showEmail",
             params: {
                 checkId: checkContacts
             }
@@ -138,7 +138,7 @@ app.service('MailService', function($http, $q){
         var deferred = $q.defer();
         var emailSend = $http({
             method: "post",
-            url: "/OrderFlowers/sendEmail",
+            url: "/OrderFlowers/mail/sendEmail",
             data: {
                 contacts: listContacts,
                 text: text,
@@ -193,7 +193,7 @@ app.service('ContactsCommonService', function(PagerService, MailService, $route,
             var deferred = $q.defer();
             var contactDelete = $http({
                 method: "post",
-                url: "/OrderFlowers/contactDelete",
+                url: "/OrderFlowers/contact/contactDelete",
                 data: {
                     checkId: checkContacts
                 }

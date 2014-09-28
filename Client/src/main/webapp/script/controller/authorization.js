@@ -5,7 +5,7 @@ app.controller("authorizationController", function ($scope, $http, $location, $r
     if(isSuccess){
         var response = $http({
             method: "get",
-            url: "/OrderFlowers/userInfo"
+            url: "/OrderFlowers/user/userInfo"
         });
         response.success(function (data) {
             $cookieStore.put("userInfo", data);
@@ -30,7 +30,7 @@ app.controller("authorizationController", function ($scope, $http, $location, $r
     $scope.storeCurrentUserInfo = function(){
         var response = $http({
             method: "get",
-            url: "/OrderFlowers/userInfo"})
+            url: "/OrderFlowers/user/userInfo"})
             .success(function (data) {
                 $cookieStore.put("userInfo", data);
                 $scope.successRedirect(data);})

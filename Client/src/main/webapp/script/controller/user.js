@@ -10,7 +10,7 @@ app.controller("userListController", function ($scope, $http, $location, $rootSc
     $scope.usersToDelete = [];
     var response = $http({
         method: "get",
-        url: "/OrderFlowers/userList",
+        url: "/OrderFlowers/user/userList",
         params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
     });
     response.success(function (data) {
@@ -24,7 +24,7 @@ app.controller("userListController", function ($scope, $http, $location, $rootSc
     $scope.getRecords.doClick = function (pageNumber) {
         var response = $http({
             method: "get",
-            url: "/OrderFlowers/userList",
+            url: "/OrderFlowers/user/userList",
             params: {currentPage: pageNumber, pageRecords: $rootScope.recordsOnPage}
         });
         response.success(function (data) {
@@ -41,7 +41,7 @@ app.controller("userListController", function ($scope, $http, $location, $rootSc
         if ($scope.usersToDelete.length != 0) {
             var userDelete = $http({
                 method: "post",
-                url: "/OrderFlowers/userDelete",
+                url: "/OrderFlowers/user/userDelete",
                 data: {
                     checkId: $scope.usersToDelete
                 }
@@ -56,7 +56,7 @@ app.controller("userListController", function ($scope, $http, $location, $rootSc
 app.controller("userCreateController", function ($scope, $http, $location, Validation) {
     var contacts = $http({
         method: "get",
-        url: "/OrderFlowers/contactListForUser",
+        url: "/OrderFlowers/contact/contactListForUser",
         params: {
             id: 0
         }
@@ -67,7 +67,7 @@ app.controller("userCreateController", function ($scope, $http, $location, Valid
 
     var roleEnum = $http({
         method: "get",
-        url: "/OrderFlowers/roleEnum"
+        url: "/OrderFlowers/user/roleEnum"
     });
     roleEnum.success(function (data) {
         $scope.roles = data;
@@ -75,7 +75,7 @@ app.controller("userCreateController", function ($scope, $http, $location, Valid
 
     var login = $http({
         method: "post",
-        url: "/OrderFlowers/getLogin"
+        url: "/OrderFlowers/user/getLogin"
     });
     login.success(function (data) {
         loginList = data;
@@ -95,7 +95,7 @@ app.controller("userCreateController", function ($scope, $http, $location, Valid
         if(validateUserSave($scope, Validation)) {
             var user = $http({
                 method: "post",
-                url: "/OrderFlowers/saveUserCreate",
+                url: "/OrderFlowers/user/saveUserCreate",
                 data: {
                     idContact: $scope.contact.id,
                     role: $scope.user.role,
@@ -116,7 +116,7 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
     var id = $routeParams.id;
     var user = $http({
         method: "get",
-        url: "/OrderFlowers/userCorrect",
+        url: "/OrderFlowers/user/userCorrect",
         params: {
             id: id
         }
@@ -127,7 +127,7 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
     });
     var contacts = $http({
         method: "get",
-        url: "/OrderFlowers/contactListForUser",
+        url: "/OrderFlowers/contact/contactListForUser",
         params: {
             id: id
         }
@@ -143,7 +143,7 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
     });
     var roleEnum = $http({
         method: "get",
-        url: "/OrderFlowers/roleEnum"
+        url: "/OrderFlowers/user/roleEnum"
     });
     roleEnum.success(function (data) {
         $scope.roles = data;
@@ -157,7 +157,7 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
 
     var login = $http({
         method: "post",
-        url: "/OrderFlowers/getLogin"
+        url: "/OrderFlowers/user/getLogin"
     });
     login.success(function (data) {
         loginList = data;
@@ -177,7 +177,7 @@ app.controller("userCorrectController", function ($scope, $http, $routeParams, $
         if(validateUserSave($scope,Validation)) {
             var user = $http({
                 method: "post",
-                url: "/OrderFlowers/saveUserCorrect",
+                url: "/OrderFlowers/user/saveUserCorrect",
                 data: {
                     id: id,
                     idContact: $scope.contact.id,

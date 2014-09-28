@@ -26,7 +26,7 @@ app.controller("contactCreateController", function ($scope, $http, $location, $a
         if(validationContactSave($scope.contact, Validation)) {
             var response = $http({
                 method: "post",
-                url: "/OrderFlowers/saveContactCreate",
+                url: "/OrderFlowers/contact/saveContactCreate",
                 data: {
                     surname: $scope.contact.surname,
                     name: $scope.contact.name,
@@ -61,7 +61,7 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
 
     var response = $http({
         method: "get",
-        url: "/OrderFlowers/contactList",
+        url: "/OrderFlowers/contact/contactList",
         params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
     });
     response.success(function (data) {
@@ -75,7 +75,7 @@ app.controller("contactListController", function ($scope, $rootScope, $http, $lo
     $scope.getRecords.doClick = function (pageNumber) {
         var response = $http({
             method: "get",
-            url: "/OrderFlowers/contactList",
+            url: "/OrderFlowers/contact/contactList",
             params: {currentPage: pageNumber, pageRecords: $rootScope.recordsOnPage}
         });
         response.success(function (data) {
@@ -176,7 +176,7 @@ app.controller("contactSearchResultController", function ($scope, $rootScope, $h
         var searchRequest = $rootScope.request;
         var response = $http({
             method: "post",
-            url: "/OrderFlowers/contactSearch",
+            url: "/OrderFlowers/contact/contactSearch",
             data: searchRequest,
             params: {currentPage: 1, pageRecords: $rootScope.recordsOnPage}
         });
@@ -193,7 +193,7 @@ app.controller("contactSearchResultController", function ($scope, $rootScope, $h
     $scope.getRecords.doClick = function(pageNumber){
         var response = $http({
             method: "post",
-            url: "/OrderFlowers/contactSearch",
+            url: "/OrderFlowers/contact/contactSearch",
             data: searchRequest,
             params: {currentPage: pageNumber, pageRecords: $rootScope.recordsOnPage}
         });
@@ -263,7 +263,7 @@ app.controller("contactCorrectController", function ($scope, $http, $routeParams
     var id = $routeParams.id;
     var response = $http({
         method: "get",
-        url: "/OrderFlowers/contactCorrect",
+        url: "/OrderFlowers/contact/contactCorrect",
         params: {
             id: id
         }
@@ -296,7 +296,7 @@ app.controller("contactCorrectController", function ($scope, $http, $routeParams
         if (validationContactSave($scope.contact, Validation)) {
             response = $http({
                 method: "post",
-                url: "/OrderFlowers/saveContactCorrect",
+                url: "/OrderFlowers/contact/saveContactCorrect",
                 data: {
                     id: $scope.contact.id,
                     surname: $scope.contact.surname,
