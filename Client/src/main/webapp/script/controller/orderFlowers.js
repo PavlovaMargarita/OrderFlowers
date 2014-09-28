@@ -156,7 +156,7 @@ app.controller("orderCreateController", function ($scope, $http, $location, Vali
                     recipient: {
                         id: document.getElementById('recipient-hidden-id').value
                     },
-                    date: currentDate.getFullYear() + "-" + currentDate.getMonth() + "-" + currentDate.getDay()
+                    date: currentDate.getFullYear() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getDate()
                 }
             });
 
@@ -247,7 +247,7 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $rootSc
                     statusComment: $scope.order.statusComment,
                     orderDescription: $scope.order.orderDescription,
                     sum: $scope.order.sum,
-                    date: currentDate.getFullYear() + "-" + currentDate.getMonth() + "-" + currentDate.getDay(),
+                    date: currentDate.getFullYear() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getDate(),
                     deliveryManager: {
                         id: $scope.deliveryManager.id
                     },
