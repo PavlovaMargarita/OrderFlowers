@@ -56,8 +56,9 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User readUser(String login) {
         User user = null;
-        Query query = sessionFactory.getCurrentSession().createQuery("from User where login = :login");
+        Query query = sessionFactory.getCurrentSession().createQuery("from User where login = :login and is_delete = :delete");
         query.setString("login", login);
+        query.setString("delete", "false");
         List<User> temp = query.list();
         if (temp.size() != 0){
             user = temp.get(0);
