@@ -19,14 +19,17 @@ body {
     text-align: right;
 }
 
+
 .box b {
     color: red;
 }
 
-.box label {
+.box label, #modal-phone span {
     color: #b92c28;
     float: right;
     display: none;
+    font-weight: bold;
+    font-size: 10pt;
 }
 
 .page-title {

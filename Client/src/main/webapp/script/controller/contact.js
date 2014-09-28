@@ -484,6 +484,17 @@ var id = {
     PHONE_NUMBER_TD_ID: 'phone-number-td',
     PHONE_TYPE_TD_ID: 'phone-type-td',
     PHONE_COMMENT_TD_ID: 'phone-comment-td',
+
+    COUNTRY_CODE_LABEL_ID: 'country-code-label',
+    OPERATOR_CODE_LABEL_ID: 'operator-code-label',
+    PHONE_NUMBER_LABEL_ID: 'phone-number-label',
+    PHONE_TYPE_LABEL_ID: 'phone-type-label',
+
+    COUNTRY_CODE_DIV_ID: 'country-code-div',
+    OPERATOR_CODE_DIV_ID: 'operator-code-div',
+    PHONE_NUMBER_DIV_ID: 'phone-number-div',
+    PHONE_TYPE_DIV_ID: 'phone-type-div',
+
     COMMAND_AND_CHECKBOX_TD_ID: 'command-and-checkbox-td',
 
     COUNTRY_CODE_ID: 'country-code',
@@ -539,18 +550,36 @@ var phoneValidationPattern = {
 
 
 function showCreatePhonePopUp() {
+    var errorClass = "form-group has-error";
+    var noErrorClass = "form-group";
+
     document.getElementById(id.MODAL_PHONE_TITLE_ID).innerHTML = "Создать телефонный номер";
     document.getElementById(id.MODAL_PHONE_BUTTON_SAVE).innerHTML = "Добавить";
     document.getElementById(id.COUNTRY_CODE_ID).value = "";
+
     document.getElementById(id.OPERATOR_CODE_ID).value = "";
     document.getElementById(id.PHONE_NUMBER_ID).value = "";
     document.getElementById(id.PHONE_TYPE_ID).value = "NONE";
     document.getElementById(id.PHONE_COMMENT_ID).value = "";
+
+    document.getElementById(id.COUNTRY_CODE_LABEL_ID).style.display = "none";
+    document.getElementById(id.OPERATOR_CODE_LABEL_ID).style.display = "none";
+    document.getElementById(id.PHONE_NUMBER_LABEL_ID).style.display = "none";
+    document.getElementById(id.PHONE_TYPE_LABEL_ID).style.display = "none";
+
+    document.getElementById(id.COUNTRY_CODE_DIV_ID).className = noErrorClass;
+    document.getElementById(id.OPERATOR_CODE_DIV_ID).className = noErrorClass;
+    document.getElementById(id.PHONE_NUMBER_DIV_ID).className = noErrorClass;
+    document.getElementById(id.PHONE_TYPE_DIV_ID).className = noErrorClass;
+
     document.getElementById(id.MODAL_PHONE_BUTTON_SAVE).setAttribute('onclick', 'addPhone()');
     $('#' + id.MODAL_PHONE_ID).modal('show');
 }
 
 function showEditPhonePopUp(td) {
+    var errorClass = "form-group has-error";
+    var noErrorClass = "form-group";
+
     document.getElementById(id.MODAL_PHONE_TITLE_ID).innerHTML = "Редактировать телефонный номер";
     document.getElementById(id.MODAL_PHONE_BUTTON_SAVE).innerHTML = "Изменить";
     phoneRowIndex = td.parentNode.parentNode.rowIndex;
@@ -560,6 +589,17 @@ function showEditPhonePopUp(td) {
     document.getElementById(id.PHONE_NUMBER_ID).value = cells[id.PHONE_NUMBER_TD_ID].innerHTML;
     document.getElementById(id.PHONE_TYPE_ID).value = phoneTypeMap.getKeyByValue(cells[id.PHONE_TYPE_TD_ID].innerHTML);
     document.getElementById(id.PHONE_COMMENT_ID).value = cells[id.PHONE_COMMENT_TD_ID].innerHTML;
+
+    document.getElementById(id.COUNTRY_CODE_LABEL_ID).style.display = "none";
+    document.getElementById(id.OPERATOR_CODE_LABEL_ID).style.display = "none";
+    document.getElementById(id.PHONE_NUMBER_LABEL_ID).style.display = "none";
+    document.getElementById(id.PHONE_TYPE_LABEL_ID).style.display = "none";
+
+    document.getElementById(id.COUNTRY_CODE_DIV_ID).className = noErrorClass;
+    document.getElementById(id.OPERATOR_CODE_DIV_ID).className = noErrorClass;
+    document.getElementById(id.PHONE_NUMBER_DIV_ID).className = noErrorClass;
+    document.getElementById(id.PHONE_TYPE_DIV_ID).className = noErrorClass;
+
     document.getElementById(id.MODAL_PHONE_BUTTON_SAVE).setAttribute('onclick', 'editPhone()');
     $('#' + id.MODAL_PHONE_ID).modal('show');
 }
@@ -695,39 +735,48 @@ function deletePhones() {
 }
 
 function phoneValidation(countryCodeField, operatorCodeField, phoneNumberField, phoneTypeField) {
-    var errorClass = " has-error";
+    var noErrorClass = "form-group";
+    var errorClass = "form-group has-error";
     var isGood = true;
 
     if (!phoneValidationPattern.COUNTRY_CODE.test(countryCodeField.value)) {
         isGood = false;
-        countryCodeField.parentNode.className += errorClass;
+        document.getElementById(id.COUNTRY_CODE_LABEL_ID).style.display = "inline";
+        document.getElementById(id.COUNTRY_CODE_DIV_ID).className = errorClass;
     }
     else {
-        countryCodeField.parentNode.className -= errorClass;
+        document.getElementById(id.COUNTRY_CODE_LABEL_ID).style.display = "none";
+        document.getElementById(id.COUNTRY_CODE_DIV_ID).className = noErrorClass;
     }
 
     if (!phoneValidationPattern.OPERATOR_CODE.test(operatorCodeField.value)) {
         isGood = false;
-        operatorCodeField.parentNode.className += errorClass;
+        document.getElementById(id.OPERATOR_CODE_LABEL_ID).style.display = "inline";
+        document.getElementById(id.OPERATOR_CODE_DIV_ID).className = errorClass;
     }
     else {
-        operatorCodeField.parentNode.className -= errorClass;
+        document.getElementById(id.OPERATOR_CODE_LABEL_ID).style.display = "none";
+        document.getElementById(id.OPERATOR_CODE_DIV_ID).className = noErrorClass;
     }
 
     if (!phoneValidationPattern.PHONE_NUMBER.test(phoneNumberField.value)) {
         isGood = false;
-        phoneNumberField.parentNode.className += errorClass;
+        document.getElementById(id.PHONE_NUMBER_LABEL_ID).style.display = "inline";
+        document.getElementById(id.PHONE_NUMBER_DIV_ID).className = errorClass;
     }
     else {
-        phoneNumberField.parentNode.className -= errorClass;
+        document.getElementById(id.PHONE_NUMBER_LABEL_ID).style.display = "none";
+        document.getElementById(id.PHONE_NUMBER_DIV_ID).className = noErrorClass;
     }
 
     if (!phoneTypeMap.isValidKey(phoneTypeField.value)) {
         isGood = false;
-        phoneTypeField.parentNode.className += errorClass;
+        document.getElementById(id.PHONE_TYPE_LABEL_ID).style.display = "inline";
+        document.getElementById(id.PHONE_TYPE_DIV_ID).className = errorClass;
     }
     else {
-        phoneTypeField.parentNode.className -= errorClass;
+        document.getElementById(id.PHONE_TYPE_LABEL_ID).style.display = "none";
+        document.getElementById(id.PHONE_TYPE_DIV_ID).className = noErrorClass;
     }
     return isGood;
 }
