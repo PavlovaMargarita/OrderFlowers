@@ -24,9 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Alex on 20.09.14.
- */
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService {

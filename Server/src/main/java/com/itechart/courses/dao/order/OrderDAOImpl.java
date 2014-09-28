@@ -15,12 +15,7 @@ import javax.transaction.Transactional;
 import java.sql.Date;
 import java.util.List;
 
-/**
- * Created by Margarita on 14.08.2014.
- */
-
 @Repository
-//@Transactional
 public class OrderDAOImpl implements OrderDAO {
 
     @Autowired

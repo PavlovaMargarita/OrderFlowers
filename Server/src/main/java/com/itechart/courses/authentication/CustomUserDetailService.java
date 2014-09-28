@@ -18,10 +18,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
-/**
- * Created by Admin on 28.08.2014.
- */
 @Service
 @Transactional
 public class CustomUserDetailService implements UserDetailsService {

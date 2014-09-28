@@ -13,9 +13,6 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by User on 20.09.14.
- */
 public interface OrderService {
     @Secured({Roles.SUPERVISOR, Roles.RECEIVING_ORDERS_MANAGER, Roles.ADMIN, Roles.PROCESSING_ORDERS_SPECIALIST, Roles.SERVICE_DELIVERY_MANAGER})
     public PageableOrderDTO getAllOrders(int userId, List<OrderStatusEnum> orderStatusEnums, int first, int count);

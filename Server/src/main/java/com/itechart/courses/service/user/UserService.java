@@ -1,13 +1,11 @@
 package com.itechart.courses.service.user;
 
-import com.itechart.courses.dto.PageableContactDTO;
 import com.itechart.courses.dto.PageableUserDTO;
 import com.itechart.courses.dto.PersonDTO;
 import com.itechart.courses.dto.UserDTO;
 import com.itechart.courses.enums.RoleEnum;
 import com.itechart.courses.enums.Roles;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
 

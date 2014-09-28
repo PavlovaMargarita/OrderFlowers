@@ -2,10 +2,8 @@ package com.itechart.courses.dto;
 
 import java.sql.Date;
 
-/**
- * Created by User on 21.09.14.
- */
 public class PersonDTO {
+
     private Integer id;
     private String surname;
     private String name;

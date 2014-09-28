@@ -2,13 +2,9 @@ package com.itechart.courses.dto;
 
 import java.util.List;
 
-/**
- * Created by Admin on 25.09.2014.
- */
 public class PageableUserDTO {
 
     private List<UserDTO> pageableData;
-
     private int totalCount;
 
     public PageableUserDTO(List<UserDTO> pageableData, int totalCount) {

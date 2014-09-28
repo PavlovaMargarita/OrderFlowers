@@ -2,13 +2,9 @@ package com.itechart.courses.dto;
 
 import java.util.List;
 
-/**
- * Created by Admin on 27.09.2014.
- */
 public class PageableOrderHistoryDTO {
 
     private List<OrderHistoryDTO> pageableData;
-
     private int totalCount;
 
     public PageableOrderHistoryDTO(List<OrderHistoryDTO> pageableData, int totalCount) {

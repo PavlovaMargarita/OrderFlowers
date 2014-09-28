@@ -9,9 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Created by Alex on 20.09.14.
- */
 @Service
 public class SequenceOrderStatusImpl implements SequenceOrderStatus {
     private Map<OrderStatusEnum, List<OrderStatusEnum>> map;
