@@ -77,9 +77,10 @@ public class UserDAOImpl implements UserDAO {
     public User readUser(String login, String password){
         User user = null;
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from User where login = :login AND password = :password");
+        Query query = session.createQuery("from User where login = :login AND password = :password AND isDelete = :isDelete");
         query.setString("login", login);
         query.setString("password", password);
+        query.setBoolean("isDelete", false);
         List<User> temp = query.list();
         if (temp.size() != 0){
             user = temp.get(0);
@@ -123,8 +124,9 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> readAllUsers(RoleEnum role) {
-        Query query = sessionFactory.getCurrentSession().createQuery("from User where role = :role");
+        Query query = sessionFactory.getCurrentSession().createQuery("from User where role = :role and isDelete = :isDelete");
         query.setString("role", role.toString());
+        query.setBoolean("isDelete", false);
         return query.list();
     }
 
