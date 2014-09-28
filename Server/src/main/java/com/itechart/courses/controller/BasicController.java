@@ -623,7 +623,7 @@ public class BasicController {
     }
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getPerson")
+    @RequestMapping(method = RequestMethod.POST, value = "/getPerson")
     public @ResponseBody List<PersonDTO> getPerson(@RequestParam("term") String term) {
         List<PersonDTO> listPersonDTO = new ArrayList<PersonDTO>();
         ContactSearchDTO contactSearchDTO = new ContactSearchDTO();
