@@ -74,9 +74,6 @@ app.controller("orderSearchResultController", function ($scope, $rootScope, $htt
             $scope.totalPages = PagerService.totalPageNumber($rootScope.recordsOnPage, $scope.totalRecords);
             $scope.range = PagerService.buildRange($scope.totalPages);
         });
-        response.error(function (data) {
-            $scope.authorization.info = "error";
-        });
         $rootScope.isSearchOrder = false;
     }
 
@@ -166,9 +163,6 @@ app.controller("orderCreateController", function ($scope, $http, $location, Vali
             correctOrder.success(function (data) {
                 $location.path('/orderList');
                 $location.replace();
-            });
-            correctOrder.error(function (data) {
-                alert("Не все поля заполнены");
             });
         }
     };
@@ -272,9 +266,6 @@ app.controller("orderCorrectController", function ($scope, $routeParams, $rootSc
             correctOrder.success(function (data) {
                 $location.path('/orderList');
                 $location.replace();
-            });
-            correctOrder.error(function (data) {
-                alert("Не все поля заполнены");
             });
         }
     };
