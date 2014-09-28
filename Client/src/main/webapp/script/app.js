@@ -134,13 +134,13 @@ app.service('MailService', function($http, $q){
         return deferred.promise;
     }
 
-    this.sendMail = function(emails, text, topic){
+    this.sendMail = function(listContacts, text, topic){
         var deferred = $q.defer();
         var emailSend = $http({
             method: "post",
             url: "/OrderFlowers/sendEmail",
             data: {
-                emails: emails,
+                contacts: listContacts,
                 text: text,
                 topic: topic
             }
@@ -183,8 +183,8 @@ app.service('ContactsCommonService', function(PagerService, MailService, $route,
         return dataPromise;
     }
 
-    this.sendMail = function(emails, text, topic){
-        return MailService.sendMail(emails, text, topic);
+    this.sendMail = function(listContacts, text, topic){
+        return MailService.sendMail(listContacts, text, topic);
 
     }
 
@@ -223,7 +223,8 @@ app.service('Validation', function(){
         if(value == undefined){
             return true;
         }
-        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        //var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var re = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
         return re.test(value);
     }
     this.validationCity = function(value){
