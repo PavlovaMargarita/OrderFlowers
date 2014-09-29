@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -91,6 +92,7 @@ public class ContactDAOImpl implements ContactDAO {
     public List<Contact> searchContactByDateOfBirth(int month, int day) {
         List<Contact> contacts = null;
         Session session = sessionFactory.getCurrentSession();
+//        Session session = new Configuration().configure().buildSessionFactory().openSession();
         Query query = session.createQuery("from Contact contact where DAYOFMONTH(contact.dateOfBirth) = :day and MONTH(contact.dateOfBirth) = :month");
         query.setInteger("month", month);
         query.setInteger("day", day);

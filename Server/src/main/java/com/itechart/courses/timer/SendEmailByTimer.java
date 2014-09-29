@@ -7,6 +7,7 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class SendEmailByTimer{
     private ContactDAO contactDAO;
 
     @Scheduled(fixedRate = 86400000)
+    @Transactional
     public void send() {
         Date date = new Date();
         List<Contact> contacts = contactDAO.searchContactByDateOfBirth(date.getMonth() + 1, date.getDate());
